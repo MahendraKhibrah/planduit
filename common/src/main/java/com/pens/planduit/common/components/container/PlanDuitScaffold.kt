@@ -22,6 +22,9 @@ import com.pens.planduit.common.theme.PaleBlue
 
 @Composable
 fun PlanDuitScaffold(
+    showAppBar : Boolean = true,
+    title : String = "",
+    trailingWidget : @Composable () -> Unit = {},
     content: @Composable () -> Unit
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
@@ -42,8 +45,9 @@ fun PlanDuitScaffold(
             GradientCircle(color = PaleBlue)
         }
         Column {
-            PlanDuitAppBar (
-                title = "PlanDuit",
+            if(showAppBar) PlanDuitAppBar (
+                title = title,
+                trailingWidget = trailingWidget
             )
             Box(
                 modifier = Modifier
