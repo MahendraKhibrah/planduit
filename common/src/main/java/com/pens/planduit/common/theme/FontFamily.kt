@@ -5,9 +5,9 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import com.pens.planduit.common.R
 
-//val jakartaPlus = FontFamily(
-//    Font(R.font.plusjakartasans_extrabold, FontWeight.ExtraBold),
-//    Font(R.font.plusjakartasans_regular, FontWeight.Normal),
-//    Font(R.font.plusjakartasans_medium, FontWeight.Medium),
-//    Font(R.font.plusjakartasans_bold, FontWeight.Bold),
-//)
+val poppins = FontFamily(
+    Font(R.font.poppins_bold, FontWeight.Bold), // 700
+    Font(R.font.poppins_semibold, FontWeight.Medium), // 600
+    Font(R.font.poppins_medium, FontWeight.Normal), // 500
+    Font(R.font.poppins_regular, FontWeight.Light), // 400
+)
