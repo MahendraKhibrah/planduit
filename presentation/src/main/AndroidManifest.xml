@@ -6,7 +6,9 @@
             android:name=".MainActivity"
             android:exported="true"
             android:label="PlanDuit"
-            android:theme="@style/Theme.MyApplication">
+            android:theme="@style/Theme.RemoveSplashScreenTheme"
+            android:noHistory="true"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

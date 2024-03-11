@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pens.planduit.common.utils.Resource
 import com.pens.planduit.domain.usecases.TestingUsecase
-import com.pens.planduit.presentation.features.state.TestingState
+import com.pens.planduit.presentation.features.main.state.TestingState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

@@ -16,13 +16,13 @@ import androidx.compose.ui.unit.dp
 import com.pens.planduit.common.theme.PaleBlue
 
 @Composable
-fun GradientCircle(color: Color) {
+fun GradientCircle(color: Color, opacity : Float = 0.6f) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
     Box(
         modifier = Modifier
             .size(width = screenWidth.times(1.4f), height = screenWidth.times(1.4f))
-            .background(Color.White)
+            .background(Color.Transparent)
     )
     {
         Canvas(
@@ -33,7 +33,7 @@ fun GradientCircle(color: Color) {
             val radius = size.minDimension
             val gradient = Brush.radialGradient(
                 colors = listOf(
-                    color.copy(alpha = 0.6f),
+                    color.copy(alpha = opacity),
                     color.copy(alpha = 0f)
                 ),
                 center = center,
