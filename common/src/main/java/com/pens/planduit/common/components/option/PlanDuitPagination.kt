@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.pens.planduit.common.components.container.GradientContainer
 import com.pens.planduit.common.theme.BalanceBlack
 import com.pens.planduit.common.theme.BalanceWhite
-import com.pens.planduit.common.theme.MalachiteGreen
+import com.pens.planduit.common.theme.GreenPrimary
 
 @Composable
 fun PlanDuitPagination(
@@ -67,7 +67,7 @@ fun PlanDuitPagination(
 
         (firstPage until if (lastPage < 9) lastPage else (firstPage + 7)).forEach { index ->
             GradientContainer(
-                gradientColors = if (index == currentPage) listOf(MalachiteGreen) else listOf(Color.Transparent),
+                gradientColors = if (index == currentPage) listOf(GreenPrimary) else listOf(Color.Transparent),
                 onPressed = {
                     currentPage = index
                     onChanged(index)

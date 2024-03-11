@@ -14,6 +14,6 @@ fun AppNavHost(
     startDestination: String = AppRoute.Home.route,
 ) {
     NavHost(navController = navController, startDestination = startDestination) {
-        composable(AppRoute.Home.route) { HomePage(navController) }
+        composable(AppRoute.Home.route) { HomePage() }
     }
 }

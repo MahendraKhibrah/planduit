@@ -48,7 +48,7 @@ fun GradientContainer(
                     brush = if (isGradientVertical) {
                         Brush.verticalGradient(gradientColors, 0f, 100f)
                     } else {
-                        Brush.horizontalGradient(gradientColors, 0f, 100f)
+                        Brush.horizontalGradient(gradientColors)
                     },
                     shape = shape
                 )

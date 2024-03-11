@@ -15,7 +15,6 @@ val Pink40 = Color(0xFF7D5260)
 val GreenPrimary = Color(0xFF5AD593)
 val GreenSecondary = Color(0xFFC6FDAD)
 val OffGreen = Color(0xFFEEFAF6)
-val MalachiteGreen = Color(0xFF5AD593)
 
 val DarkGrey = Color(0xFF838589)
 val HalfGrey = Color(0xFFC4C5C4)

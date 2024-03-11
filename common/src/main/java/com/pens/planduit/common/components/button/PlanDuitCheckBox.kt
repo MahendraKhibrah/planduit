@@ -26,7 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.pens.planduit.common.theme.MalachiteGreen
+import com.pens.planduit.common.theme.GreenPrimary
 import com.pens.planduit.common.theme.SmallBlack
 import java.time.format.TextStyle
 
@@ -49,7 +49,7 @@ fun PlanDuitCheckBox(
                 .clickable { onTap() }
                 .clip(CircleShape)
                 .size(20.dp)
-                .background(MalachiteGreen)
+                .background(GreenPrimary)
                 .padding((1.8).dp)
                 .clip(CircleShape)
                 .background(Color.White),
@@ -60,7 +60,7 @@ fun PlanDuitCheckBox(
                     modifier = Modifier
                         .clip(CircleShape)
                         .size(10.dp)
-                        .background(MalachiteGreen)
+                        .background(GreenPrimary)
                         .padding(2.dp)
                 )
             }

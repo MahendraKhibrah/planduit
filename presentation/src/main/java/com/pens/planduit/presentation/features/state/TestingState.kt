@@ -1,9 +1,9 @@
 package com.pens.planduit.presentation.features.state
 
-import com.pens.planduit.domain.models.entity.InvestmentDto
+import com.pens.planduit.domain.models.entity.InvestmentResult
 
 data class TestingState(
-    val data : InvestmentDto? = null,
+    val data : InvestmentResult? = null,
     val isLoading : Boolean = false,
     val isError : Boolean = false,
 )
