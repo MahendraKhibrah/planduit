@@ -6,21 +6,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.pens.planduit.common.components.button.PlanDuitCheckBox
 
 @Composable
 fun CheckBoxList(
     items : List<String>,
-    onChanged : (Int) -> Unit = {}
-) {
-    var selectedIndex by remember { mutableIntStateOf(-1) }
-
+    onChanged : (Int) -> Unit = {},
+    initialSelected : Int = -1
+)
+{
+    var selectedIndex by remember {mutableIntStateOf(initialSelected)}
     Column {
         items.forEachIndexed {index, value ->
             Box (
@@ -30,8 +29,8 @@ fun CheckBoxList(
                     text = value,
                     isChecked = selectedIndex == index,
                     onTap = {
-                        selectedIndex = index
                         onChanged(index)
+                        selectedIndex = index
                     }
                 )
             }

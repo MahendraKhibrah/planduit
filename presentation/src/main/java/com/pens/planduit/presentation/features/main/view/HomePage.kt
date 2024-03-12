@@ -114,7 +114,9 @@ fun HomePage(
                 verticalAlignment = Alignment.Top,
                 modifier = Modifier.padding(horizontal = 8.dp)
             ) {
-                MenuItem(title = "Profil Resiko", imageId = R.drawable.ic_risk_profile)
+                MenuItem(title = "Profil Resiko", imageId = R.drawable.ic_risk_profile, onPressed = {
+                    navController.navigate(AppRoute.RiskProfile.route)
+                })
                 Spacer(modifier = Modifier.weight(1f))
                 MenuItem(title = "Investasi", imageId = R.drawable.ic_investation)
                 Spacer(modifier = Modifier.weight(1f))

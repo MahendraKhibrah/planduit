@@ -4,8 +4,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
@@ -58,14 +60,14 @@ fun PlanDuitPagination(
                 imageVector = Icons.Default.KeyboardArrowLeft,
                 contentDescription = "",
                 tint = Color.Black,
-                modifier = Modifier.size(46.dp)
+                modifier = Modifier.size(28.dp)
             )
         } else
             Box(
-                modifier = Modifier.size(48.dp)
+                modifier = Modifier.height(20.dp).width(48.dp)
             )
 
-        (firstPage until if (lastPage < 9) lastPage else (firstPage + 7)).forEach { index ->
+        (firstPage until if (lastPage < 8) lastPage else (firstPage + 6)).forEach { index ->
             GradientContainer(
                 gradientColors = if (index == currentPage) listOf(GreenPrimary) else listOf(Color.Transparent),
                 onPressed = {
@@ -82,7 +84,7 @@ fun PlanDuitPagination(
         }
         if (currentPage != pageCount) IconButton(
             onClick = {
-                if ((currentPage + 1) > firstPage + 6) {
+                if ((currentPage + 1) > firstPage + 5) {
                     firstPage += 1
                 }
                 currentPage += 1
@@ -95,11 +97,11 @@ fun PlanDuitPagination(
                 imageVector = Icons.Default.KeyboardArrowRight,
                 contentDescription = "",
                 tint = Color.Black,
-                modifier = Modifier.size(46.dp)
+                modifier = Modifier.size(28.dp)
             )
         } else
             Box(
-                modifier = Modifier.size(46.dp)
+                modifier = Modifier.size(28.dp)
             )
     }
 }

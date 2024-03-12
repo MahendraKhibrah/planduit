@@ -3,6 +3,7 @@ package com.pens.planduit.common.components.appBar
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -43,7 +44,7 @@ fun PlanDuitAppBar(
     Box(
         modifier = modifier
             .size(width = screenWidth, height = 56.dp)
-            .background(color = Color.White)
+            .background(color = Color.White).padding(8.dp)
     ) {
         if (!hideLeading)
             Icon(
@@ -52,7 +53,7 @@ fun PlanDuitAppBar(
                 tint = Color.Black,
                 modifier = Modifier
                     .size(45.dp)
-                    .padding(top = 8.dp, start = 8.dp)
+                    .padding(top = 3.dp, start = 8.dp)
                     .clickable(
                         onClick = onBackAction,
                         interactionSource = interactionSource,
@@ -64,7 +65,8 @@ fun PlanDuitAppBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
         ) {
             Spacer(modifier = Modifier.weight(1f))
             Text(text = title, style = MediumBlack)

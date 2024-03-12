@@ -2,6 +2,7 @@ package com.pens.planduit.common.components.button
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -39,6 +40,7 @@ fun PlanDuitCheckBox(
     textStyle: androidx.compose.ui.text.TextStyle = SmallBlack,
     onTap: () -> Unit = {},
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.Top,
@@ -46,7 +48,11 @@ fun PlanDuitCheckBox(
     ) {
         Box(
             modifier = Modifier
-                .clickable { onTap() }
+                .clickable (
+                    onClick = onTap,
+                    interactionSource = interactionSource,
+                    indication = null,
+                )
                 .clip(CircleShape)
                 .size(20.dp)
                 .background(GreenPrimary)

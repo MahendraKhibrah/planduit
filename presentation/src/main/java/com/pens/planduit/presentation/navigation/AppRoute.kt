@@ -5,6 +5,7 @@ sealed class AppRoute(val route: String){
     object Splash: AppRoute("splash")
     object Article: AppRoute("article")
     object ArticleDetail: AppRoute("article-detail")
+    object RiskProfile: AppRoute("risk-profile")
 
     fun withArgs(vararg args: Any?): String{
         return buildString {

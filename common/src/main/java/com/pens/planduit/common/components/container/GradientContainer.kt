@@ -49,7 +49,7 @@ fun GradientContainer(
                     shape
                 ) else Modifier.background(
                     brush = if (isGradientVertical) {
-                        Brush.verticalGradient(gradientColors, 0f, 100f)
+                        Brush.verticalGradient(gradientColors)
                     } else {
                         Brush.horizontalGradient(gradientColors)
                     },

@@ -12,6 +12,7 @@ import com.pens.planduit.presentation.features.article.view.ArticleDetailPage
 import com.pens.planduit.presentation.features.article.view.ArticlePage
 import com.pens.planduit.presentation.features.main.view.HomePage
 import com.pens.planduit.presentation.features.main.view.SplashPage
+import com.pens.planduit.presentation.features.riskProfile.view.RiskProfilePage
 
 @Composable
 fun AppNavHost(
@@ -38,5 +39,6 @@ fun AppNavHost(
         composable(AppRoute.Splash.route) { SplashPage(navController = navController) }
         composable(AppRoute.Article.route) { ArticlePage(navController = navController) }
         composable(AppRoute.ArticleDetail.route) { ArticleDetailPage(navController = navController) }
+        composable(AppRoute.RiskProfile.route) { RiskProfilePage(navController = navController) }
     }
 }
