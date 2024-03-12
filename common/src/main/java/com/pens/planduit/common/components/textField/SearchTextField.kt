@@ -22,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
@@ -38,6 +39,7 @@ fun SearchTextField(
     placeHolder: String = "",
     onSearch: (String) -> Unit = {}
 ) {
+    val focusManager = LocalFocusManager.current
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
     var text by remember { mutableStateOf("") }
@@ -65,6 +67,7 @@ fun SearchTextField(
         keyboardActions = KeyboardActions(
             onSearch = {
                 onSearch(text)
+                focusManager.clearFocus()
             }
         ),
         trailingIcon = {

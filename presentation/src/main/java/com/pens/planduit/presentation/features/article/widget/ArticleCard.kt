@@ -1,6 +1,8 @@
-package com.pens.planduit.presentation.features.main.widget
+package com.pens.planduit.presentation.features.article.widget
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +14,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
@@ -29,11 +32,19 @@ fun ArticleCard(
     title : String,
     description : String,
     date : String,
-    hideDivider : Boolean = false
+    hideDivider : Boolean = false,
+    onTap : () -> Unit = {}
 ){
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+    val interactionSource = remember { MutableInteractionSource() }
 
-    Column {
+    Column(
+        modifier = Modifier.clickable(
+            onClick = onTap,
+            interactionSource = interactionSource,
+            indication = null
+        )
+    ) {
         Row {
             Column(
                 modifier = androidx.compose.ui.Modifier.width(screenWidth.times(0.55f))
@@ -69,10 +80,10 @@ fun ArticleCard(
                     .background(DarkGrey, shape = RoundedCornerShape(8.dp))
             )
         }
-        if (!hideDivider) Spacer(modifier = Modifier.height(32.dp))
+        if (!hideDivider) Spacer(modifier = Modifier.height(28.dp))
         if (!hideDivider) HorizontalDivider(
             color = Color(0xFFEDEDED)
         )
-        Spacer(modifier = Modifier.height(if (!hideDivider) 32.dp else 16.dp))
+        Spacer(modifier = Modifier.height(if (!hideDivider) 28.dp else 16.dp))
     }
 }

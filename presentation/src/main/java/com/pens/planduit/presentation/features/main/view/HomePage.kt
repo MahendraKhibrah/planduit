@@ -1,7 +1,8 @@
 package com.pens.planduit.presentation.features.main.view
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,28 +11,19 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.pens.planduit.common.components.container.GradientContainer
 import com.pens.planduit.common.components.container.PlanDuitScaffold
@@ -42,21 +34,17 @@ import com.pens.planduit.common.theme.BalanceBlack
 import com.pens.planduit.common.theme.BalanceGrey
 import com.pens.planduit.common.theme.BlackPrimary
 import com.pens.planduit.common.theme.BoldBalanceBlack
-import com.pens.planduit.common.theme.DarkGrey
-import com.pens.planduit.common.theme.GreenPrimary
 import com.pens.planduit.common.theme.LeadingGreen
 import com.pens.planduit.common.theme.MediumBlack
-import com.pens.planduit.common.theme.MediumGrey
-import com.pens.planduit.common.theme.SmallBlack
-import com.pens.planduit.common.theme.commonItemGradient
-import com.pens.planduit.presentation.features.main.widget.ArticleCard
+import com.pens.planduit.presentation.features.article.widget.ArticleCard
 import com.pens.planduit.presentation.features.main.widget.MenuItem
+import com.pens.planduit.presentation.navigation.AppRoute
 
-@Preview(showBackground = true)
 @Composable
 fun HomePage(
-//    navController: NavHostController,
+    navController: NavHostController,
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
     PlanDuitScaffold(
         showAppBar = false
     ) {
@@ -176,23 +164,38 @@ fun HomePage(
             ) {
                 Text(text = "Artikel", style = LeadingGreen.copy(fontSize = 16.sp))
                 Spacer(modifier = Modifier.weight(1f))
-                Text(text = "Lihat Semua", style = BalanceGrey.copy(fontSize = 12.sp))
+                Text(text = "Lihat Semua", style = BalanceGrey.copy(fontSize = 12.sp), modifier = Modifier.clickable(
+                    interactionSource = interactionSource,
+                    indication = null,
+                    onClick = {
+                        navController.navigate(AppRoute.Article.route)
+                    }
+                ))
             }
             Spacer(modifier = Modifier.height(24.dp))
             ArticleCard(
                 title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
                 description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
-                date = "30 MAR 2024"
+                date = "30 MAR 2024",
+                onTap = {
+                    navController.navigate(AppRoute.ArticleDetail.route)
+                }
             )
             ArticleCard(
                 title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
                 description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
-                date = "28 FEB 2024"
+                date = "28 FEB 2024",
+                onTap = {
+                    navController.navigate(AppRoute.ArticleDetail.route)
+                }
             )
             ArticleCard(
                 title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
                 description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
                 date = "01 JAN 2024",
+                onTap = {
+                    navController.navigate(AppRoute.ArticleDetail.route)
+                },
                 hideDivider = true
             )
         }

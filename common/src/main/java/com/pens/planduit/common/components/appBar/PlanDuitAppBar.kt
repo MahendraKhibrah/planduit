@@ -1,6 +1,8 @@
 package com.pens.planduit.common.components.appBar
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -18,6 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,18 +38,28 @@ fun PlanDuitAppBar(
     trailingWidget: @Composable () -> Unit = {}
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+    val interactionSource = remember { MutableInteractionSource() }
 
     Box(
         modifier = modifier
             .size(width = screenWidth, height = 56.dp)
             .background(color = Color.White)
     ) {
-        if (!hideLeading) IconButton(
-            onClick = onBackAction,
-            modifier = Modifier.padding(4.dp)
-        ) {
-            Icon(imageVector = Icons.Default.KeyboardArrowLeft, contentDescription = "", tint = Color.Black, modifier = Modifier.size(30.dp))
-        } else Box {}
+        if (!hideLeading)
+            Icon(
+                imageVector = Icons.Default.KeyboardArrowLeft,
+                contentDescription = "",
+                tint = Color.Black,
+                modifier = Modifier
+                    .size(45.dp)
+                    .padding(top = 8.dp, start = 8.dp)
+                    .clickable(
+                        onClick = onBackAction,
+                        interactionSource = interactionSource,
+                        indication = null
+                    )
+            )
+        else Box {}
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -58,11 +71,11 @@ fun PlanDuitAppBar(
             Spacer(modifier = Modifier.weight(1f))
 
         }
-        Row (
+        Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .height(56.dp)
-        ){
+        ) {
             Spacer(modifier = Modifier.weight(1f))
             trailingWidget()
             Spacer(modifier = Modifier.width(8.dp))

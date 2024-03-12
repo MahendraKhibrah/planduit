@@ -25,6 +25,8 @@ fun PlanDuitScaffold(
     showAppBar : Boolean = true,
     title : String = "",
     trailingWidget : @Composable () -> Unit = {},
+    onBackPressed : () -> Unit = {},
+    stickyHeader : @Composable () -> Unit = {},
     content: @Composable () -> Unit
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
@@ -47,8 +49,10 @@ fun PlanDuitScaffold(
         Column {
             if(showAppBar) PlanDuitAppBar (
                 title = title,
-                trailingWidget = trailingWidget
+                trailingWidget = trailingWidget,
+                onBackAction = onBackPressed
             )
+            stickyHeader()
             Box(
                 modifier = Modifier
                     .padding(start = 24.dp, end = 24.dp, bottom = 16.dp)
