@@ -9,5 +9,6 @@ buildscript {
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}")
         classpath("com.google.dagger:hilt-android-gradle-plugin:${Versions.daggerHilt}")
         classpath("com.squareup:javapoet:1.13.0")
+        classpath("com.google.gms:google-services:${Versions.gms}")
     }
 }

@@ -34,7 +34,7 @@ fun QuizView (
         Column(
             modifier = Modifier
                 .padding(16.dp)
-                .height(450.dp)
+                .height(380.dp)
         ) {
             Text(
                 question,

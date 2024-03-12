@@ -1,6 +1,7 @@
 package com.pens.planduit.common.components.button
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -55,10 +57,8 @@ fun PlanDuitCheckBox(
                 )
                 .clip(CircleShape)
                 .size(20.dp)
-                .background(GreenPrimary)
-                .padding((1.8).dp)
-                .clip(CircleShape)
-                .background(Color.White),
+                .background(Color.Transparent)
+                .border(2.dp, GreenPrimary, RoundedCornerShape(12.dp)),
             contentAlignment = Alignment.Center
         ) {
             if (isChecked) {
@@ -93,7 +93,7 @@ fun PlanDuitCheckBox(
 //            .background(Color.White)
 //    ) {
 //        PlanDuitCheckBox(
-//            isChecked = isChecked,
+//            isChecked = isChecked.value,
 //            text = "Check me lorem ipsum dolor sit amet consectetur adipiscing elit",
 //        )
 //    }

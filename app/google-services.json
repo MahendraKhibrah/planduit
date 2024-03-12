@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "461892192994",
+    "project_id": "planduit",
+    "storage_bucket": "planduit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461892192994:android:f142e7cd9637904bcc6cbb",
+        "android_client_info": {
+          "package_name": "com.pens.planduit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCymCvQQ8ZrqNNNLCRRQzSEjA6mn4Vo_d8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

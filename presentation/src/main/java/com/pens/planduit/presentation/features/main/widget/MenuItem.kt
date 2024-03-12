@@ -43,6 +43,6 @@ fun MenuItem(
             )
         }
         Spacer(modifier = Modifier.height(12.dp))
-        Text(text = title, style = MediumBlack.copy(fontSize = 11.sp), textAlign = TextAlign.Center)
+        Text(text = title, style = MediumBlack.copy(fontSize = 10.sp), textAlign = TextAlign.Center)
     }
 }

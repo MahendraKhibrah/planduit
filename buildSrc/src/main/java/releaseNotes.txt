@@ -1,0 +1,5 @@
+Release Note :
+    1. Splash Screen with Animation Added
+    2. Home Page Added
+    3. UI Slicing : Article Page
+    4. UI Slicing : Profil Resiko Quiz Page

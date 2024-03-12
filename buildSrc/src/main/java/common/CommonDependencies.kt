@@ -39,5 +39,9 @@ internal fun Project.commonDependenciesSetup() {
         implementation(NetworkLibraries.retrofit)
         implementation(NetworkLibraries.retrofitGson)
         implementation(NetworkLibraries.okhttp3LoggingInterceptor)
+
+        // Firebase
+        implementation(platform(FirebaseLibraries.firebaeBom))
+        implementation(FirebaseLibraries.firebaseAnalytics)
     }
 }

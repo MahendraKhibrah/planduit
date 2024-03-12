@@ -36,6 +36,8 @@ object Versions{
     const val squareUpRetrofit = "2.9.0"
     const val squareUpOkhttp3 = "4.9.1"
     const val lottie = "6.0.0"
+    const val gms = "4.4.1"
+    const val firebase = "32.7.4"
 }
 
 object MainLibraries {
@@ -74,6 +76,11 @@ object NetworkLibraries {
     const val retrofit = "com.squareup.retrofit2:retrofit:${Versions.squareUpRetrofit}"
     const val retrofitGson = "com.squareup.retrofit2:converter-gson:${Versions.squareUpRetrofit}"
     const val okhttp3LoggingInterceptor = "com.squareup.okhttp3:logging-interceptor:${Versions.squareUpOkhttp3}"
+}
+
+object FirebaseLibraries {
+    const val firebaeBom = "com.google.firebase:firebase-bom:${Versions.firebase}"
+    const val firebaseAnalytics = "com.google.firebase:firebase-analytics"
 }
 
 object Plugins {
