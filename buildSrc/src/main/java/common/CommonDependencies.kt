@@ -27,6 +27,7 @@ internal fun Project.commonDependenciesSetup() {
         implementation(CommonLibraries.navigationCompose)
         implementation(CommonLibraries.lifecycleViewModelCompose)
         implementation(CommonLibraries.lifecycleRuntimeCompose)
+        implementation(CommonLibraries.lottie)
 
 
         // Dagger Hilt

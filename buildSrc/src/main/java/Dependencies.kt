@@ -35,6 +35,7 @@ object Versions{
     const val androidxHilt = "1.2.0"
     const val squareUpRetrofit = "2.9.0"
     const val squareUpOkhttp3 = "4.9.1"
+    const val lottie = "6.0.0"
 }
 
 object MainLibraries {
@@ -60,6 +61,7 @@ object CommonLibraries {
     const val navigationCompose = "androidx.navigation:navigation-compose:${Versions.androidxNavigation}"
     const val lifecycleViewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:${Versions.androidxLifecycle}"
     const val lifecycleRuntimeCompose = "androidx.lifecycle:lifecycle-runtime-compose:${Versions.androidxLifecycle}"
+    const val lottie = "com.airbnb.android:lottie-compose:${Versions.lottie}"
 }
 
 object DependencyInjectionLibraries {
