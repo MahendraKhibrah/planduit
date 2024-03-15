@@ -27,6 +27,7 @@ fun PlanDuitScaffold(
     trailingWidget : @Composable () -> Unit = {},
     onBackPressed : () -> Unit = {},
     stickyHeader : @Composable () -> Unit = {},
+    bottomSheet : @Composable () -> Unit = {},
     content: @Composable () -> Unit
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
@@ -64,6 +65,7 @@ fun PlanDuitScaffold(
             }
         }
     }
+    bottomSheet()
 }
 
 //@Preview(showBackground = true)
