@@ -21,5 +21,9 @@ val HalfGrey = Color(0xFFC4C5C4)
 
 val OffYellow = Color(0xFFFAF8EE)
 val PaleBlue = Color(0xFFA1F0E7)
+val BoldYellow = Color(0xFFF1D265)
+val BoldBlue = Color(0xFF6FA7E9)
+val BoldRed = Color(0xFFE32F2F)
 
 val BlackPrimary = Color(0xFF1A282B)
+val RedPrimary = Color(0xFFFF7373)

@@ -51,9 +51,11 @@ fun ShortTextField(
     ),
     onValueChange: (String) -> Unit = {},
     trailingWidget: @Composable () -> Unit = {},
-    keyboardActions: KeyboardActions? = null
+    keyboardActions: KeyboardActions? = null,
+    onDone: (String) -> Unit = {},
+    value: String = ""
 ) {
-    var text by remember { mutableStateOf("10") }
+    var text by remember { mutableStateOf(value) }
     var isFocused by remember { mutableStateOf(false) }
 
     val focusRequester = remember { FocusRequester() }
@@ -85,6 +87,7 @@ fun ShortTextField(
                 keyboardActions = keyboardActions ?: KeyboardActions(
                     onDone = {
                         focusManager.clearFocus()
+                        onDone(text)
                     }
                 )
             )
