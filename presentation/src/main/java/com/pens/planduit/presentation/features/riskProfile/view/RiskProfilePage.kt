@@ -36,6 +36,9 @@ import com.pens.planduit.common.theme.BlackPrimary
 import com.pens.planduit.common.theme.LeadingGreen
 import com.pens.planduit.common.theme.SmallGrey
 import com.pens.planduit.common.R
+import com.pens.planduit.common.components.container.CommonBottomSheet
+import com.pens.planduit.common.theme.InvestmentBottomSheet
+import com.pens.planduit.common.theme.RiskProfileBottomSheet
 import com.pens.planduit.presentation.features.riskProfile.QuizViewModel
 import com.pens.planduit.presentation.features.riskProfile.widget.QuizView
 
@@ -46,12 +49,21 @@ fun RiskProfilePage(
 ) {
     val quizState = viewModel.state.collectAsStateWithLifecycle()
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-
+    var showBottomSheet by remember { mutableStateOf(false) }
 
     PlanDuitScaffold(
         title = "Kalkulator Profil Resiko",
         onBackPressed = {
             navController.popBackStack()
+        },
+        bottomSheet = {
+            CommonBottomSheet(
+                data = RiskProfileBottomSheet,
+                isOpen = showBottomSheet,
+                onDismiss = {
+                    showBottomSheet = false
+                }
+            )
         },
         trailingWidget = {
             val interactionSource =
@@ -63,7 +75,9 @@ fun RiskProfilePage(
                 modifier = Modifier
                     .sizeIn(minWidth = 30.dp, minHeight = 30.dp)
                     .clickable(
-                        onClick = {},
+                        onClick = {
+                            showBottomSheet = true
+                        },
                         interactionSource = interactionSource,
                         indication = null
                     )
@@ -108,10 +122,10 @@ fun RiskProfilePage(
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Row (
+            Row(
                 modifier = Modifier.width(screenWidth)
 
-            ){
+            ) {
                 Spacer(modifier = Modifier.weight(1f))
                 PlanDuitPagination(pageCount = 7, onChanged = {
                     viewModel.changePage(it)

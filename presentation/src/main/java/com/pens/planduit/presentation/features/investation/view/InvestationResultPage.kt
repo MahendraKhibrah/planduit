@@ -20,7 +20,10 @@ import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -32,12 +35,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.pens.planduit.common.R
+import com.pens.planduit.common.components.container.CommonBottomSheet
 import com.pens.planduit.common.components.container.GradientContainer
 import com.pens.planduit.common.components.container.PlanDuitScaffold
 import com.pens.planduit.common.theme.BoldBlue
 import com.pens.planduit.common.theme.BoldRed
 import com.pens.planduit.common.theme.BoldYellow
 import com.pens.planduit.common.theme.GreenPrimary
+import com.pens.planduit.common.theme.InvestmentBottomSheet
 import com.pens.planduit.common.theme.MediumBlack
 import com.pens.planduit.common.theme.MediumCrossedRed
 import com.pens.planduit.common.theme.PaleBlue
@@ -51,9 +56,19 @@ fun InvestationResultPage(
     isNotAchieved: Boolean = false
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+    var showBottomSheet by remember { mutableStateOf(false) }
 
     PlanDuitScaffold(
         title = "Kalkulator Investasi",
+        bottomSheet = {
+            CommonBottomSheet(
+                data = InvestmentBottomSheet,
+                isOpen = showBottomSheet,
+                onDismiss = {
+                    showBottomSheet = false
+                }
+            )
+        },
         onBackPressed = {
             navController.popBackStack()
         },
@@ -66,7 +81,9 @@ fun InvestationResultPage(
                 modifier = Modifier
                     .sizeIn(minWidth = 30.dp, minHeight = 30.dp)
                     .clickable(
-                        onClick = {},
+                        onClick = {
+                            showBottomSheet = true
+                        },
                         interactionSource = interactionSource,
                         indication = null
                     )

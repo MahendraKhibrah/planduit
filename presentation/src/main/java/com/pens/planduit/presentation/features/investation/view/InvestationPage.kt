@@ -1,5 +1,6 @@
 package com.pens.planduit.presentation.features.investation.view
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -15,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -29,11 +31,14 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.pens.planduit.common.R
 import com.pens.planduit.common.components.button.PlanDuitCheckBox
+import com.pens.planduit.common.components.container.CommonBottomSheet
 import com.pens.planduit.common.components.container.GradientContainer
 import com.pens.planduit.common.components.container.PlanDuitScaffold
 import com.pens.planduit.common.components.textField.RpTextField
 import com.pens.planduit.common.components.textField.ShortTextField
+import com.pens.planduit.common.theme.BudgetingBottomSheet
 import com.pens.planduit.common.theme.GreenPrimary
+import com.pens.planduit.common.theme.InvestmentBottomSheet
 import com.pens.planduit.common.theme.MediumBlack
 import com.pens.planduit.common.theme.SmallBlack
 import com.pens.planduit.presentation.features.investation.viewModel.InvestmentCalculatorViewModel
@@ -47,11 +52,21 @@ fun InvestationPage(
 ) {
     val fieldValueState = viewModel.fieldValueState.collectAsStateWithLifecycle()
     var selectedCheckbox by remember { mutableIntStateOf(-1) }
+    var showBottomSheet by remember { mutableStateOf(false) }
 
     PlanDuitScaffold(
         title = "Kalkulator Investasi",
         onBackPressed = {
             navController.popBackStack()
+        },
+        bottomSheet = {
+            CommonBottomSheet(
+                data = InvestmentBottomSheet,
+                isOpen = showBottomSheet,
+                onDismiss = {
+                    showBottomSheet = false
+                }
+            )
         },
         trailingWidget = {
             val interactionSource =
@@ -63,7 +78,9 @@ fun InvestationPage(
                 modifier = Modifier
                     .sizeIn(minWidth = 30.dp, minHeight = 30.dp)
                     .clickable(
-                        onClick = {},
+                        onClick = {
+                            showBottomSheet = true
+                        },
                         interactionSource = interactionSource,
                         indication = null
                     )
@@ -245,7 +262,9 @@ fun LastSection(
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
     Row(
-        modifier = Modifier.fillMaxWidth().padding(bottom = 32.dp)
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(bottom = 32.dp)
     ) {
         Spacer(modifier = Modifier.weight(1f))
         GradientContainer(
