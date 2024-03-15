@@ -118,7 +118,9 @@ fun HomePage(
                     navController.navigate(AppRoute.RiskProfile.route)
                 })
                 Spacer(modifier = Modifier.weight(1f))
-                MenuItem(title = "Investasi", imageId = R.drawable.ic_investation)
+                MenuItem(title = "Investasi", imageId = R.drawable.ic_investation, onPressed = {
+                    navController.navigate(AppRoute.InvestmentCalculator.route)
+                })
                 Spacer(modifier = Modifier.weight(1f))
                 MenuItem(title = "Impian", imageId = R.drawable.ic_dream)
             }
