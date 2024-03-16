@@ -90,6 +90,14 @@ val BalanceWhite = TextStyle(
     letterSpacing = 0.5.sp
 )
 
+val MediumWhite = TextStyle(
+    color = Color.White,
+    fontSize = 16.sp,
+    fontFamily = poppins,
+    fontWeight = FontWeight.Medium,
+    letterSpacing = 0.5.sp
+)
+
 //-------------------  RED  --------------------------//
 val MediumCrossedRed = TextStyle(
     color = BoldRed,

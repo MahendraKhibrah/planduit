@@ -12,6 +12,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.pens.planduit.presentation.features.article.view.ArticleDetailPage
 import com.pens.planduit.presentation.features.article.view.ArticlePage
+import com.pens.planduit.presentation.features.budgeting.view.BudgetingPage
 import com.pens.planduit.presentation.features.investation.view.InvestationPage
 import com.pens.planduit.presentation.features.investation.view.InvestationResultPage
 import com.pens.planduit.presentation.features.main.view.HomePage
@@ -55,5 +56,6 @@ fun AppNavHost(
         ) {
             InvestationResultPage(navController = navController, isNotAchieved = it.arguments?.getBoolean("isNotAchieved") ?: false)
         }
+        composable(AppRoute.Budgeting.route) { BudgetingPage(navController = navController) }
     }
 }
