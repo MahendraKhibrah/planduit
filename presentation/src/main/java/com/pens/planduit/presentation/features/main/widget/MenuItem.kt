@@ -34,12 +34,12 @@ fun MenuItem(
             onPressed = onPressed,
             isGradientVertical = true,
             borderColor = GreenPrimary,
-            cornerRadius = 14
+            cornerRadius = 10
         ) {
             Image(
                 painter = painterResource(id = imageId),
                 contentDescription = null,
-                modifier = Modifier.sizeIn(minWidth = 50.dp, minHeight = 50.dp)
+                modifier = Modifier.sizeIn(minWidth = 40.dp, minHeight = 40.dp)
             )
         }
         Spacer(modifier = Modifier.height(12.dp))
