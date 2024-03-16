@@ -25,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.pens.planduit.common.components.container.GradientContainer
 import com.pens.planduit.common.components.container.PlanDuitScaffold
 import com.pens.planduit.common.theme.GreenSecondary
@@ -107,9 +108,9 @@ fun HomePage(
             ) {
                 Text(text = "Kalkulator Investasi", style = LeadingGreen.copy(fontSize = 16.sp))
                 Spacer(modifier = Modifier.weight(1f))
-                Text(text = "Lihat Semua", style = BalanceGrey.copy(fontSize = 12.sp))
+//                Text(text = "Lihat Semua", style = BalanceGrey.copy(fontSize = 12.sp))
             }
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             Row(
                 verticalAlignment = Alignment.Top,
                 modifier = Modifier.padding(horizontal = 8.dp)
@@ -118,7 +119,9 @@ fun HomePage(
                     navController.navigate(AppRoute.RiskProfile.route)
                 })
                 Spacer(modifier = Modifier.weight(1f))
-                MenuItem(title = "Investasi", imageId = R.drawable.ic_investation)
+                MenuItem(title = "Investasi", imageId = R.drawable.ic_investation, onPressed = {
+                    navController.navigate(AppRoute.InvestmentCalculator.route)
+                })
                 Spacer(modifier = Modifier.weight(1f))
                 MenuItem(title = "Impian", imageId = R.drawable.ic_dream)
             }
@@ -127,7 +130,9 @@ fun HomePage(
                 verticalAlignment = Alignment.Top,
                 modifier = Modifier.padding(horizontal = 8.dp)
             ) {
-                MenuItem(title = "Budgeting 50/30/20", imageId = R.drawable.ic_budgeting)
+                MenuItem(title = "Budgeting 50/30/20", imageId = R.drawable.ic_budgeting, onPressed = {
+                    navController.navigate(AppRoute.Budgeting.route)
+                })
                 Spacer(modifier = Modifier.weight(1f))
             }
             Spacer(modifier = Modifier.height(32.dp))
@@ -136,9 +141,9 @@ fun HomePage(
             ) {
                 Text(text = "Kalkulator Zakat", style = LeadingGreen.copy(fontSize = 16.sp))
                 Spacer(modifier = Modifier.weight(1f))
-                Text(text = "Lihat Semua", style = BalanceGrey.copy(fontSize = 12.sp))
+//                Text(text = "Lihat Semua", style = BalanceGrey.copy(fontSize = 12.sp))
             }
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             Row(
                 verticalAlignment = Alignment.Top,
                 modifier = Modifier.padding(horizontal = 8.dp)
@@ -202,4 +207,10 @@ fun HomePage(
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HomePagePreview() {
+    HomePage(navController = rememberNavController())
 }

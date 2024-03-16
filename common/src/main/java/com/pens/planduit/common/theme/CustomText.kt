@@ -3,6 +3,7 @@ package com.pens.planduit.common.theme
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 
 // -------------------- GREEN PRIMARY -------------------//
@@ -87,4 +88,22 @@ val BalanceWhite = TextStyle(
     fontFamily = poppins,
     fontWeight = FontWeight.Normal,
     letterSpacing = 0.5.sp
+)
+
+val MediumWhite = TextStyle(
+    color = Color.White,
+    fontSize = 16.sp,
+    fontFamily = poppins,
+    fontWeight = FontWeight.Medium,
+    letterSpacing = 0.5.sp
+)
+
+//-------------------  RED  --------------------------//
+val MediumCrossedRed = TextStyle(
+    color = BoldRed,
+    fontSize = 14.sp,
+    fontFamily = poppins,
+    fontWeight = FontWeight.Medium,
+    letterSpacing = 0.5.sp,
+    textDecoration = TextDecoration.LineThrough
 )
