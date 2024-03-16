@@ -110,7 +110,7 @@ fun HomePage(
                 Spacer(modifier = Modifier.weight(1f))
 //                Text(text = "Lihat Semua", style = BalanceGrey.copy(fontSize = 12.sp))
             }
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             Row(
                 verticalAlignment = Alignment.Top,
                 modifier = Modifier.padding(horizontal = 8.dp)
@@ -143,7 +143,7 @@ fun HomePage(
                 Spacer(modifier = Modifier.weight(1f))
 //                Text(text = "Lihat Semua", style = BalanceGrey.copy(fontSize = 12.sp))
             }
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(16.dp))
             Row(
                 verticalAlignment = Alignment.Top,
                 modifier = Modifier.padding(horizontal = 8.dp)
