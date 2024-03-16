@@ -129,7 +129,9 @@ fun HomePage(
                 verticalAlignment = Alignment.Top,
                 modifier = Modifier.padding(horizontal = 8.dp)
             ) {
-                MenuItem(title = "Budgeting 50/30/20", imageId = R.drawable.ic_budgeting)
+                MenuItem(title = "Budgeting 50/30/20", imageId = R.drawable.ic_budgeting, onPressed = {
+                    navController.navigate(AppRoute.Budgeting.route)
+                })
                 Spacer(modifier = Modifier.weight(1f))
             }
             Spacer(modifier = Modifier.height(32.dp))
