@@ -25,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.pens.planduit.common.components.container.GradientContainer
 import com.pens.planduit.common.components.container.PlanDuitScaffold
 import com.pens.planduit.common.theme.GreenSecondary
@@ -107,7 +108,7 @@ fun HomePage(
             ) {
                 Text(text = "Kalkulator Investasi", style = LeadingGreen.copy(fontSize = 16.sp))
                 Spacer(modifier = Modifier.weight(1f))
-                Text(text = "Lihat Semua", style = BalanceGrey.copy(fontSize = 12.sp))
+//                Text(text = "Lihat Semua", style = BalanceGrey.copy(fontSize = 12.sp))
             }
             Spacer(modifier = Modifier.height(24.dp))
             Row(
@@ -140,7 +141,7 @@ fun HomePage(
             ) {
                 Text(text = "Kalkulator Zakat", style = LeadingGreen.copy(fontSize = 16.sp))
                 Spacer(modifier = Modifier.weight(1f))
-                Text(text = "Lihat Semua", style = BalanceGrey.copy(fontSize = 12.sp))
+//                Text(text = "Lihat Semua", style = BalanceGrey.copy(fontSize = 12.sp))
             }
             Spacer(modifier = Modifier.height(24.dp))
             Row(
@@ -206,4 +207,10 @@ fun HomePage(
             )
         }
     }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun HomePagePreview() {
+    HomePage(navController = rememberNavController())
 }
