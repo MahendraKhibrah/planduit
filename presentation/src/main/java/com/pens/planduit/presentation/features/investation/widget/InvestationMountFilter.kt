@@ -50,9 +50,10 @@ fun InvestationMountItem(
             text = text,
             style = MediumBlack.copy(
                 color = if (isSelected) Color.White else GreenPrimary,
-                fontSize = 10.sp
+                fontSize = 9.sp,
             ),
-            modifier = Modifier.padding(horizontal = 8.dp)
+            maxLines = 1,
+            modifier = Modifier.padding(horizontal = 7.dp)
         )
     }
 }

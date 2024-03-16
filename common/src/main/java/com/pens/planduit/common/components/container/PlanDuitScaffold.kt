@@ -1,5 +1,7 @@
 package com.pens.planduit.common.components.container
 
+import android.util.Log
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,6 +12,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
@@ -28,10 +35,12 @@ fun PlanDuitScaffold(
     onBackPressed : () -> Unit = {},
     stickyHeader : @Composable () -> Unit = {},
     bottomSheet : @Composable () -> Unit = {},
-    content: @Composable () -> Unit
+    scrollState: ScrollState = rememberScrollState(),
+    content: @Composable () -> Unit,
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
+
     Box(
         modifier = Modifier
             .size(width = screenWidth, height = screenHeight)
@@ -58,7 +67,7 @@ fun PlanDuitScaffold(
                 modifier = Modifier
                     .padding(start = 24.dp, end = 24.dp, bottom = 16.dp)
                     .verticalScroll(
-                        rememberScrollState()
+                        scrollState
                     )
             ) {
                 content()

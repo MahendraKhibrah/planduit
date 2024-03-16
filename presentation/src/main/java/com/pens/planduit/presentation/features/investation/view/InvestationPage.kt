@@ -1,6 +1,5 @@
 package com.pens.planduit.presentation.features.investation.view
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -12,8 +11,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -36,7 +37,6 @@ import com.pens.planduit.common.components.container.GradientContainer
 import com.pens.planduit.common.components.container.PlanDuitScaffold
 import com.pens.planduit.common.components.textField.RpTextField
 import com.pens.planduit.common.components.textField.ShortTextField
-import com.pens.planduit.common.theme.BudgetingBottomSheet
 import com.pens.planduit.common.theme.GreenPrimary
 import com.pens.planduit.common.theme.InvestmentBottomSheet
 import com.pens.planduit.common.theme.MediumBlack
@@ -54,11 +54,21 @@ fun InvestationPage(
     var selectedCheckbox by remember { mutableIntStateOf(-1) }
     var showBottomSheet by remember { mutableStateOf(false) }
 
+    val scrollState = rememberScrollState()
+    var scrollToBottom by remember { mutableStateOf(false) }
+    LaunchedEffect(scrollToBottom) {
+        if (scrollToBottom) {
+            scrollState.animateScrollTo(scrollState.maxValue)
+            scrollToBottom = false
+        }
+    }
+
     PlanDuitScaffold(
         title = "Kalkulator Investasi",
         onBackPressed = {
             navController.popBackStack()
         },
+        scrollState = scrollState,
         bottomSheet = {
             CommonBottomSheet(
                 data = InvestmentBottomSheet,
@@ -98,24 +108,28 @@ fun InvestationPage(
             if (viewModel.showFieldByIndex(0)) SecondSection(
                 onDone = {
                     viewModel.changeFieldFilledState(1, it)
+                    scrollToBottom = true
                 },
                 value = fieldValueState.value[1]
             )
             if (viewModel.showFieldByIndex(1)) ThirdSection(
                 onDone = {
                     viewModel.changeFieldFilledState(2, it)
+                    scrollToBottom = true
                 },
                 value = fieldValueState.value[2]
             )
             if (viewModel.showFieldByIndex(2)) FourthSection(
                 onDone = {
                     viewModel.changeFieldFilledState(3, it)
+                    scrollToBottom = true
                 },
                 value = fieldValueState.value[3]
             )
             if (viewModel.showFieldByIndex(3)) FifthSection(
                 onDone = {
                     viewModel.changeFieldFilledState(4, it)
+                    scrollToBottom = true
                 },
                 value = fieldValueState.value[4]
             )
@@ -124,6 +138,7 @@ fun InvestationPage(
                 onValueChange = {
                     selectedCheckbox = it
                     viewModel.changeFieldFilledState(5, it.toString())
+                    scrollToBottom = true
                 }
             )
             if (selectedCheckbox >= 0 && viewModel.showFieldByIndex(4)) LastSection {

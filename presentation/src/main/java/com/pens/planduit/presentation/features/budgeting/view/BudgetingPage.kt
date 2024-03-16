@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -36,7 +35,6 @@ import com.pens.planduit.common.theme.BudgetingBottomSheet
 import com.pens.planduit.common.theme.DarkGrey
 import com.pens.planduit.common.theme.GreenPrimary
 import com.pens.planduit.common.theme.HalfGrey
-import com.pens.planduit.common.theme.InvestmentBottomSheet
 import com.pens.planduit.common.theme.MediumBlack
 import com.pens.planduit.common.theme.MediumWhite
 import com.pens.planduit.common.theme.SmallBlack
@@ -145,7 +143,7 @@ fun BudgetingPage(
                     Text(text = "Rp 2.000.000", style = MediumBlack.copy(fontSize = 14.sp))
                 }
             }
-            Spacer(modifier = Modifier.size(screenWidth.times(0.8f)))
+            Spacer(modifier = Modifier.size(screenWidth.times(0.4f)))
             if(dummyCode == 2) GradientContainer(
                 gradientColors = listOf(Color.Transparent),
                 borderColor = Color.Black,
