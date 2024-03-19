@@ -3,6 +3,8 @@ package com.pens.planduit.domain.di
 import com.pens.planduit.domain.repositories.GeneralCalculationRepository
 import com.pens.planduit.domain.repositories.TestingRepository
 import com.pens.planduit.domain.usecases.GetBudgetCalculationUsecase
+import com.pens.planduit.domain.usecases.GetInvestmentRequestUsecase
+import com.pens.planduit.domain.usecases.SaveInvestmentRequestUsecase
 import com.pens.planduit.domain.usecases.TestingUsecase
 import dagger.Module
 import dagger.Provides
@@ -21,4 +23,12 @@ class DomainModule {
     @Provides
     @Singleton
     fun provideBudgetUseSase(repository: GeneralCalculationRepository): GetBudgetCalculationUsecase = GetBudgetCalculationUsecase(repository)
+
+    @Provides
+    @Singleton
+    fun provideGetInvestmentRequestUseSase(repository: GeneralCalculationRepository): GetInvestmentRequestUsecase = GetInvestmentRequestUsecase(repository)
+
+    @Provides
+    @Singleton
+    fun provideSaveInvestmentRequestUseSase(repository: GeneralCalculationRepository): SaveInvestmentRequestUsecase = SaveInvestmentRequestUsecase(repository)
 }
