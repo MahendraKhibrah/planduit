@@ -24,12 +24,15 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.pens.planduit.common.R
 import com.pens.planduit.common.components.container.CommonBottomSheet
 import com.pens.planduit.common.components.container.GradientContainer
 import com.pens.planduit.common.components.container.PlanDuitPoint
 import com.pens.planduit.common.components.container.PlanDuitScaffold
+import com.pens.planduit.common.components.container.ShimmerBox
 import com.pens.planduit.common.components.textField.RpTextField
 import com.pens.planduit.common.theme.BudgetingBottomSheet
 import com.pens.planduit.common.theme.DarkGrey
@@ -38,15 +41,22 @@ import com.pens.planduit.common.theme.HalfGrey
 import com.pens.planduit.common.theme.MediumBlack
 import com.pens.planduit.common.theme.MediumWhite
 import com.pens.planduit.common.theme.SmallBlack
+import com.pens.planduit.common.utils.Utils
+import com.pens.planduit.presentation.features.budgeting.viewModel.BudgetingViewModel
 import com.pens.planduit.presentation.navigation.AppRoute
 
 @Composable
 fun BudgetingPage(
-    navController: NavController
+    navController: NavController,
+    viewModel : BudgetingViewModel = hiltViewModel<BudgetingViewModel>()
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }
+    val state = viewModel.state.collectAsStateWithLifecycle()
+    val textValue = viewModel.textFieldValue.collectAsStateWithLifecycle()
+
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-    var dummyCode by remember { mutableIntStateOf(0) }
+    val textWidth = (13 * 14.sp.value * 0.6f).dp
+    val textHeight = (14.sp.value * 1.5f).dp.minus(2.dp)
 
     PlanDuitScaffold(
         title = "Kalkulator Budgeting 50/30/20",
@@ -91,18 +101,17 @@ fun BudgetingPage(
             Row {
                 RpTextField(
                     onValueChange = {
-                        if (it.isNotEmpty() && dummyCode == 0)
-                            dummyCode = 1
+                        viewModel.textFieldValue.value = it
                     },
                     modifier = Modifier.width(screenWidth.times(0.62f))
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 GradientContainer(
-                    gradientColors = listOf(if (dummyCode > 0) GreenPrimary else HalfGrey),
+                    gradientColors = listOf(if (textValue.value.isNotEmpty() && !state.value.isLoading) GreenPrimary else HalfGrey),
                     modifier = Modifier.size(screenWidth.times(0.23f), 55.dp),
                     cornerRadius = 12,
                     onPressed = {
-                        dummyCode = 2
+                        viewModel.getBudgetCalculation()
                     }
                 ) {
                     Row(
@@ -113,7 +122,7 @@ fun BudgetingPage(
                     ) {
                         Text(
                             text = "Hitung",
-                            style = MediumWhite.copy(color = if (dummyCode > 0) Color.White else DarkGrey)
+                            style = MediumWhite.copy(color = if (textValue.value.isNotEmpty() && !state.value.isLoading) Color.White else DarkGrey)
                         )
                     }
                 }
@@ -134,17 +143,28 @@ fun BudgetingPage(
                 Column {
                     Spacer(modifier = Modifier.size(16.dp))
                     Text(text = "KEBUTUHAN POKOK (50%)", style = SmallBlack.copy(fontSize = 14.sp))
-                    Text(text = "Rp 5.000.000", style = MediumBlack.copy(fontSize = 14.sp))
-                    Spacer(modifier = Modifier.size(16.dp))
-                    Text(text = "KEINGINAN (30%)", style = SmallBlack.copy(fontSize = 14.sp))
-                    Text(text = "Rp 3.000.000", style = MediumBlack.copy(fontSize = 14.sp))
-                    Spacer(modifier = Modifier.size(16.dp))
-                    Text(text = "TABUNGAN / UTANG (20%)", style = SmallBlack.copy(fontSize = 14.sp))
-                    Text(text = "Rp 2.000.000", style = MediumBlack.copy(fontSize = 14.sp))
+                    if(state.value.isLoading){
+                        ShimmerBox(width = textWidth, height = textHeight)
+                        Spacer(modifier = Modifier.size(16.dp))
+                        Text(text = "KEINGINAN (30%)", style = SmallBlack.copy(fontSize = 14.sp))
+                        ShimmerBox(width = textWidth, height = textHeight)
+                        Spacer(modifier = Modifier.size(16.dp))
+                        Text(text = "TABUNGAN / UTANG (20%)", style = SmallBlack.copy(fontSize = 14.sp))
+                        ShimmerBox(width = textWidth, height = textHeight)
+                    } else {
+                        val data = state.value.data
+                        Text(text = "Rp " + if(data != null) Utils.addCommasEveryThreeChars(data.needs) else "-", style = MediumBlack.copy(fontSize = 14.sp))
+                        Spacer(modifier = Modifier.size(16.dp))
+                        Text(text = "KEINGINAN (30%)", style = SmallBlack.copy(fontSize = 14.sp))
+                        Text(text = "Rp " + if(data != null) Utils.addCommasEveryThreeChars(data.wants) else "-", style = MediumBlack.copy(fontSize = 14.sp))
+                        Spacer(modifier = Modifier.size(16.dp))
+                        Text(text = "TABUNGAN / UTANG (20%)", style = SmallBlack.copy(fontSize = 14.sp))
+                        Text(text = "Rp " + if(data != null) Utils.addCommasEveryThreeChars(data.savings) else "-", style = MediumBlack.copy(fontSize = 14.sp))
+                    }
                 }
             }
             Spacer(modifier = Modifier.size(screenWidth.times(0.4f)))
-            if(dummyCode == 2) GradientContainer(
+            if(state.value.data != null) GradientContainer(
                 gradientColors = listOf(Color.Transparent),
                 borderColor = Color.Black,
                 onPressed = {

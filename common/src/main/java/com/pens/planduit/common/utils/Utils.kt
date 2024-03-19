@@ -25,6 +25,10 @@ object Utils {
         return result.reverse().toString()
     }
 
+    fun addCommasEveryThreeChars(input: Int): String {
+        return addCommasEveryThreeChars(input.toString())
+    }
+
     fun removeCommas(input: String): String {
         return input.replace(",", "")
     }
