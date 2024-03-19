@@ -1,8 +1,11 @@
 package com.pens.planduit.data.di
 
 import com.google.gson.Gson
+import com.pens.planduit.data.apis.GeneralCalculationApi
 import com.pens.planduit.data.apis.TestingApi
+import com.pens.planduit.data.repositories.GeneralCalculationRepositoryImpl
 import com.pens.planduit.data.repositories.TestingRepositoryImpl
+import com.pens.planduit.domain.repositories.GeneralCalculationRepository
 import com.pens.planduit.domain.repositories.TestingRepository
 import dagger.Module
 import dagger.Provides
@@ -26,7 +29,7 @@ class DataModule {
         ): Retrofit =
         Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .baseUrl("https://mocki.io/v1/")
+            .baseUrl("https://backoffice.planduit.my.id/api/v1/")
             .client(client)
             .build()
 
@@ -55,5 +58,13 @@ class DataModule {
     @Singleton
     @Provides
     fun provideTestingRepository(api : TestingApi): TestingRepository = TestingRepositoryImpl(api)
+
+    @Singleton
+    @Provides
+    fun provideGeneralCalculationApi(retrofit: Retrofit): GeneralCalculationApi = retrofit.create(GeneralCalculationApi::class.java)
+
+    @Singleton
+    @Provides
+    fun provideBudgetRepository(api : GeneralCalculationApi): GeneralCalculationRepository = GeneralCalculationRepositoryImpl(api)
 
 }
