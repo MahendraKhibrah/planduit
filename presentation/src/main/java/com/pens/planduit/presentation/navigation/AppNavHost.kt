@@ -46,15 +46,8 @@ fun AppNavHost(
         composable(AppRoute.ArticleDetail.route) { ArticleDetailPage(navController = navController) }
         composable(AppRoute.RiskProfile.route) { RiskProfilePage(navController = navController) }
         composable(AppRoute.InvestmentCalculator.route) { InvestationPage(navController = navController) }
-        composable(route = AppRoute.InvestmentResult.route + "/{isNotAchieved}",
-            arguments = listOf(
-                navArgument("isNotAchieved") {
-                    type = NavType.BoolType
-                    defaultValue = false
-                }
-            )
-        ) {
-            InvestationResultPage(navController = navController, isNotAchieved = it.arguments?.getBoolean("isNotAchieved") ?: false)
+        composable(route = AppRoute.InvestmentResult.route){
+            InvestationResultPage(navController = navController)
         }
         composable(AppRoute.Budgeting.route) { BudgetingPage(navController = navController) }
     }

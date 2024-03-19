@@ -1,15 +1,18 @@
 package com.pens.planduit.data.di
 
+import android.content.Context
 import com.google.gson.Gson
 import com.pens.planduit.data.apis.GeneralCalculationApi
 import com.pens.planduit.data.apis.TestingApi
 import com.pens.planduit.data.repositories.GeneralCalculationRepositoryImpl
 import com.pens.planduit.data.repositories.TestingRepositoryImpl
+import com.pens.planduit.data.sharedPreferences.GeneralCalculationPref
 import com.pens.planduit.domain.repositories.GeneralCalculationRepository
 import com.pens.planduit.domain.repositories.TestingRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -65,6 +68,9 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun provideBudgetRepository(api : GeneralCalculationApi): GeneralCalculationRepository = GeneralCalculationRepositoryImpl(api)
+    fun provideGeneralCalculationPref(@ApplicationContext context: Context): GeneralCalculationPref = GeneralCalculationPref(context)
 
+    @Singleton
+    @Provides
+    fun provideBudgetRepository(api : GeneralCalculationApi, sharedPref : GeneralCalculationPref): GeneralCalculationRepository = GeneralCalculationRepositoryImpl(api,sharedPref)
 }
