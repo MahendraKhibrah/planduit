@@ -1,4 +1,4 @@
-package com.pens.planduit.presentation.features.riskProfile
+package com.pens.planduit.presentation.features.riskProfile.viewModel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -14,6 +14,9 @@ import javax.inject.Inject
 class QuizViewModel @Inject constructor(
 ) : ViewModel() {
     private val _state = MutableStateFlow(dummyQuestions[0])
+    private val _isCompleteFilled = MutableStateFlow(false)
+    val isCompleteFilled = _isCompleteFilled.asStateFlow()
+    val state = _state.asStateFlow()
 
     private var questions: List<RiskProfileQuiz> = dummyQuestions
     private var selectedQuestion : Int = 0
@@ -21,6 +24,7 @@ class QuizViewModel @Inject constructor(
     fun changeChoice( choiceIndex : Int){
         questions[selectedQuestion].selectedChoice = choiceIndex
         _state.value = questions[selectedQuestion]
+        setCompleteFilled()
         Log.d("ChangeChoice", "changeChoice: ${questions[selectedQuestion].selectedChoice} $questions")
     }
 
@@ -29,5 +33,13 @@ class QuizViewModel @Inject constructor(
         Log.d("ChangePage", "changePage: ${questions[selectedQuestion].selectedChoice}")
         _state.value = questions[page - 1 ]
     }
-    val state = _state.asStateFlow()
+
+    fun setCompleteFilled(){
+        for (question in questions){
+            if (question.selectedChoice == null){
+                _isCompleteFilled .value = false
+            }
+        }
+        _isCompleteFilled .value = false
+    }
 }
