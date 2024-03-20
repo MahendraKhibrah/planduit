@@ -2,44 +2,93 @@ package com.pens.planduit.presentation.features.riskProfile.viewModel
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.pens.planduit.domain.models.entity.RiskProfileQuiz
-import com.pens.planduit.domain.models.entity.dummyQuestions
+import com.pens.planduit.domain.usecases.GetQuestionProfileRiskUsecase
+import com.pens.planduit.presentation.features.riskProfile.state.QuestionState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
 @HiltViewModel
 class QuizViewModel @Inject constructor(
+    private val usecase: GetQuestionProfileRiskUsecase
 ) : ViewModel() {
-    private val _state = MutableStateFlow(dummyQuestions[0])
+    private val _state = MutableStateFlow(QuestionState())
     private val _isCompleteFilled = MutableStateFlow(false)
     val isCompleteFilled = _isCompleteFilled.asStateFlow()
     val state = _state.asStateFlow()
 
-    private var questions: List<RiskProfileQuiz> = dummyQuestions
-    private var selectedQuestion : Int = 0
-
-    fun changeChoice( choiceIndex : Int){
-        questions[selectedQuestion].selectedChoice = choiceIndex
-        _state.value = questions[selectedQuestion]
+    private var selectedQuestion: Int = 0
+    fun changeChoice(choiceIndex: Int) {
+        // TODO : NEED TO CONVERT FROM INDEX TO REAL VALUE
+        val questions = _state.value.data?.toMutableList()
+        questions?.get(selectedQuestion)?.selectedChoice = choiceIndex
+        _state.update { it.copy(data = questions) }
         setCompleteFilled()
-        Log.d("ChangeChoice", "changeChoice: ${questions[selectedQuestion].selectedChoice} $questions")
+        Log.d(
+            "ChangeChoice",
+            "changeChoice: ${questions?.get(selectedQuestion)?.selectedChoice} $questions"
+        )
     }
 
-    fun changePage( page : Int){
+    fun changePage(page: Int) {
         selectedQuestion = page - 1
-        Log.d("ChangePage", "changePage: ${questions[selectedQuestion].selectedChoice}")
-        _state.value = questions[page - 1 ]
+        _state.update {
+            it.copy(
+                selectedData = state.value.data?.get(selectedQuestion) ?: RiskProfileQuiz(
+                    0,
+                    "",
+                    emptyList(),
+                    0
+                )
+            )
+        }
     }
 
-    fun setCompleteFilled(){
-        for (question in questions){
-            if (question.selectedChoice == null){
-                _isCompleteFilled .value = false
+    private fun setCompleteFilled() {
+        for (question in _state.value.data!!) {
+            if (question.selectedChoice == null) {
+                Log.d("setCompleteFilled", "setCompleteFilled: ${question.selectedChoice}")
+                _isCompleteFilled.value = false
+                return
             }
         }
-        _isCompleteFilled .value = false
+        _isCompleteFilled.value = true
+    }
+
+    fun getQuestions() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _state.update { it.copy(isLoading = true) }
+            when (val result = usecase.execute(Unit)) {
+                is com.pens.planduit.common.utils.Resource.Success -> {
+                    _state.update {
+                        it.copy(
+                            data = result.data,
+                            isLoading = false,
+                            selectedData = result.data?.first() ?: RiskProfileQuiz(
+                                0,
+                                "",
+                                emptyList(),
+                                0
+                            )
+                        )
+                    }
+                }
+
+                is com.pens.planduit.common.utils.Resource.Error -> {
+                    _state.update { it.copy(isError = true) }
+                }
+
+                is com.pens.planduit.common.utils.Resource.Loading -> {
+                    _state.update { it.copy(isLoading = true) }
+                }
+            }
+        }
     }
 }

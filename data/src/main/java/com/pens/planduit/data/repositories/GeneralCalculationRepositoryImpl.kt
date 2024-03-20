@@ -7,6 +7,7 @@ import com.pens.planduit.data.sharedPreferences.GeneralCalculationPref
 import com.pens.planduit.domain.models.entity.BudgetResult
 import com.pens.planduit.domain.models.entity.InvestmentResult
 import com.pens.planduit.domain.models.entity.RecommendationInvestment
+import com.pens.planduit.domain.models.entity.RiskProfileQuiz
 import com.pens.planduit.domain.models.request.BudgetingRequest
 import com.pens.planduit.domain.models.request.InvestmentRequest
 import com.pens.planduit.domain.repositories.GeneralCalculationRepository
@@ -72,5 +73,20 @@ class GeneralCalculationRepositoryImpl @Inject constructor(
     override suspend fun saveInvestmentRequest(request: InvestmentRequest): Boolean {
         sharedPref.saveInvestmentRequest(request)
         return true
+    }
+
+    override suspend fun getQuestionRiskProfile(): Resource<List<RiskProfileQuiz>> {
+        try {
+            val response = api.getRiskProfileQuestion()
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    return Resource.Success(it.data ?: emptyList())
+                }
+            }
+            return Resource.Error(response.message())
+        } catch (e: Exception) {
+            Log.d("GeneralCalculationRepo", e.message ?: "Unknown Error")
+            return Resource.Error(e.message ?: "Unknown Error")
+        }
     }
 }

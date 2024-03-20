@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
@@ -42,6 +43,7 @@ import com.pens.planduit.common.theme.SmallGrey
 import com.pens.planduit.common.R
 import com.pens.planduit.common.components.container.CommonBottomSheet
 import com.pens.planduit.common.components.container.GradientContainer
+import com.pens.planduit.common.components.container.ShimmerBox
 import com.pens.planduit.common.theme.DarkGrey
 import com.pens.planduit.common.theme.GreenPrimary
 import com.pens.planduit.common.theme.HalfGrey
@@ -59,6 +61,10 @@ fun RiskProfilePage(
     val isCompleteFilled = viewModel.isCompleteFilled.collectAsStateWithLifecycle()
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     var showBottomSheet by remember { mutableStateOf(false) }
+
+    LaunchedEffect(true){
+        viewModel.getQuestions()
+    }
 
     PlanDuitScaffold(
         title = "Kalkulator Profil Resiko",
@@ -103,7 +109,7 @@ fun RiskProfilePage(
                             fontSize = 14.sp
                         ).toSpanStyle()
                     ) {
-                        append("Pertanyaan ${quizState.value.number}/7 : ")
+                        append("Pertanyaan ${quizState.value.data?.size}/7 : ")
                     }
                     withStyle(
                         style = LeadingGreen.copy(fontSize = 14.sp)
@@ -118,17 +124,19 @@ fun RiskProfilePage(
                 color = Color(0xFFEDEDED)
             )
             Spacer(modifier = Modifier.height(28.dp))
-            key(quizState.value.number, quizState.value.selectedChoice) {
-                QuizView(
-                    question = quizState.value.question,
-                    options = quizState.value.choices.map {
-                        it.label
-                    },
-                    onChanged = {
-                        viewModel.changeChoice(it)
-                    },
-                    initialValue = quizState.value.selectedChoice ?: -1
-                )
+            if (quizState.value.isLoading.not()){
+                key(quizState.value.selectedData.number){
+                    QuizView(
+                        question = quizState.value.selectedData.question ?: "",
+                        options = quizState.value.selectedData.choices.map { it.label } ?: emptyList(),
+                        onChanged = {
+                            viewModel.changeChoice(it)
+                        },
+                        initialValue = quizState.value.selectedData.selectedChoice ?: -1
+                    )
+                }
+            } else {
+                ShimmerBox(width = screenWidth, height = 430.dp, cornerRadius = 16)
             }
             Spacer(modifier = Modifier.height(16.dp))
             Row(
@@ -143,7 +151,7 @@ fun RiskProfilePage(
             }
             Spacer(modifier = Modifier.height(16.dp))
             SubmitButton(
-                isActive = isCompleteFilled.value
+                isActive = isCompleteFilled.value && quizState.value.isLoading.not()
             )
         }
     }
@@ -178,10 +186,4 @@ fun SubmitButton(
             }
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun PreviewRiskProfilePage() {
-    RiskProfilePage(navController = rememberNavController())
 }
