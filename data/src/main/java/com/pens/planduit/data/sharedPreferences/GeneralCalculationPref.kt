@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.google.gson.Gson
 import com.pens.planduit.domain.models.request.InvestmentRequest
+import com.pens.planduit.domain.models.request.RiskProfileRequest
 
 class GeneralCalculationPref(context: Context) {
 
@@ -28,5 +29,20 @@ class GeneralCalculationPref(context: Context) {
         } else {
             null
         }
+    }
+
+    fun getRiskProfileRequest() : RiskProfileRequest? {
+        val request = pref.getString(SharedPreferenceKey.riskProfileRequest, null)
+        return if (request != null) {
+            Gson().fromJson(request, RiskProfileRequest::class.java)
+        } else {
+            null
+        }
+    }
+
+    fun saveRiskProfileRequest(requestRaw: RiskProfileRequest){
+        val request = Gson().toJson(requestRaw)
+        editor.putString(SharedPreferenceKey.riskProfileRequest, request)
+        editor.apply()
     }
 }

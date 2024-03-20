@@ -18,6 +18,7 @@ import com.pens.planduit.presentation.features.investation.view.InvestationResul
 import com.pens.planduit.presentation.features.main.view.HomePage
 import com.pens.planduit.presentation.features.main.view.SplashPage
 import com.pens.planduit.presentation.features.riskProfile.view.RiskProfilePage
+import com.pens.planduit.presentation.features.riskProfile.view.RiskProfileResultPage
 
 @Composable
 fun AppNavHost(
@@ -50,5 +51,8 @@ fun AppNavHost(
             InvestationResultPage(navController = navController)
         }
         composable(AppRoute.Budgeting.route) { BudgetingPage(navController = navController) }
+        composable(AppRoute.RiskProfileResult.route){
+            RiskProfileResultPage(navController = navController)
+        }
     }
 }

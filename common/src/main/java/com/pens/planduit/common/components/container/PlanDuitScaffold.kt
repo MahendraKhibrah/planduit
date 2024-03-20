@@ -36,6 +36,7 @@ fun PlanDuitScaffold(
     stickyHeader : @Composable () -> Unit = {},
     bottomSheet : @Composable () -> Unit = {},
     scrollState: ScrollState = rememberScrollState(),
+    hideBackButton : Boolean = false,
     content: @Composable () -> Unit,
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
@@ -60,6 +61,7 @@ fun PlanDuitScaffold(
             if(showAppBar) PlanDuitAppBar (
                 title = title,
                 trailingWidget = trailingWidget,
+                hideLeading = hideBackButton,
                 onBackAction = onBackPressed
             )
             stickyHeader()

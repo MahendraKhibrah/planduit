@@ -3,8 +3,11 @@ package com.pens.planduit.data.apis
 import com.pens.planduit.common.dto.CommonDto
 import com.pens.planduit.domain.models.entity.BudgetResult
 import com.pens.planduit.domain.models.entity.InvestmentResult
+import com.pens.planduit.domain.models.entity.RiskProfileQuiz
+import com.pens.planduit.domain.models.entity.RiskProfileResult
 import com.pens.planduit.domain.models.request.BudgetingRequest
 import com.pens.planduit.domain.models.request.InvestmentRequest
+import com.pens.planduit.domain.models.request.RiskProfileRequest
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -20,4 +23,12 @@ interface GeneralCalculationApi {
     suspend fun getBudgetCalculation(
         @Body request: BudgetingRequest
     ): Response<CommonDto<BudgetResult>>
+
+    @GET("calculator/profile-resiko")
+    suspend fun getRiskProfileQuestion(): Response<CommonDto<List<RiskProfileQuiz>>>
+
+    @POST("calculator/profile-resiko")
+    suspend fun getRiskProfileCalculation(
+        @Body request: RiskProfileRequest
+    ): Response<CommonDto<RiskProfileResult>>
 }
