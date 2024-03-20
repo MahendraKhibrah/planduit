@@ -159,7 +159,8 @@ fun RiskProfilePage(
 
 @Composable
 fun SubmitButton(
-    isActive : Boolean = false
+    isActive : Boolean = false,
+    onPressed : () -> Unit = {}
 ){
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     Row(
@@ -171,6 +172,8 @@ fun SubmitButton(
             modifier = Modifier.size(screenWidth.times(0.8f), 45.dp),
             cornerRadius = 12,
             onPressed = {
+                if (isActive)
+                    onPressed()
             }
         ) {
             Row(
