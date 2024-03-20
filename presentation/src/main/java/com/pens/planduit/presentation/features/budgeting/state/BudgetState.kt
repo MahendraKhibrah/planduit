@@ -1,4 +1,4 @@
-package com.pens.planduit.presentation.features.budgeting
+package com.pens.planduit.presentation.features.budgeting.state
 
 import com.pens.planduit.domain.models.entity.BudgetResult
 

@@ -7,7 +7,7 @@ import com.pens.planduit.common.utils.Resource
 import com.pens.planduit.common.utils.Utils
 import com.pens.planduit.domain.models.request.BudgetingRequest
 import com.pens.planduit.domain.usecases.GetBudgetCalculationUsecase
-import com.pens.planduit.presentation.features.budgeting.BudgetState
+import com.pens.planduit.presentation.features.budgeting.state.BudgetState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
