@@ -23,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -73,7 +74,8 @@ fun CommonBottomSheet(
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = data.description,
-                    style = SmallBlack.copy(fontSize = 14.sp)
+                    style = SmallBlack.copy(fontSize = 14.sp),
+                    textAlign = TextAlign.Justify
                 )
                 Spacer(modifier = Modifier.height(32.dp))
             }

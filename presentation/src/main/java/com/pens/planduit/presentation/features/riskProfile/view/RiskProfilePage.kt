@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -28,7 +29,6 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -51,6 +51,7 @@ import com.pens.planduit.common.theme.MediumWhite
 import com.pens.planduit.common.theme.RiskProfileBottomSheet
 import com.pens.planduit.presentation.features.riskProfile.viewModel.QuizViewModel
 import com.pens.planduit.presentation.features.riskProfile.widget.QuizView
+import com.pens.planduit.presentation.navigation.AppRoute
 
 @Composable
 fun RiskProfilePage(
@@ -61,8 +62,10 @@ fun RiskProfilePage(
     val isCompleteFilled = viewModel.isCompleteFilled.collectAsStateWithLifecycle()
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     var showBottomSheet by remember { mutableStateOf(false) }
+    var pageNumber by remember { mutableIntStateOf(1) }
 
-    LaunchedEffect(true){
+
+    LaunchedEffect(true) {
         viewModel.getQuestions()
     }
 
@@ -109,7 +112,7 @@ fun RiskProfilePage(
                             fontSize = 14.sp
                         ).toSpanStyle()
                     ) {
-                        append("Pertanyaan ${quizState.value.data?.size}/7 : ")
+                        append("Pertanyaan $pageNumber/${quizState.value.data?.size} : ")
                     }
                     withStyle(
                         style = LeadingGreen.copy(fontSize = 14.sp)
@@ -124,11 +127,11 @@ fun RiskProfilePage(
                 color = Color(0xFFEDEDED)
             )
             Spacer(modifier = Modifier.height(28.dp))
-            if (quizState.value.isLoading.not()){
-                key(quizState.value.selectedData.number){
+            if (quizState.value.isLoading.not()) {
+                key(quizState.value.selectedData.number) {
                     QuizView(
-                        question = quizState.value.selectedData.question ?: "",
-                        options = quizState.value.selectedData.choices.map { it.label } ?: emptyList(),
+                        question = quizState.value.selectedData.question,
+                        options = quizState.value.selectedData.choices.map { it.label },
                         onChanged = {
                             viewModel.changeChoice(it)
                         },
@@ -144,14 +147,19 @@ fun RiskProfilePage(
 
             ) {
                 Spacer(modifier = Modifier.weight(1f))
-                PlanDuitPagination(pageCount = 7, hidePageButton = true ,onChanged = {
+                PlanDuitPagination(pageCount = 7, hidePageButton = true, onChanged = {
+                    pageNumber = it
                     viewModel.changePage(it)
                 })
                 Spacer(modifier = Modifier.weight(1f))
             }
             Spacer(modifier = Modifier.height(16.dp))
             SubmitButton(
-                isActive = isCompleteFilled.value && quizState.value.isLoading.not()
+                isActive = isCompleteFilled.value && quizState.value.isLoading.not(),
+                onPressed = {
+                    viewModel.saveRiskProfileRequest()
+                    navController.navigate(AppRoute.RiskProfileResult.route)
+                }
             )
         }
     }
@@ -159,9 +167,9 @@ fun RiskProfilePage(
 
 @Composable
 fun SubmitButton(
-    isActive : Boolean = false,
-    onPressed : () -> Unit = {}
-){
+    isActive: Boolean = false,
+    onPressed: () -> Unit = {}
+) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -172,8 +180,10 @@ fun SubmitButton(
             modifier = Modifier.size(screenWidth.times(0.8f), 45.dp),
             cornerRadius = 12,
             onPressed = {
-                if (isActive)
+                if (isActive) {
                     onPressed()
+                }
+
             }
         ) {
             Row(
@@ -183,7 +193,7 @@ fun SubmitButton(
                     .fillMaxSize()
             ) {
                 Text(
-                    text = "Hitung",
+                    text = "Lihat Hasil",
                     style = MediumWhite.copy(color = if (isActive) Color.White else DarkGrey)
                 )
             }

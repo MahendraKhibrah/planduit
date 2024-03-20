@@ -4,7 +4,9 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pens.planduit.domain.models.entity.RiskProfileQuiz
+import com.pens.planduit.domain.models.request.RiskProfileRequest
 import com.pens.planduit.domain.usecases.GetQuestionProfileRiskUsecase
+import com.pens.planduit.domain.usecases.SaveRiskProfileRequestUsecase
 import com.pens.planduit.presentation.features.riskProfile.state.QuestionState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class QuizViewModel @Inject constructor(
-    private val usecase: GetQuestionProfileRiskUsecase
+    private val usecase: GetQuestionProfileRiskUsecase,
+    private val saveRequestUsecase : SaveRiskProfileRequestUsecase
 ) : ViewModel() {
     private val _state = MutableStateFlow(QuestionState())
     private val _isCompleteFilled = MutableStateFlow(false)
@@ -90,5 +93,22 @@ class QuizViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun saveRiskProfileRequest() : Boolean {
+        var isSuccess = false
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val request = _state.value.data?.map {
+                    it.choices[it.selectedChoice ?: 0].value
+                }
+                if(saveRequestUsecase.execute(RiskProfileRequest(request ?: emptyList()))) {
+                    isSuccess = true
+                }
+            } catch (e: Exception) {
+                Log.d("saveRiskProfileRequest", e.message ?: "Unknown Error")
+            }
+        }
+        return isSuccess
     }
 }

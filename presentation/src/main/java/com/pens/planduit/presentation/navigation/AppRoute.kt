@@ -9,6 +9,7 @@ sealed class AppRoute(val route: String){
     object InvestmentCalculator: AppRoute("investment-calculator")
     object InvestmentResult: AppRoute("investment-result")
     object Budgeting: AppRoute("budgeting")
+    object RiskProfileResult: AppRoute("risk-profile-result")
 
     fun withArgs(vararg args: Any?): String{
         return buildString {

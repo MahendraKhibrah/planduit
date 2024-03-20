@@ -53,4 +53,8 @@ object Utils {
         return result
     }
 
+    fun convertCommasToList(input: String): List<String> {
+        return input.split(", ")
+    }
+
 }
