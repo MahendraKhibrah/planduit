@@ -1,9 +1,12 @@
 package com.pens.planduit.common.components.option
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -36,70 +39,80 @@ import com.pens.planduit.common.theme.GreenPrimary
 fun PlanDuitPagination(
     modifier: Modifier = Modifier,
     pageCount: Int,
-    onChanged: (Int) -> Unit = {}
+    hidePageButton : Boolean = false,
+    onChanged: (Int) -> Unit = {},
 ) {
     var currentPage by remember { mutableIntStateOf(1) }
     var firstPage by remember { mutableIntStateOf(1) }
-    var lastPage by remember { mutableIntStateOf(pageCount + 1) }
+    val lastPage by remember { mutableIntStateOf(pageCount + 1) }
+
+    val interactionSource1 = remember { MutableInteractionSource() }
+    val interactionSource2 = remember { MutableInteractionSource() }
+
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
         modifier = modifier.padding(4.dp)
     ) {
-        if (currentPage != 1) IconButton(
-            onClick = {
-                if ((currentPage - 1) < firstPage) {
-                    firstPage -= 1
-                }
-                currentPage -= 1
-                onChanged(currentPage)
-            },
-        ) {
-            Icon(
-                imageVector = Icons.Default.KeyboardArrowLeft,
-                contentDescription = "",
-                tint = Color.Black,
-                modifier = Modifier.size(28.dp)
+        if (currentPage != 1)
+        Icon(
+            imageVector = Icons.Default.KeyboardArrowLeft,
+            contentDescription = "",
+            tint = Color.Black,
+            modifier = Modifier.size(28.dp).clickable(
+                onClick = {
+                    if ((currentPage - 1) < firstPage) {
+                        firstPage -= 1
+                    }
+                    currentPage -= 1
+                    onChanged(currentPage)
+                },
+                interactionSource = interactionSource1,
+                indication = null,
             )
-        } else
+        )
+        else
             Box(
                 modifier = Modifier.height(20.dp).width(48.dp)
             )
 
-        (firstPage until if (lastPage < 8) lastPage else (firstPage + 6)).forEach { index ->
-            GradientContainer(
-                gradientColors = if (index == currentPage) listOf(GreenPrimary) else listOf(Color.Transparent),
-                onPressed = {
-                    currentPage = index
-                    onChanged(index)
-                },
-            ) {
-                Text(
-                    text = index.toString(),
-                    style = if (index == currentPage) BalanceWhite else BalanceBlack,
-                    modifier = Modifier.padding(horizontal = 8.dp)
-                )
+        if (hidePageButton) {
+            Spacer(modifier = Modifier.weight(1f))
+        } else {
+
+            (firstPage until if (lastPage < 8) lastPage else (firstPage + 6)).forEach { index ->
+                GradientContainer(
+                    gradientColors = if (index == currentPage) listOf(GreenPrimary) else listOf(Color.Transparent),
+                    onPressed = {
+                        currentPage = index
+                        onChanged(index)
+                    },
+                ) {
+                    Text(
+                        text = index.toString(),
+                        style = if (index == currentPage) BalanceWhite else BalanceBlack,
+                        modifier = Modifier.padding(horizontal = 8.dp)
+                    )
+                }
             }
         }
-        if (currentPage != pageCount) IconButton(
+        if (currentPage != pageCount) Icon(
+                imageVector = Icons.Default.KeyboardArrowRight,
+        contentDescription = "",
+        tint = Color.Black,
+        modifier = Modifier.size(28.dp).clickable(
             onClick = {
                 if ((currentPage + 1) > firstPage + 5) {
                     firstPage += 1
                 }
                 currentPage += 1
                 onChanged(currentPage)
-
-
             },
-        ) {
-            Icon(
-                imageVector = Icons.Default.KeyboardArrowRight,
-                contentDescription = "",
-                tint = Color.Black,
-                modifier = Modifier.size(28.dp)
-            )
-        } else
+            interactionSource = interactionSource2,
+            indication = null,
+        )
+        ) else
             Box(
                 modifier = Modifier.size(28.dp)
             )
@@ -120,7 +133,8 @@ fun PlanDuitPagination(
 //            .background(Color.White)
 //    ) {
 //        PlanDuitPagination(
-//            pageCount = 7
+//            pageCount = 7,
+//            hidePageButton = true,
 //        )
 //    }
 //}

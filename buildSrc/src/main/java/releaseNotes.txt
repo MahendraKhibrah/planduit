@@ -1,9 +1,8 @@
 Release Note :
     NEW
-    1. UI Sliced : Investment Page
-    2. UI Sliced : Bottom Sheet Components
-    3. UI Sliced : Budgeting Page
+    1. API Integration : Investment Page
+    2. API Integration : Risk Profile Page
+    3. API Integration : Budgeting Page
 
     IMRPOVEMENT
-    1. Hide see more button for investment and zakat
-    2. Optimize home item size
+    1. Justify description of Bottom Sheet

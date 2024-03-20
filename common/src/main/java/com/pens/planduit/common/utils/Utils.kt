@@ -25,8 +25,36 @@ object Utils {
         return result.reverse().toString()
     }
 
+    fun addCommasEveryThreeChars(input: Int): String {
+        return addCommasEveryThreeChars(input.toString())
+    }
+
     fun removeCommas(input: String): String {
         return input.replace(",", "")
+    }
+
+    fun createRpText(input: Int?) : String {
+        var result = "Rp. "
+        if (input == null) {
+            result += "-"
+            return result
+        }
+        result += addCommasEveryThreeChars(input)
+        return result
+    }
+
+    fun createPercentText(input: Int?) : String {
+        var result = ""
+        if (input == null) {
+            result += "-"
+            return result
+        }
+        result += "$input %"
+        return result
+    }
+
+    fun convertCommasToList(input: String): List<String> {
+        return input.split(", ")
     }
 
 }

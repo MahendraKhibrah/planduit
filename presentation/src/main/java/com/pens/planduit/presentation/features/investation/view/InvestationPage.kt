@@ -142,7 +142,8 @@ fun InvestationPage(
                 }
             )
             if (selectedCheckbox >= 0 && viewModel.showFieldByIndex(4)) LastSection {
-                navController.navigate(AppRoute.InvestmentResult.withArgs(selectedCheckbox != 0))
+                viewModel.saveInvestmentRequest()
+                navController.navigate(AppRoute.InvestmentResult.route)
             }
         }
 
