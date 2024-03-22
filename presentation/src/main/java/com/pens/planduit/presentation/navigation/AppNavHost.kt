@@ -19,6 +19,8 @@ import com.pens.planduit.presentation.features.main.view.HomePage
 import com.pens.planduit.presentation.features.main.view.SplashPage
 import com.pens.planduit.presentation.features.riskProfile.view.RiskProfilePage
 import com.pens.planduit.presentation.features.riskProfile.view.RiskProfileResultPage
+import com.pens.planduit.presentation.features.zakatIncome.ZakatIncomePage
+import com.pens.planduit.presentation.features.zakatIncome.ZakatIncomeResultPage
 
 @Composable
 fun AppNavHost(
@@ -54,5 +56,7 @@ fun AppNavHost(
         composable(AppRoute.RiskProfileResult.route){
             RiskProfileResultPage(navController = navController)
         }
+        composable(AppRoute.ZakatIncome.route) { ZakatIncomePage(navController = navController) }
+        composable(AppRoute.ZakatIncomeResult.route) { ZakatIncomeResultPage(navController = navController) }
     }
 }
