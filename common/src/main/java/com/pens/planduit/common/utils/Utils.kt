@@ -36,7 +36,11 @@ object Utils {
         return input.replace(",", "")
     }
 
-    fun createRpText(input: Int?) : String {
+    fun removeCommasToInt(input: String): Int {
+        return removeCommas(input).toInt()
+    }
+
+    fun createRpText(input: Int?): String {
         var result = "Rp. "
         if (input == null) {
             result += "-"
@@ -46,7 +50,7 @@ object Utils {
         return result
     }
 
-    fun createPercentText(input: Int?) : String {
+    fun createPercentText(input: Int?): String {
         var result = ""
         if (input == null) {
             result += "-"

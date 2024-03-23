@@ -1,5 +1,6 @@
 package com.pens.planduit.data.repositories
 
+import android.util.Log
 import com.pens.planduit.common.utils.Resource
 import com.pens.planduit.data.apis.ZakatApi
 import com.pens.planduit.domain.models.entity.GoldPrice
@@ -12,7 +13,23 @@ class ZakatRepositoryImpl @Inject constructor(
     private val api: ZakatApi
 ) : ZakatRepository {
     override suspend fun getIncomeZakatCalculation(request : IncomeZakatRequest): Resource<ZakatResult> {
-        TODO("Not yet implemented")
+        try {
+            val response = api.getIncomeZakatCalculation(request)
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    return Resource.Success(
+                        ZakatResult(
+                            it.data?.status ?: true,
+                            it.data?.zakat ?: 0
+                        )
+                    )
+                }
+            }
+            return Resource.Error(response.message())
+        } catch (e: Exception) {
+            Log.d("ZakatRepositoryImpl", "getIncomeZakatCalculation: ${e.message}")
+            return Resource.Error(e.message ?: "An error occurred")
+        }
     }
 
     override suspend fun getGoldZakatCalculation(): Resource<ZakatResult> {
@@ -40,6 +57,4 @@ class ZakatRepositoryImpl @Inject constructor(
             return Resource.Error(e.message ?: "An error occurred")
         }
     }
-
-
 }

@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -49,20 +50,25 @@ import com.pens.planduit.common.theme.MediumWhite
 import com.pens.planduit.common.theme.PaleBlue
 import com.pens.planduit.common.theme.SmallBlack
 import com.pens.planduit.common.utils.Utils
+import com.pens.planduit.presentation.features.zakatIncome.state.GoldPriceState
 import com.pens.planduit.presentation.features.zakatIncome.viewModel.ZIncomeViewModel
+import com.pens.planduit.presentation.navigation.AppRoute
 
 @Composable
 fun ZakatIncomePage(
     navController: NavController,
     viewModel: ZIncomeViewModel = hiltViewModel<ZIncomeViewModel>()
-    ) {
+) {
     var showBottomSheet by remember { mutableStateOf(false) }
-    val textWidth = Utils.getTextWidth(fontSize = 27f, textLength = 13)
-    val textHeight = Utils.getTextHeight(fontSize = 27f)
+    var selectedCheckbox by remember { mutableIntStateOf(-1) }
+    var questionOneText by remember { mutableStateOf("")}
+    var questionTwoText by remember { mutableStateOf("")}
+    var questionThreeText by remember { mutableStateOf("")}
+
 
     val state = viewModel.state.collectAsStateWithLifecycle()
 
-    LaunchedEffect(true){
+    LaunchedEffect(true) {
         viewModel.getGoldPrice()
     }
 
@@ -99,125 +105,146 @@ fun ZakatIncomePage(
             )
         }
     ) {
-        val screenWidth = LocalConfiguration.current.screenWidthDp.dp
         Column {
             Spacer(modifier = Modifier.size(20.dp))
-            GradientContainer(
-                gradientColors = listOf(PaleBlue, PaleBlue.copy(alpha = 0.8f)),
-                showShadow = true,
-                cornerRadius = 16
-            ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(start = 8.dp, end = 28.dp)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .width(screenWidth.times(0.5f))
-                            .padding(vertical = 24.dp)
-                    ) {
-                        Text(
-                            "Harga Emas Hari ini",
-                            style = SmallBlack.copy(fontSize = 15.sp, color = Color(0xFF606060))
-                        )
-                        if (state.value.isLoading){
-                            ShimmerBox(width = textWidth, height = textHeight)
-                        } else {
-                            Text(
-                                "Rp. " + Utils.addCommasEveryThreeChars(state.value.data.price),
-                                style = LeadingGreen.copy(fontSize = 27.sp)
-                            )
-                        }
+            Banner(state = state.value)
+            Spacer(modifier = Modifier.size(32.dp))
+            FirstSection(
+                selectedValue = selectedCheckbox,
+                onPressed = {
+                    selectedCheckbox = it
+                })
+            CommonSection(question = "Berapa Pendapatan tetap anda per", onValueChange = {
+                questionOneText = it
+            })
+            Spacer(modifier = Modifier.size(32.dp))
+            CommonSection(question = "Berapa Pendapatan lain anda per", onValueChange = {
+                questionTwoText = it
+            })
+            Spacer(modifier = Modifier.size(32.dp))
+            CommonSection(question = "Berapa pengeluaran anda per", onValueChange = {
+                questionThreeText = it
+            })
+            Spacer(modifier = Modifier.size(64.dp))
+            SubmitButton(
+                isActive = selectedCheckbox != -1 &&
+                        questionOneText.isNotEmpty() &&
+                        questionTwoText.isNotEmpty() &&
+                        questionThreeText.isNotEmpty(),
+                onPressed = {
+                    val jsonString = viewModel.getRequestJsonString(
+                        selectedCheckbox,
+                        questionOneText,
+                        questionTwoText,
+                        questionThreeText
+                    )
+                    navController.navigate(AppRoute.ZakatIncomeResult.withArgs(jsonString, state.value.data.price))
+                }
+            )
+        }
+    }
+}
 
-                    }
-                    Spacer(modifier = Modifier.weight(1f))
-                    Image(
-                        painter = painterResource(id = R.drawable.gold_price),
-                        contentDescription = null,
-                        modifier = Modifier.sizeIn(minWidth = 80.dp, minHeight = 80.dp)
+@Composable
+fun Banner(
+    state: GoldPriceState
+) {
+    GradientContainer(
+        gradientColors = listOf(PaleBlue, PaleBlue.copy(alpha = 0.8f)),
+        showShadow = true,
+        cornerRadius = 16,
+    ) {
+
+        val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+        val textWidth = Utils.getTextWidth(fontSize = 25f, textLength = 10)
+        val textHeight = Utils.getTextHeight(fontSize = 25f)
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = 8.dp, end = 28.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .width(screenWidth.times(0.5f))
+                    .padding(vertical = 24.dp)
+            ) {
+                Text(
+                    "Harga Emas Hari ini",
+                    style = SmallBlack.copy(fontSize = 15.sp, color = Color(0xFF606060))
+                )
+                if (state.isLoading) {
+                    ShimmerBox(width = textWidth, height = textHeight)
+                } else {
+                    Text(
+                        "Rp. " + Utils.addCommasEveryThreeChars(state.data.price),
+                        style = LeadingGreen.copy(fontSize = 25.sp)
                     )
                 }
 
             }
-            Spacer(modifier = Modifier.size(32.dp))
-            Text(
-                text = "Tempo waktu kamu dalam investasi",
-                style = MediumBlack.copy(fontSize = 12.sp)
+            Spacer(modifier = Modifier.weight(1f))
+            Image(
+                painter = painterResource(id = R.drawable.gold_price),
+                contentDescription = null,
+                modifier = Modifier.sizeIn(minWidth = 80.dp, minHeight = 80.dp)
             )
-            Spacer(modifier = Modifier.size(16.dp))
-            Row {
-                PlanDuitCheckBox(text = "Perbulan", onTap = {
-                })
-                Spacer(modifier = Modifier.size(24.dp))
-                PlanDuitCheckBox(text = "Pertahun", onTap = {
-                })
-            }
-            Spacer(modifier = Modifier.size(32.dp))
-            Text(
-                buildAnnotatedString {
-                    withStyle(
-                        style = MediumBlack.copy(fontSize = 12.sp).toSpanStyle()
-                    ) {
-                        append("Berapa Pendapatan tetap anda per  ")
-                    }
-                    withStyle(
-                        style = MediumBlack.copy(fontSize = 12.sp, color = GreenPrimary)
-                            .toSpanStyle()
-                    ) {
-                        append("bulan")
-                    }
-                }
-            )
-            Spacer(modifier = Modifier.size(16.dp))
-            RpTextField(
-                onDone = {},
-            )
-            Spacer(modifier = Modifier.size(32.dp))
-            Text(
-                buildAnnotatedString {
-                    withStyle(
-                        style = MediumBlack.copy(fontSize = 12.sp).toSpanStyle()
-                    ) {
-                        append("Berapa Pendapatan lain anda per  ")
-                    }
-                    withStyle(
-                        style = MediumBlack.copy(fontSize = 12.sp, color = GreenPrimary)
-                            .toSpanStyle()
-                    ) {
-                        append("bulan")
-                    }
-                }
-            )
-            Spacer(modifier = Modifier.size(16.dp))
-            RpTextField(
-                onDone = {},
-            )
-            Spacer(modifier = Modifier.size(32.dp))
-            Text(
-                buildAnnotatedString {
-                    withStyle(
-                        style = MediumBlack.copy(fontSize = 12.sp).toSpanStyle()
-                    ) {
-                        append("Berapa pengeluaran anda per  ")
-                    }
-                    withStyle(
-                        style = MediumBlack.copy(fontSize = 12.sp, color = GreenPrimary)
-                            .toSpanStyle()
-                    ) {
-                        append("bulan")
-                    }
-                }
-            )
-            Spacer(modifier = Modifier.size(16.dp))
-            RpTextField(
-                onDone = {},
-            )
-            Spacer(modifier = Modifier.size(64.dp))
-            SubmitButton()
         }
+
     }
+}
+
+@Composable
+fun FirstSection(
+    selectedValue: Int = -1,
+    onPressed: (Int) -> Unit
+) {
+    Text(
+        text = "Tempo waktu kamu dalam investasi",
+        style = MediumBlack.copy(fontSize = 12.sp)
+    )
+    Spacer(modifier = Modifier.size(16.dp))
+    Row {
+        PlanDuitCheckBox(
+            text = "Perbulan",
+            isChecked = selectedValue == 0,
+            onTap = {
+                onPressed(0)
+            })
+        Spacer(modifier = Modifier.size(24.dp))
+        PlanDuitCheckBox(text = "Pertahun",
+            isChecked = selectedValue == 1,
+            onTap = {
+                onPressed(1)
+            })
+    }
+}
+
+@Composable
+fun CommonSection(
+    question: String,
+    onValueChange: (String) -> Unit
+) {
+    Text(
+        buildAnnotatedString {
+            withStyle(
+                style = MediumBlack.copy(fontSize = 12.sp).toSpanStyle()
+            ) {
+                append(question)
+            }
+            withStyle(
+                style = MediumBlack.copy(fontSize = 12.sp, color = GreenPrimary)
+                    .toSpanStyle()
+            ) {
+                append(" bulan")
+            }
+        }
+    )
+    Spacer(modifier = Modifier.size(16.dp))
+    RpTextField(
+        onValueChange = onValueChange,
+    )
 }
 
 @Composable
