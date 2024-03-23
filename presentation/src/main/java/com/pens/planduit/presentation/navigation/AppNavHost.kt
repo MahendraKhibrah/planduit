@@ -6,10 +6,8 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import com.pens.planduit.presentation.features.article.view.ArticleDetailPage
 import com.pens.planduit.presentation.features.article.view.ArticlePage
 import com.pens.planduit.presentation.features.budgeting.view.BudgetingPage
@@ -19,8 +17,8 @@ import com.pens.planduit.presentation.features.main.view.HomePage
 import com.pens.planduit.presentation.features.main.view.SplashPage
 import com.pens.planduit.presentation.features.riskProfile.view.RiskProfilePage
 import com.pens.planduit.presentation.features.riskProfile.view.RiskProfileResultPage
-import com.pens.planduit.presentation.features.zakatIncome.ZakatIncomePage
-import com.pens.planduit.presentation.features.zakatIncome.ZakatIncomeResultPage
+import com.pens.planduit.presentation.features.zakatIncome.view.ZakatIncomePage
+import com.pens.planduit.presentation.features.zakatIncome.view.ZakatIncomeResultPage
 
 @Composable
 fun AppNavHost(

@@ -1,4 +1,4 @@
-package com.pens.planduit.presentation.features.zakatIncome
+package com.pens.planduit.presentation.features.zakatIncome.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -9,13 +9,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,15 +27,17 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.pens.planduit.common.R
 import com.pens.planduit.common.components.button.PlanDuitCheckBox
 import com.pens.planduit.common.components.container.CommonBottomSheet
 import com.pens.planduit.common.components.container.GradientContainer
 import com.pens.planduit.common.components.container.PlanDuitScaffold
+import com.pens.planduit.common.components.container.ShimmerBox
 import com.pens.planduit.common.components.textField.RpTextField
 import com.pens.planduit.common.theme.DarkGrey
 import com.pens.planduit.common.theme.GreenPrimary
@@ -46,17 +48,28 @@ import com.pens.planduit.common.theme.MediumBlack
 import com.pens.planduit.common.theme.MediumWhite
 import com.pens.planduit.common.theme.PaleBlue
 import com.pens.planduit.common.theme.SmallBlack
+import com.pens.planduit.common.utils.Utils
+import com.pens.planduit.presentation.features.zakatIncome.viewModel.ZIncomeViewModel
 
 @Composable
 fun ZakatIncomePage(
-    navController: NavController
-) {
+    navController: NavController,
+    viewModel: ZIncomeViewModel = hiltViewModel<ZIncomeViewModel>()
+    ) {
     var showBottomSheet by remember { mutableStateOf(false) }
+    val textWidth = Utils.getTextWidth(fontSize = 27f, textLength = 13)
+    val textHeight = Utils.getTextHeight(fontSize = 27f)
+
+    val state = viewModel.state.collectAsStateWithLifecycle()
+
+    LaunchedEffect(true){
+        viewModel.getGoldPrice()
+    }
 
     PlanDuitScaffold(
         title = "Kalkulator Zakat Penghasilan",
         onBackPressed = {
-
+            navController.popBackStack()
         },
         bottomSheet = {
             CommonBottomSheet(
@@ -76,7 +89,7 @@ fun ZakatIncomePage(
                 contentDescription = null,
                 modifier = Modifier
                     .sizeIn(minWidth = 30.dp, minHeight = 30.dp)
-                    .clickable (
+                    .clickable(
                         onClick = {
                             showBottomSheet = true
                         },
@@ -101,16 +114,23 @@ fun ZakatIncomePage(
                         .padding(start = 8.dp, end = 28.dp)
                 ) {
                     Column(
-                        modifier = Modifier.width(screenWidth.times(0.5f)).padding(vertical = 24.dp)
+                        modifier = Modifier
+                            .width(screenWidth.times(0.5f))
+                            .padding(vertical = 24.dp)
                     ) {
                         Text(
                             "Harga Emas Hari ini",
                             style = SmallBlack.copy(fontSize = 15.sp, color = Color(0xFF606060))
                         )
-                        Text(
-                            "Rp 1.000.000",
-                            style = LeadingGreen.copy(fontSize = 27.sp)
-                        )
+                        if (state.value.isLoading){
+                            ShimmerBox(width = textWidth, height = textHeight)
+                        } else {
+                            Text(
+                                "Rp. " + Utils.addCommasEveryThreeChars(state.value.data.price),
+                                style = LeadingGreen.copy(fontSize = 27.sp)
+                            )
+                        }
+
                     }
                     Spacer(modifier = Modifier.weight(1f))
                     Image(

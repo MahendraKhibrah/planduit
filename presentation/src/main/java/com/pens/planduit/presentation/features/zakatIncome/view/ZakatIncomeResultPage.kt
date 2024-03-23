@@ -1,4 +1,4 @@
-package com.pens.planduit.presentation.features.zakatIncome
+package com.pens.planduit.presentation.features.zakatIncome.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
