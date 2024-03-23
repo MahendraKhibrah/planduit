@@ -10,6 +10,10 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.google.gson.Gson
+import com.pens.planduit.common.utils.Utils
+import com.pens.planduit.domain.models.request.IncomeZakatRequest
+import com.pens.planduit.domain.models.request.InvestmentRequest
 import com.pens.planduit.presentation.features.article.view.ArticleDetailPage
 import com.pens.planduit.presentation.features.article.view.ArticlePage
 import com.pens.planduit.presentation.features.budgeting.view.BudgetingPage
@@ -19,6 +23,8 @@ import com.pens.planduit.presentation.features.main.view.HomePage
 import com.pens.planduit.presentation.features.main.view.SplashPage
 import com.pens.planduit.presentation.features.riskProfile.view.RiskProfilePage
 import com.pens.planduit.presentation.features.riskProfile.view.RiskProfileResultPage
+import com.pens.planduit.presentation.features.zakatIncome.view.ZakatIncomePage
+import com.pens.planduit.presentation.features.zakatIncome.view.ZakatIncomeResultPage
 
 @Composable
 fun AppNavHost(
@@ -53,6 +59,22 @@ fun AppNavHost(
         composable(AppRoute.Budgeting.route) { BudgetingPage(navController = navController) }
         composable(AppRoute.RiskProfileResult.route){
             RiskProfileResultPage(navController = navController)
+        }
+        composable(AppRoute.ZakatIncome.route) { ZakatIncomePage(navController = navController) }
+        composable(
+            route = AppRoute.ZakatIncomeResult.route + "/{request}/{goldPrice}",
+            arguments = listOf(
+                navArgument("request"){
+                    type = NavType.StringType
+                },
+                navArgument("goldPrice"){
+                    type = NavType.StringType
+                }
+            )
+        ){
+            val request = Gson().fromJson(it.arguments?.getString("request") ?: "", IncomeZakatRequest::class.java)
+            val goldPrice = Utils.addCommasEveryThreeChars(it.arguments?.getString("goldPrice") ?: "0")
+            ZakatIncomeResultPage(navController = navController, request = request, goldPrice = goldPrice)
         }
     }
 }

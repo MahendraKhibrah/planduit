@@ -1,5 +1,8 @@
 package com.pens.planduit.common.utils
 
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import java.text.NumberFormat
 import java.text.ParseException
 import java.util.*
@@ -33,7 +36,11 @@ object Utils {
         return input.replace(",", "")
     }
 
-    fun createRpText(input: Int?) : String {
+    fun removeCommasToInt(input: String): Int {
+        return removeCommas(input).toInt()
+    }
+
+    fun createRpText(input: Int?): String {
         var result = "Rp. "
         if (input == null) {
             result += "-"
@@ -43,7 +50,7 @@ object Utils {
         return result
     }
 
-    fun createPercentText(input: Int?) : String {
+    fun createPercentText(input: Int?): String {
         var result = ""
         if (input == null) {
             result += "-"
@@ -57,4 +64,11 @@ object Utils {
         return input.split(", ")
     }
 
+    fun getTextWidth(fontSize: Float, textLength: Int): Dp {
+        return (fontSize * textLength * 0.6f).dp
+    }
+
+    fun getTextHeight(fontSize: Float): Dp {
+        return (fontSize * 1.5f).dp.minus(2.dp)
+    }
 }
