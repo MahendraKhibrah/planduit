@@ -38,6 +38,7 @@ object Versions{
     const val lottie = "6.0.0"
     const val gms = "4.4.1"
     const val firebase = "32.7.4"
+    const val chucker = "4.0.0"
 }
 
 object MainLibraries {
@@ -81,6 +82,10 @@ object NetworkLibraries {
 object FirebaseLibraries {
     const val firebaeBom = "com.google.firebase:firebase-bom:${Versions.firebase}"
     const val firebaseAnalytics = "com.google.firebase:firebase-analytics"
+}
+
+object Chucker {
+    const val chucker = "com.github.chuckerteam.chucker:library:${Versions.chucker}"
 }
 
 object Plugins {

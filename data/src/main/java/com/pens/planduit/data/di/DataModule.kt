@@ -1,6 +1,7 @@
 package com.pens.planduit.data.di
 
 import android.content.Context
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.gson.Gson
 import com.pens.planduit.data.apis.GeneralCalculationApi
 import com.pens.planduit.data.apis.TestingApi
@@ -45,11 +46,12 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun provideClient(): OkHttpClient {
+    fun provideClient(@ApplicationContext context: Context): OkHttpClient {
         val builder = OkHttpClient.Builder()
             .readTimeout(60L, TimeUnit.SECONDS)
             .connectTimeout(60L, TimeUnit.SECONDS)
             .writeTimeout(60L, TimeUnit.SECONDS)
+            .addInterceptor(ChuckerInterceptor(context))
 
         val logger = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
         builder.addInterceptor(logger)
