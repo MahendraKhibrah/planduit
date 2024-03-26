@@ -1,0 +1,21 @@
+[debug] [2024-03-26T08:13:50.041Z] ----------------------------------------------------------------------
+[debug] [2024-03-26T08:13:50.045Z] Command:       /usr/local/bin/node /usr/local/bin/firebase appdistribution:distribute app/build/outputs/apk/debug/app-debug.apk --app 1:461892192994:android:f142e7cd9637904bcc6cbb --release-notes-file buildSrc/src/main/java/releaseNotes.txt --groups developer-team
+[debug] [2024-03-26T08:13:50.048Z] CLI Version:   13.0.2
+[debug] [2024-03-26T08:13:50.048Z] Platform:      darwin
+[debug] [2024-03-26T08:13:50.048Z] Node Version:  v18.16.1
+[debug] [2024-03-26T08:13:50.053Z] Time:          Tue Mar 26 2024 15:13:50 GMT+0700 (Western Indonesia Time)
+[debug] [2024-03-26T08:13:50.054Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2024-03-26T08:13:50.060Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2024-03-26T08:13:50.394Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2024-03-26T08:13:50.395Z] > authorizing via signed-in user (kembarmetal@gmail.com)
+[info] i  uploading binary... 
+[debug] [2024-03-26T08:13:50.400Z] > refreshing access token with scopes: []
+[debug] [2024-03-26T08:13:50.404Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2024-03-26T08:13:50.404Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-03-26T08:13:50.746Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2024-03-26T08:13:50.746Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2024-03-26T08:13:50.798Z] >>> [apiv2][query] POST https://firebaseappdistribution.googleapis.com/upload/v1/projects/461892192994/apps/1:461892192994:android:f142e7cd9637904bcc6cbb/releases:upload [none]
+[debug] [2024-03-26T08:13:50.798Z] >>> [apiv2][body] POST https://firebaseappdistribution.googleapis.com/upload/v1/projects/461892192994/apps/1:461892192994:android:f142e7cd9637904bcc6cbb/releases:upload [stream]
+[debug] [2024-03-26T08:13:50.970Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2024-03-26T08:13:50.970Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}

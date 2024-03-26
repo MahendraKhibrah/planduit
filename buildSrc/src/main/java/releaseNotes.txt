@@ -1,8 +1,7 @@
 Release Note :
     NEW
-    1. API Integration : Investment Page
-    2. API Integration : Risk Profile Page
-    3. API Integration : Budgeting Page
-
-    IMRPOVEMENT
-    1. Justify description of Bottom Sheet
+    1. UI Sliced : Zakat Income
+    2. UI Sliced : Zakat Gold
+    3. API Integration : Zakat Income
+    4. API Integration : Zakat Gold
+    5. Add Network chucker : Display on Notification
