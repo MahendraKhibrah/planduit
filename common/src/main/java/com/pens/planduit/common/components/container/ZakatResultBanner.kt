@@ -21,21 +21,24 @@ import com.pens.planduit.common.utils.Utils
 @Composable
 fun ZakatResultBanner(
     isLoading: Boolean = false,
-    isSuccess : Boolean? = false,
-){
+    isSuccess: Boolean? = false,
+) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
-    GradientContainer(gradientColors = listOf(if (isSuccess != false) PaleBlue else RedPrimary), cornerRadius = 19) {
-        Column(
-            modifier = Modifier
-                .width(screenWidth)
-                .height(65.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+    if (isLoading) {
+        ShimmerBox(width = screenWidth, height = 65.dp)
+    } else {
+        GradientContainer(
+            gradientColors = listOf(if (isSuccess != false) PaleBlue else RedPrimary),
+            cornerRadius = 19
         ) {
-            if (isLoading) {
-                ShimmerBox(width = Utils.getTextWidth(14f, 27), height = Utils.getTextHeight(14f))
-            } else {
+            Column(
+                modifier = Modifier
+                    .width(screenWidth)
+                    .height(65.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier.width(screenWidth.times(0.8f))
@@ -46,6 +49,7 @@ fun ZakatResultBanner(
                         textAlign = TextAlign.Center
                     )
                 }
+
             }
         }
     }

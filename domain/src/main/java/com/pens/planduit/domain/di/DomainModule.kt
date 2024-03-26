@@ -41,7 +41,6 @@ class DomainModule {
     fun provideGetQuestionProfileRiskUseSase(repository: GeneralCalculationRepository): GetQuestionProfileRiskUsecase = GetQuestionProfileRiskUsecase(repository)
 
     @Provides
-    @Singleton
     fun provideGetGoldPriceUseSase(repository: ZakatRepository): GetGoldPriceUsecase = GetGoldPriceUsecase(repository)
 
     @Provides

@@ -23,6 +23,7 @@ import com.pens.planduit.presentation.features.main.view.HomePage
 import com.pens.planduit.presentation.features.main.view.SplashPage
 import com.pens.planduit.presentation.features.riskProfile.view.RiskProfilePage
 import com.pens.planduit.presentation.features.riskProfile.view.RiskProfileResultPage
+import com.pens.planduit.presentation.features.zakatGold.view.ZakatGoldPage
 import com.pens.planduit.presentation.features.zakatIncome.view.ZakatIncomePage
 import com.pens.planduit.presentation.features.zakatIncome.view.ZakatIncomeResultPage
 
@@ -76,5 +77,6 @@ fun AppNavHost(
             val goldPrice = Utils.addCommasEveryThreeChars(it.arguments?.getString("goldPrice") ?: "0")
             ZakatIncomeResultPage(navController = navController, request = request, goldPrice = goldPrice)
         }
+        composable(AppRoute.ZakatGold.route){ ZakatGoldPage(navController = navController)}
     }
 }

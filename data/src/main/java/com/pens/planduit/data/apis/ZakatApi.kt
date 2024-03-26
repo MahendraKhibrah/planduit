@@ -4,6 +4,7 @@ import com.pens.planduit.common.dto.CommonDto
 import com.pens.planduit.domain.models.entity.GoldPrice
 import com.pens.planduit.domain.models.entity.InvestmentResult
 import com.pens.planduit.domain.models.entity.ZakatResult
+import com.pens.planduit.domain.models.request.GoldZakatRequest
 import com.pens.planduit.domain.models.request.IncomeZakatRequest
 import com.pens.planduit.domain.models.request.InvestmentRequest
 import retrofit2.Response
@@ -12,8 +13,9 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface ZakatApi {
-    @POST("ZakatRepositoryImpl")
+    @POST("calculator/zakat-emas")
     suspend fun getGoldZakatCalculation(
+        @Body request : GoldZakatRequest
     ): Response<CommonDto<ZakatResult>>
 
     @POST("calculator/zakat-penghasilan")

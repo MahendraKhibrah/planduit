@@ -29,3 +29,10 @@ val IncomeBottomSheet = BottomSheetData(
             "Zakat penghasilan adalah zakat yang dikeluarkan dari penghasilan yang diperoleh setelah dipotong semua kebutuhan pokok dan kebutuhan lainnya.",
     imageId = R.drawable.printing_money
 )
+
+val GoldBottomSheet = BottomSheetData(
+    title = "Apa itu kalkulator zakat emas?",
+    description = "Kalkulator zakat emas adalah alat yang dirancang untuk membantu menghitung jumlah zakat yang harus  dibayar berdasarkan jumlah emas yang dimiliki.\n" +
+            "Zakat emas adalah zakat yang dikeluarkan dari emas yang dimiliki setelah mencapai nisab dan haul.",
+    imageId = R.drawable.gold
+)
