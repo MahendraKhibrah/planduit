@@ -168,7 +168,7 @@ fun InvestmentInstrument(
             Spacer(modifier = Modifier.height(8.dp))
             Row {
                 Canvas(modifier = Modifier.size(20.dp)) {
-                    drawCircle(color = Color.Black, radius = 12f)
+                    drawCircle(color = Color.Black, radius = 4f)
                 }
                 Spacer(modifier = Modifier.width(8.dp))
                 ShimmerBox(width = 100.dp, height = 20.dp)
@@ -179,7 +179,7 @@ fun InvestmentInstrument(
             Spacer(modifier = Modifier.height(8.dp))
             Row {
                 Canvas(modifier = Modifier.size(20.dp)) {
-                    drawCircle(color = Color.Black, radius = 12f)
+                    drawCircle(color = Color.Black, radius = 4f)
                 }
                 Spacer(modifier = Modifier.width(8.dp))
                 Text(it, style = MediumBlack.copy(fontSize = 14.sp))

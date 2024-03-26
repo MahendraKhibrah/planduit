@@ -22,3 +22,17 @@ val InvestmentBottomSheet = BottomSheetData(
     description = "Kalkulator investasi merupakan alat bantu yang digunakan untuk menghitung berbagai aspek investasi, seperti perkiraan nilai investasi di masa depan, pengembalian investasi, serta diikuti dengan rekomendasi. Dari hasil pengisian beberapa pertanyaan yang disediakan, investor dapat kemudian mengetahui hasil rencana investasinya apakah sudah tercapai atau belum, dan jika belum tercapai investor akan mendapat rekomendasi agar tetap bisa mencapai tujuan investasinya.",
     imageId = R.drawable.printing_money,
 )
+
+val IncomeBottomSheet = BottomSheetData(
+    title = "Apa itu kalkulator zakat penghasilan?",
+    description = "Kalkulator zakat penghasilan adalah alat yang dirancang untuk membantu menghitung jumlah zakat yang harus  dibayar berdasarkan pendapatan dan pengeluaran selama satu bulan.\n" +
+            "Zakat penghasilan adalah zakat yang dikeluarkan dari penghasilan yang diperoleh setelah dipotong semua kebutuhan pokok dan kebutuhan lainnya.",
+    imageId = R.drawable.printing_money
+)
+
+val GoldBottomSheet = BottomSheetData(
+    title = "Apa itu kalkulator zakat emas?",
+    description = "Kalkulator zakat emas adalah alat yang dirancang untuk membantu menghitung jumlah zakat yang harus  dibayar berdasarkan jumlah emas yang dimiliki.\n" +
+            "Zakat emas adalah zakat yang dikeluarkan dari emas yang dimiliki setelah mencapai nisab dan haul.",
+    imageId = R.drawable.gold
+)

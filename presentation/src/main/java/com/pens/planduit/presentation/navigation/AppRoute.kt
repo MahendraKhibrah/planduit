@@ -10,6 +10,9 @@ sealed class AppRoute(val route: String){
     object InvestmentResult: AppRoute("investment-result")
     object Budgeting: AppRoute("budgeting")
     object RiskProfileResult: AppRoute("risk-profile-result")
+    object ZakatIncome : AppRoute("zakat-income")
+    object ZakatIncomeResult : AppRoute("zakat-income-result")
+    object ZakatGold : AppRoute("zakat-gold")
 
     fun withArgs(vararg args: Any?): String{
         return buildString {

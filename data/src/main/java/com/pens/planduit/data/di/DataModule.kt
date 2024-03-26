@@ -1,14 +1,18 @@
 package com.pens.planduit.data.di
 
 import android.content.Context
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.gson.Gson
 import com.pens.planduit.data.apis.GeneralCalculationApi
 import com.pens.planduit.data.apis.TestingApi
+import com.pens.planduit.data.apis.ZakatApi
 import com.pens.planduit.data.repositories.GeneralCalculationRepositoryImpl
 import com.pens.planduit.data.repositories.TestingRepositoryImpl
+import com.pens.planduit.data.repositories.ZakatRepositoryImpl
 import com.pens.planduit.data.sharedPreferences.GeneralCalculationPref
 import com.pens.planduit.domain.repositories.GeneralCalculationRepository
 import com.pens.planduit.domain.repositories.TestingRepository
+import com.pens.planduit.domain.repositories.ZakatRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -42,11 +46,12 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun provideClient(): OkHttpClient {
+    fun provideClient(@ApplicationContext context: Context): OkHttpClient {
         val builder = OkHttpClient.Builder()
             .readTimeout(60L, TimeUnit.SECONDS)
             .connectTimeout(60L, TimeUnit.SECONDS)
             .writeTimeout(60L, TimeUnit.SECONDS)
+            .addInterceptor(ChuckerInterceptor(context))
 
         val logger = HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY }
         builder.addInterceptor(logger)
@@ -72,5 +77,13 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun provideBudgetRepository(api : GeneralCalculationApi, sharedPref : GeneralCalculationPref): GeneralCalculationRepository = GeneralCalculationRepositoryImpl(api,sharedPref)
+    fun provideGeneralCalculationRepository(api : GeneralCalculationApi, sharedPref : GeneralCalculationPref): GeneralCalculationRepository = GeneralCalculationRepositoryImpl(api,sharedPref)
+
+    @Singleton
+    @Provides
+    fun provideZakatApi(retrofit: Retrofit) : ZakatApi = retrofit.create(ZakatApi::class.java)
+
+    @Singleton
+    @Provides
+    fun provideZakatRepository(api : ZakatApi) : ZakatRepository = ZakatRepositoryImpl(api)
 }

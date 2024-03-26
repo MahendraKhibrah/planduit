@@ -77,7 +77,7 @@ fun CommonBottomSheet(
                     style = SmallBlack.copy(fontSize = 14.sp),
                     textAlign = TextAlign.Justify
                 )
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(64.dp))
             }
         }
     }

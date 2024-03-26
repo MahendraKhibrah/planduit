@@ -34,6 +34,7 @@ import com.pens.planduit.common.utils.Utils
 @Composable
 fun RpTextField(
     modifier: Modifier = Modifier,
+    hideLeading : Boolean = false,
     onValueChange: (String) -> Unit = {},
     onDone : (String) -> Unit = {},
     value: String = ""
@@ -59,7 +60,7 @@ fun RpTextField(
                     it.copy(text = formattedNumber, selection = TextRange(newPosition, newPosition))
             }
         },
-        prefix = { Text("Rp ", style = SmallBlack.copy(fontSize = 14.sp)) },
+        prefix = { if(!hideLeading) Text("Rp ", style = SmallBlack.copy(fontSize = 14.sp)) },
         modifier = modifier
             .width(screenWidth)
             .border(

@@ -148,9 +148,13 @@ fun HomePage(
             ) {
                 MenuItem(title = "Perdagangan", imageId = R.drawable.ic_trading)
                 Spacer(modifier = Modifier.weight(1f))
-                MenuItem(title = "Penghasilan", imageId = R.drawable.ic_income)
+                MenuItem(title = "Penghasilan", imageId = R.drawable.ic_income, onPressed = {
+                    navController.navigate(AppRoute.ZakatIncome.route)
+                })
                 Spacer(modifier = Modifier.weight(1f))
-                MenuItem(title = "Emas dan Perak", imageId = R.drawable.ic_gold)
+                MenuItem(title = "Emas dan Perak", imageId = R.drawable.ic_gold, onPressed = {
+                    navController.navigate(AppRoute.ZakatGold.route)
+                } )
             }
             Spacer(modifier = Modifier.height(20.dp))
             Row(
