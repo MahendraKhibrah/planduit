@@ -17,7 +17,7 @@ import com.pens.planduit.common.theme.MediumBlack
 @Composable
 fun CommonOutlinedButton(
     onPressed : () -> Unit,
-    width : Int?,
+    width : Int? = null,
     title : String = "Ulangi Pertanyaan"
 ){
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp

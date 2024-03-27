@@ -36,3 +36,10 @@ val GoldBottomSheet = BottomSheetData(
             "Zakat emas adalah zakat yang dikeluarkan dari emas yang dimiliki setelah mencapai nisab dan haul.",
     imageId = R.drawable.gold
 )
+
+val AgricultureBottomSheet = BottomSheetData(
+    title = "Apa itu kalkulator zakat pertanian?",
+    description = "Kalkulator zakat pertanian adalah alat yang dirancang untuk membantu menghitung jumlah zakat yang harus  dibayar berdasarkan hasil panen pertanian.\n" +
+            "Zakat pertanian adalah zakat yang dikeluarkan dari hasil panen pertanian setelah mencapai nisab dan haul.",
+    imageId = R.drawable.money_palm
+)
