@@ -124,7 +124,7 @@ fun ZakatIncomeResultPage(
                 ResultSection(isLoading = state.value.isLoading, price = state.value.data.zakat)
             }
             Spacer(modifier = Modifier.height(64.dp))
-            ZakatResultBanner(isLoading = state.value.isLoading, isSuccess = state.value.data.status)
+            ZakatResultBanner(isLoading = state.value.isLoading, isSuccess = state.value.data.status, title = "penghasilan")
             Spacer(modifier = Modifier.height(32.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),

@@ -117,7 +117,7 @@ fun ZakatAgricultureResultPage(
                 ResultSection(isLoading = state.value.isLoading, price = state.value.data.zakat)
             }
             Spacer(modifier = Modifier.height(100.dp))
-            ZakatResultBanner(isLoading = state.value.isLoading, isSuccess = state.value.data.status)
+            ZakatResultBanner(isLoading = state.value.isLoading, isSuccess = state.value.data.status, title = "Pertanian")
             Spacer(modifier = Modifier.height(24.dp))
             CommonOutlinedButton(onPressed = {
                 navController.popBackStack()

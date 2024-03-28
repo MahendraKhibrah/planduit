@@ -154,7 +154,7 @@ fun ZakatGoldPage(
             }
             Spacer(modifier = Modifier.height(100.dp))
 
-            if(resultState.value.zakatRequest!= 0) ZakatResultBanner(isLoading = resultState.value.isLoading, isSuccess = resultState.value.data.status)
+            if(resultState.value.zakatRequest!= 0) ZakatResultBanner(isLoading = resultState.value.isLoading, isSuccess = resultState.value.data.status, title = "emas")
         }
     }
 }
