@@ -152,7 +152,7 @@ fun HomePage(
                     navController.navigate(AppRoute.ZakatIncome.route)
                 })
                 Spacer(modifier = Modifier.weight(1f))
-                MenuItem(title = "Emas dan Perak", imageId = R.drawable.ic_gold, onPressed = {
+                MenuItem(title = "Emas", imageId = R.drawable.ic_gold, onPressed = {
                     navController.navigate(AppRoute.ZakatGold.route)
                 } )
             }
