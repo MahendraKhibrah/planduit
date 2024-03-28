@@ -3,7 +3,9 @@ package com.pens.planduit.data.apis
 import com.pens.planduit.common.dto.CommonDto
 import com.pens.planduit.domain.models.entity.GoldPrice
 import com.pens.planduit.domain.models.entity.InvestmentResult
+import com.pens.planduit.domain.models.entity.RicePrice
 import com.pens.planduit.domain.models.entity.ZakatResult
+import com.pens.planduit.domain.models.request.AgricultureZakatRequest
 import com.pens.planduit.domain.models.request.GoldZakatRequest
 import com.pens.planduit.domain.models.request.IncomeZakatRequest
 import com.pens.planduit.domain.models.request.InvestmentRequest
@@ -30,4 +32,13 @@ interface ZakatApi {
     @GET("info/gold-price")
     suspend fun getGoldPrice(
     ): Response<CommonDto<GoldPrice>>
+
+    @GET("info/grain-price")
+    suspend fun getRicePrice(
+    ) : Response<CommonDto<RicePrice>>
+
+    @POST("calculator/zakat-pertanian")
+    suspend fun getAgricultureZakat(
+        @Body request: AgricultureZakatRequest
+    ) : Response<CommonDto<ZakatResult>>
 }

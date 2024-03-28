@@ -2,7 +2,9 @@ package com.pens.planduit.domain.repositories
 
 import com.pens.planduit.common.utils.Resource
 import com.pens.planduit.domain.models.entity.GoldPrice
+import com.pens.planduit.domain.models.entity.RicePrice
 import com.pens.planduit.domain.models.entity.ZakatResult
+import com.pens.planduit.domain.models.request.AgricultureZakatRequest
 import com.pens.planduit.domain.models.request.GoldZakatRequest
 import com.pens.planduit.domain.models.request.IncomeZakatRequest
 
@@ -11,4 +13,7 @@ interface ZakatRepository {
     suspend fun getGoldZakatCalculation(request : GoldZakatRequest): Resource<ZakatResult>
     suspend fun getSavingZakatCalculation(): Resource<ZakatResult>
     suspend fun getGoldPrice(): Resource<GoldPrice>
+    suspend fun getRicePrice():Resource<RicePrice>
+
+    suspend fun getAgricultureZakat(request: AgricultureZakatRequest) : Resource<ZakatResult>
 }

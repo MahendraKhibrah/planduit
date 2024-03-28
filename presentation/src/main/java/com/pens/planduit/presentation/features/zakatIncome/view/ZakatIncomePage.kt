@@ -146,7 +146,7 @@ fun ZakatIncomePage(
 }
 
 @Composable
-fun Banner(
+private fun Banner(
     state: GoldPriceState
 ) {
     GradientContainer(
@@ -248,7 +248,7 @@ fun CommonSection(
 }
 
 @Composable
-fun SubmitButton(
+private fun SubmitButton(
     isActive: Boolean = false,
     onPressed: () -> Unit = {}
 ) {

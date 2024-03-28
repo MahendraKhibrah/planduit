@@ -3,11 +3,13 @@ package com.pens.planduit.domain.di
 import com.pens.planduit.domain.repositories.GeneralCalculationRepository
 import com.pens.planduit.domain.repositories.TestingRepository
 import com.pens.planduit.domain.repositories.ZakatRepository
+import com.pens.planduit.domain.usecases.GetAgricultureZakatUsecase
 import com.pens.planduit.domain.usecases.GetBudgetCalculationUsecase
 import com.pens.planduit.domain.usecases.GetGoldPriceUsecase
 import com.pens.planduit.domain.usecases.GetIncomeZakatCalculationUsecase
 import com.pens.planduit.domain.usecases.GetInvestmentRequestUsecase
 import com.pens.planduit.domain.usecases.GetQuestionProfileRiskUsecase
+import com.pens.planduit.domain.usecases.GetRicePriceUsecase
 import com.pens.planduit.domain.usecases.SaveInvestmentRequestUsecase
 import com.pens.planduit.domain.usecases.TestingUsecase
 import dagger.Module
@@ -46,4 +48,12 @@ class DomainModule {
     @Provides
     @Singleton
     fun provideIncomeZakatCalculationUseSase(repository: ZakatRepository): GetIncomeZakatCalculationUsecase = GetIncomeZakatCalculationUsecase(repository)
+
+    @Provides
+    @Singleton
+    fun provideGetRicePriceUseSase(repository: ZakatRepository): GetRicePriceUsecase = GetRicePriceUsecase(repository)
+
+    @Provides
+    @Singleton
+    fun provideGetAgricultureZakatUsecase(repository: ZakatRepository) : GetAgricultureZakatUsecase = GetAgricultureZakatUsecase(repository)
 }

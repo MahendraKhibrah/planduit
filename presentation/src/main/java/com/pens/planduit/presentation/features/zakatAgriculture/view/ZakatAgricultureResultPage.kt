@@ -1,9 +1,8 @@
-package com.pens.planduit.presentation.features.zakatGold.view
+package com.pens.planduit.presentation.features.zakatAgriculture.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -31,53 +30,48 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.pens.planduit.common.R
+import com.pens.planduit.common.components.button.CommonOutlinedButton
 import com.pens.planduit.common.components.container.CommonBottomSheet
 import com.pens.planduit.common.components.container.GradientContainer
 import com.pens.planduit.common.components.container.PlanDuitScaffold
 import com.pens.planduit.common.components.container.ShimmerBox
 import com.pens.planduit.common.components.container.ZakatResultBanner
-import com.pens.planduit.common.components.textField.RpTextField
-import com.pens.planduit.common.theme.DarkGrey
-import com.pens.planduit.common.theme.GoldBottomSheet
-import com.pens.planduit.common.theme.GreenPrimary
-import com.pens.planduit.common.theme.HalfGrey
+import com.pens.planduit.common.theme.AgricultureBottomSheet
 import com.pens.planduit.common.theme.LeadingGreen
-import com.pens.planduit.common.theme.MediumBlack
-import com.pens.planduit.common.theme.MediumWhite
 import com.pens.planduit.common.theme.PaleBlue
 import com.pens.planduit.common.theme.SmallBlack
 import com.pens.planduit.common.utils.Utils
-import com.pens.planduit.presentation.features.zakatGold.viewModel.ZGoldViewModel
+import com.pens.planduit.presentation.features.zakatAgriculture.viewModel.ZAgricultureResultViewModel
+import com.pens.planduit.presentation.features.zakatAgriculture.viewModel.ZAgricultureViewModel
 import com.pens.planduit.presentation.features.zakatIncome.state.GoldPriceState
 import com.pens.planduit.presentation.features.zakatIncome.view.CommonPrice
 import com.pens.planduit.presentation.features.zakatIncome.view.ResultSection
+import com.pens.planduit.presentation.navigation.AppRoute
 
 @Composable
-fun ZakatGoldPage(
-    navController: NavController,
-    viewModel: ZGoldViewModel = hiltViewModel<ZGoldViewModel>()
+fun ZakatAgricultureResultPage(
+    navController : NavController,
+    request : String,
+    viewModel: ZAgricultureResultViewModel = hiltViewModel<ZAgricultureResultViewModel>()
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }
-    val textValue = viewModel.textFieldValue.collectAsStateWithLifecycle()
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
     val state = viewModel.state.collectAsStateWithLifecycle()
-    val resultState = viewModel.resultState.collectAsStateWithLifecycle()
 
     LaunchedEffect(true) {
-        viewModel.getGoldPrice()
+        viewModel.getAgricultureZakat(request)
     }
 
     PlanDuitScaffold(
-        title = "Kalkulator Zakat Emas",
+        title = "Kalkulator Zakat Pertanian",
         onBackPressed = {
             navController.popBackStack()
         },
         bottomSheet = {
             CommonBottomSheet(
-                data = GoldBottomSheet,
+                data = AgricultureBottomSheet,
                 isOpen = showBottomSheet,
                 onDismiss = {
                     showBottomSheet = false
@@ -105,56 +99,31 @@ fun ZakatGoldPage(
     ) {
         Column {
             Spacer(modifier = Modifier.size(20.dp))
-            Banner(state = state.value)
+            Banner(state = GoldPriceState())
             Spacer(modifier = Modifier.size(32.dp))
-            Text(
-                text = "jumlah emas (per gram)",
-                style = MediumBlack.copy(fontSize = 12.sp)
-            )
-            Spacer(modifier = Modifier.size(16.dp))
-            Row {
-                RpTextField(
-                    onValueChange = {
-                        viewModel.textFieldValue.value = it
-                    },
-                    hideLeading = true,
-                    modifier = Modifier.width(screenWidth.times(0.62f))
-                )
-                Spacer(modifier = Modifier.weight(1f))
-                GradientContainer(
-                    gradientColors = listOf(if (textValue.value.isNotEmpty() && !state.value.isLoading) GreenPrimary else HalfGrey),
-                    modifier = Modifier.size(screenWidth.times(0.23f), 55.dp),
-                    cornerRadius = 12,
-                    onPressed = {
-                        viewModel.getGoldZakatCalculation()
-                    }
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier
-                            .fillMaxSize()
-                    ) {
-                        Text(
-                            text = "Hitung",
-                            style = MediumWhite.copy(color = if (textValue.value.isNotEmpty() && !state.value.isLoading) Color.White else DarkGrey)
-                        )
-                    }
-                }
-            }
-            if (resultState.value.zakatRequest != 0){
+            Text(text = "HASIL PERTANIAN KAMU", style = SmallBlack.copy(fontSize = 14.sp))
+            Spacer(modifier = Modifier.height(8.dp))
+            CommonPrice(price = 0, isLoading = state.value.isLoading, customTitle = "${viewModel.getTotalHarvest(request)} Kilogram")
+            Spacer(modifier = Modifier.height(24.dp))
+            Text(text = "JENIS PERAIRAN KAMU", style = SmallBlack.copy(fontSize = 14.sp))
+            Spacer(modifier = Modifier.height(8.dp))
+            CommonPrice(price = 0, isLoading = state.value.isLoading, customTitle = viewModel.getWateredValue(request))
+            Spacer(modifier = Modifier.height(24.dp))
+            Text(text = "HARGA BERAS DI DAERAH KAMU", style = SmallBlack.copy(fontSize = 14.sp))
+            Spacer(modifier = Modifier.height(8.dp))
+            CommonPrice(price = viewModel.getRequestModel(request).grainPrice, isLoading = state.value.isLoading)
+            if(!state.value.data.status){
                 Spacer(modifier = Modifier.height(24.dp))
-                Text(text = "JUMLAH EMAS YANG KAMU MILIKI", style = SmallBlack.copy(fontSize = 14.sp))
-                Spacer(modifier = Modifier.height(8.dp))
-                CommonPrice(price = resultState.value.zakatRequest, isLoading = resultState.value.isLoading, customTitle = "${resultState.value.zakatRequest} gram")
-                if (resultState.value.data.status) {
-                    Spacer(modifier = Modifier.height(24.dp))
-                    ResultSection(isLoading = resultState.value.isLoading, price = state.value.data.price)
-                }
+                ResultSection(isLoading = state.value.isLoading, price = state.value.data.zakat)
             }
             Spacer(modifier = Modifier.height(100.dp))
-
-            if(resultState.value.zakatRequest!= 0) ZakatResultBanner(isLoading = resultState.value.isLoading, isSuccess = resultState.value.data.status)
+            ZakatResultBanner(isLoading = state.value.isLoading, isSuccess = state.value.data.status)
+            Spacer(modifier = Modifier.height(24.dp))
+            CommonOutlinedButton(onPressed = {
+                navController.popBackStack()
+                navController.popBackStack()
+                navController.navigate(AppRoute.ZakatAgriculture.route)
+            }, title = "Ulangi Pertanyaan")
         }
     }
 }
@@ -185,7 +154,7 @@ private fun Banner(
                     .padding(vertical = 24.dp)
             ) {
                 Text(
-                    "Harga Emas Hari ini",
+                    "Harga Beras Hari ini",
                     style = SmallBlack.copy(fontSize = 15.sp, color = Color(0xFF606060))
                 )
                 if (state.isLoading) {
@@ -196,11 +165,10 @@ private fun Banner(
                         style = LeadingGreen.copy(fontSize = 25.sp)
                     )
                 }
-
             }
             Spacer(modifier = Modifier.weight(1f))
             Image(
-                painter = painterResource(id = R.drawable.gold_price),
+                painter = painterResource(id = R.drawable.money_palm),
                 contentDescription = null,
                 modifier = Modifier.sizeIn(minWidth = 80.dp, minHeight = 80.dp)
             )
