@@ -33,6 +33,9 @@ object Utils {
     }
 
     fun removeCommas(input: String): String {
+        if (input == ""){
+            return "0"
+        }
         return input.replace(",", "")
     }
 

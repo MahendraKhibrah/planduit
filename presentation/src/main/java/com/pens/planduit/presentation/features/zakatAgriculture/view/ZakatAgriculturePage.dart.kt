@@ -17,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -28,6 +29,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.pens.planduit.common.R
 import com.pens.planduit.common.components.container.CommonBottomSheet
@@ -47,17 +50,23 @@ import com.pens.planduit.common.theme.MediumWhite
 import com.pens.planduit.common.theme.PaleBlue
 import com.pens.planduit.common.theme.SmallBlack
 import com.pens.planduit.common.utils.Utils
+import com.pens.planduit.presentation.features.zakatAgriculture.state.RicePriceState
+import com.pens.planduit.presentation.features.zakatAgriculture.viewModel.ZAgricultureViewModel
 import com.pens.planduit.presentation.features.zakatIncome.state.GoldPriceState
+import com.pens.planduit.presentation.navigation.AppRoute
 
-@Preview(showBackground = true)
 @Composable
 fun ZakatAgriculturePage(
-    navController : NavController
+    navController: NavController,
+    viewModel: ZAgricultureViewModel = hiltViewModel<ZAgricultureViewModel>()
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }
-    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+
+    val state = viewModel.state.collectAsStateWithLifecycle()
+    val fieldValueState = viewModel.fieldValueState.collectAsStateWithLifecycle()
 
     LaunchedEffect(true) {
+        viewModel.getRicePrice()
     }
 
     PlanDuitScaffold(
@@ -95,48 +104,62 @@ fun ZakatAgriculturePage(
     ) {
         Column {
             Spacer(modifier = Modifier.size(20.dp))
-            Banner(state = GoldPriceState())
+            Banner(state = state.value)
             Spacer(modifier = Modifier.size(32.dp))
             Text(
                 text = "Berapa hasil pertanian kamu saat panen (dalam kilogram)",
                 style = MediumBlack.copy(fontSize = 12.sp)
             )
             Spacer(modifier = Modifier.size(8.dp))
-            RpTextField(hideLeading = true)
-            Spacer(modifier = Modifier.size(32.dp))
-            Text(
-                text = "Apa jenis pengairan yang kamu gunakan?",
-                style = MediumBlack.copy(fontSize = 12.sp)
-            )
-            Spacer(modifier = Modifier.size(18.dp))
-            CheckBoxList(
-               items = listOf<String>(
-                   "Menggunakan hujan / mata air",
-                   "Menggunakan irigasi"
-               )
-            )
-            Spacer(modifier = Modifier.size(12.dp))
-            Text(
-                text = "Berapa harga beras di daerah kamu",
-                style = MediumBlack.copy(fontSize = 12.sp)
-            )
-            Spacer(modifier = Modifier.size(8.dp))
-            RpTextField()
-            Spacer(modifier = Modifier.size(8.dp))
-            Text(
-                text = "*jika tidak diisi akan menggunakan harga rata-rata beras di Indonesia \n" +
-                        "(data diambil dari badanpangan.go.id)",
-                style = BalanceBlack.copy(fontSize = 11.sp, color = GreenPrimary)
-            )
+            RpTextField(hideLeading = true, onDone = {
+                viewModel.changeFieldValue(0, it)
+            }, value = fieldValueState.value[0])
+            if (viewModel.isShowField(1)) {
+                Spacer(modifier = Modifier.size(32.dp))
+                Text(
+                    text = "Apa jenis pengairan yang kamu gunakan?",
+                    style = MediumBlack.copy(fontSize = 12.sp)
+                )
+                Spacer(modifier = Modifier.size(18.dp))
+                CheckBoxList(
+                    items = listOf<String>(
+                        "Menggunakan hujan / mata air",
+                        "Menggunakan irigasi"
+                    ),
+                    onChanged = {
+                        viewModel.changeFieldValue(1, it.toString())
+                    },
+                    initialSelected = fieldValueState.value[1].toInt()
+                )
+            }
+            if (viewModel.isShowField(2)) {
+                Spacer(modifier = Modifier.size(12.dp))
+                Text(
+                    text = "Berapa harga beras di daerah kamu",
+                    style = MediumBlack.copy(fontSize = 12.sp)
+                )
+                Spacer(modifier = Modifier.size(8.dp))
+                RpTextField(onDone = {
+                    viewModel.changeFieldValue(2, it)
+                }, value = fieldValueState.value[2])
+                Spacer(modifier = Modifier.size(8.dp))
+                Text(
+                    text = "*jika tidak diisi akan menggunakan harga rata-rata beras di Indonesia \n" +
+                            "(data diambil dari badanpangan.go.id)",
+                    style = BalanceBlack.copy(fontSize = 11.sp, color = GreenPrimary)
+                )
+            }
             Spacer(modifier = Modifier.size(64.dp))
-            SubmitButton()
+            SubmitButton(isActive = viewModel.isShowField(3)) {
+                navController.navigate(AppRoute.ZakatAgricultureResult.withArgs(viewModel.getRequestString()))
+            }
         }
     }
 }
 
 @Composable
 private fun Banner(
-    state: GoldPriceState
+    state: RicePriceState
 ) {
     GradientContainer(
         gradientColors = listOf(PaleBlue, PaleBlue.copy(alpha = 0.8f)),

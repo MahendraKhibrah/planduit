@@ -4,7 +4,9 @@ import android.util.Log
 import com.pens.planduit.common.utils.Resource
 import com.pens.planduit.data.apis.ZakatApi
 import com.pens.planduit.domain.models.entity.GoldPrice
+import com.pens.planduit.domain.models.entity.RicePrice
 import com.pens.planduit.domain.models.entity.ZakatResult
+import com.pens.planduit.domain.models.request.AgricultureZakatRequest
 import com.pens.planduit.domain.models.request.GoldZakatRequest
 import com.pens.planduit.domain.models.request.IncomeZakatRequest
 import com.pens.planduit.domain.repositories.ZakatRepository
@@ -74,4 +76,40 @@ class ZakatRepositoryImpl @Inject constructor(
             return Resource.Error(e.message ?: "An error occurred")
         }
     }
+
+    override suspend fun getRicePrice(): Resource<RicePrice> {
+        try {
+            val response = api.getRicePrice()
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    return Resource.Success(
+                        RicePrice(
+                            it.data?.price ?: 0
+                        )
+                    )
+                }
+            }
+            return Resource.Error(response.message())
+        } catch (e: Exception) {
+            return Resource.Error(e.message ?: "An error occurred")
+        }
+    }
+
+    override suspend fun getAgricultureZakat(request: AgricultureZakatRequest): Resource<ZakatResult> {
+        try {
+            val response = api.getAgricultureZakat(request)
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    return Resource.Success(
+                        ZakatResult(status = false, zakat = 0)
+                    )
+                }
+            }
+            return Resource.Error(response.message())
+        } catch (e: Exception) {
+            return Resource.Error(e.message ?: "An error occurred")
+        }
+    }
+
+
 }

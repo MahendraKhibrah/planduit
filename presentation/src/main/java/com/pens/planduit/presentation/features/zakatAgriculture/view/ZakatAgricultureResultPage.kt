@@ -27,6 +27,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.pens.planduit.common.R
 import com.pens.planduit.common.components.button.CommonOutlinedButton
@@ -40,6 +42,8 @@ import com.pens.planduit.common.theme.LeadingGreen
 import com.pens.planduit.common.theme.PaleBlue
 import com.pens.planduit.common.theme.SmallBlack
 import com.pens.planduit.common.utils.Utils
+import com.pens.planduit.presentation.features.zakatAgriculture.viewModel.ZAgricultureResultViewModel
+import com.pens.planduit.presentation.features.zakatAgriculture.viewModel.ZAgricultureViewModel
 import com.pens.planduit.presentation.features.zakatIncome.state.GoldPriceState
 import com.pens.planduit.presentation.features.zakatIncome.view.CommonPrice
 import com.pens.planduit.presentation.features.zakatIncome.view.ResultSection
@@ -47,12 +51,17 @@ import com.pens.planduit.presentation.navigation.AppRoute
 
 @Composable
 fun ZakatAgricultureResultPage(
-    navController : NavController
+    navController : NavController,
+    request : String,
+    viewModel: ZAgricultureResultViewModel = hiltViewModel<ZAgricultureResultViewModel>()
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
+    val state = viewModel.state.collectAsStateWithLifecycle()
+
     LaunchedEffect(true) {
+        viewModel.getAgricultureZakat(request)
     }
 
     PlanDuitScaffold(
@@ -92,13 +101,23 @@ fun ZakatAgricultureResultPage(
             Spacer(modifier = Modifier.size(20.dp))
             Banner(state = GoldPriceState())
             Spacer(modifier = Modifier.size(32.dp))
-            Text(text = "PENDAPATANMU PER BULAN", style = SmallBlack.copy(fontSize = 14.sp))
+            Text(text = "HASIL PERTANIAN KAMU", style = SmallBlack.copy(fontSize = 14.sp))
             Spacer(modifier = Modifier.height(8.dp))
-            CommonPrice(price = 10000, isLoading = false)
+            CommonPrice(price = 0, isLoading = state.value.isLoading, customTitle = "${viewModel.getTotalHarvest(request)} Kilogram")
             Spacer(modifier = Modifier.height(24.dp))
-            ResultSection(isLoading = false, price = 10000)
+            Text(text = "JENIS PERAIRAN KAMU", style = SmallBlack.copy(fontSize = 14.sp))
+            Spacer(modifier = Modifier.height(8.dp))
+            CommonPrice(price = 0, isLoading = state.value.isLoading, customTitle = viewModel.getWateredValue(request))
+            Spacer(modifier = Modifier.height(24.dp))
+            Text(text = "HARGA BERAS DI DAERAH KAMU", style = SmallBlack.copy(fontSize = 14.sp))
+            Spacer(modifier = Modifier.height(8.dp))
+            CommonPrice(price = viewModel.getRequestModel(request).grainPrice, isLoading = state.value.isLoading)
+            if(!state.value.data.status){
+                Spacer(modifier = Modifier.height(24.dp))
+                ResultSection(isLoading = state.value.isLoading, price = state.value.data.zakat)
+            }
             Spacer(modifier = Modifier.height(100.dp))
-            ZakatResultBanner(isLoading = false, isSuccess = true)
+            ZakatResultBanner(isLoading = state.value.isLoading, isSuccess = state.value.data.status)
             Spacer(modifier = Modifier.height(24.dp))
             CommonOutlinedButton(onPressed = {
                 navController.popBackStack()
