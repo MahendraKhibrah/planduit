@@ -25,7 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -37,11 +36,8 @@ import com.pens.planduit.common.components.container.CommonBottomSheet
 import com.pens.planduit.common.components.container.GradientContainer
 import com.pens.planduit.common.components.container.PlanDuitScaffold
 import com.pens.planduit.common.components.container.ShimmerBox
-import com.pens.planduit.common.components.option.CheckBoxList
 import com.pens.planduit.common.components.textField.RpTextField
 import com.pens.planduit.common.components.textField.ShortTextField
-import com.pens.planduit.common.theme.AgricultureBottomSheet
-import com.pens.planduit.common.theme.BalanceBlack
 import com.pens.planduit.common.theme.DarkGrey
 import com.pens.planduit.common.theme.GreenPrimary
 import com.pens.planduit.common.theme.HalfGrey
@@ -52,28 +48,28 @@ import com.pens.planduit.common.theme.PaleBlue
 import com.pens.planduit.common.theme.SavingsBottomSheet
 import com.pens.planduit.common.theme.SmallBlack
 import com.pens.planduit.common.utils.Utils
-import com.pens.planduit.domain.models.entity.GoldPrice
-import com.pens.planduit.presentation.features.zakatAgriculture.state.RicePriceState
-import com.pens.planduit.presentation.features.zakatAgriculture.viewModel.ZAgricultureViewModel
 import com.pens.planduit.presentation.features.zakatIncome.state.GoldPriceState
+import com.pens.planduit.presentation.features.zakatSavings.viewModel.ZakatSavingViewModel
 import com.pens.planduit.presentation.navigation.AppRoute
 
 
-@Preview(showBackground = true)
 @Composable
 fun ZakatSavingsPage(
+    navController: NavController,
+    viewModel: ZakatSavingViewModel = hiltViewModel<ZakatSavingViewModel>()
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }
+    val state = viewModel.state.collectAsStateWithLifecycle()
+    val fieldValueState = viewModel.fieldValueState.collectAsStateWithLifecycle()
 
-
-//    LaunchedEffect(true) {
-//        viewModel.getRicePrice()
-//    }
+    LaunchedEffect(true) {
+        viewModel.getGoldPrice()
+    }
 
     PlanDuitScaffold(
         title = "Kalkulator Zakat Tabungan",
         onBackPressed = {
-//            navController.popBackStack()
+            navController.popBackStack()
         },
         bottomSheet = {
             CommonBottomSheet(
@@ -105,7 +101,12 @@ fun ZakatSavingsPage(
     ) {
         Column {
             Spacer(modifier = Modifier.size(20.dp))
-            Banner(state = GoldPriceState(data = GoldPrice(0), isLoading = false))
+            Banner(
+                state = GoldPriceState(
+                    data = state.value.data,
+                    isLoading = state.value.isLoading
+                )
+            )
             Spacer(modifier = Modifier.size(32.dp))
             Text(
                 text = "Berapa tabungan kamu sekarang",
@@ -113,20 +114,29 @@ fun ZakatSavingsPage(
             )
             Spacer(modifier = Modifier.size(8.dp))
             RpTextField(hideLeading = true, onDone = {
-            })
-            Spacer(modifier = Modifier.size(32.dp))
-            OptionSection(selectedCheckbox = 1){}
-            Text(
-                text = "Berapa bunga yang kamu dapatkan dari menabung di bank ",
-                style = MediumBlack.copy(fontSize = 12.sp)
-            )
-            Spacer(modifier = Modifier.size(8.dp))
-            ShortTextField(trailingWidget = {
-                Text(text = "%", style = SmallBlack.copy(fontSize = 24.sp))
-            }, onDone = {
-            })
+                viewModel.changeFieldValue(0, it)
+            }, value = fieldValueState.value[0])
+            if (viewModel.isShowField(1)) {
+                Spacer(modifier = Modifier.size(32.dp))
+                OptionSection(selectedCheckbox = fieldValueState.value[1].toInt()) {
+                    viewModel.changeFieldValue(1, it.toString())
+                }
+            }
+            if (viewModel.isShowField(2)) {
+                Text(
+                    text = "Berapa bunga yang kamu dapatkan dari menabung di bank ",
+                    style = MediumBlack.copy(fontSize = 12.sp)
+                )
+                Spacer(modifier = Modifier.size(8.dp))
+                ShortTextField(trailingWidget = {
+                    Text(text = "%", style = SmallBlack.copy(fontSize = 24.sp))
+                }, onDone = {
+                    viewModel.changeFieldValue(2, it)
+                }, value = fieldValueState.value[2])
+            }
             Spacer(modifier = Modifier.size(86.dp))
-            SubmitButton(isActive = true) {
+            SubmitButton(isActive = viewModel.isShowField(3)) {
+                navController.navigate(AppRoute.ZakatSavingResult.withArgs(viewModel.getRequestString(), state.value.data.price))
             }
         }
     }

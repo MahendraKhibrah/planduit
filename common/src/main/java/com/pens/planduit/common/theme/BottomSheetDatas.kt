@@ -48,5 +48,5 @@ val SavingsBottomSheet = BottomSheetData(
     title = "Apa itu kalkulator zakat Tabungan?",
     description = "Kalkulator zakat tabungan adalah alat yang dirancang untuk membantu menghitung jumlah zakat yang harus  dibayar berdasarkan jumlah tabungan yang dimiliki.\n" +
             "Zakat tabungan adalah zakat yang dikeluarkan dari tabungan yang dimiliki setelah mencapai nisab dan haul.",
-    imageId = R.drawable.money_jar
+    imageId = R.drawable.wallet
 )

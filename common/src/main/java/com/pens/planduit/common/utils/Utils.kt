@@ -10,10 +10,10 @@ import java.util.*
 object Utils {
     fun addCommasEveryThreeChars(input: String): String {
         if (input.length <= 3) {
-            return input // Jika panjang string kurang dari atau sama dengan 3, kembalikan input asli
+            return input
         }
 
-        val reversedInput = input.reversed() // Membalik string input
+        val reversedInput = input.reversed()
         val result = StringBuilder()
 
         for (i in reversedInput.indices step 3) {
@@ -33,9 +33,6 @@ object Utils {
     }
 
     fun removeCommas(input: String): String {
-        if (input == ""){
-            return "0"
-        }
         return input.replace(",", "")
     }
 

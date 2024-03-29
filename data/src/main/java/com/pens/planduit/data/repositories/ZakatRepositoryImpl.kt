@@ -9,6 +9,7 @@ import com.pens.planduit.domain.models.entity.ZakatResult
 import com.pens.planduit.domain.models.request.AgricultureZakatRequest
 import com.pens.planduit.domain.models.request.GoldZakatRequest
 import com.pens.planduit.domain.models.request.IncomeZakatRequest
+import com.pens.planduit.domain.models.request.SavingZakatRequest
 import com.pens.planduit.domain.repositories.ZakatRepository
 import javax.inject.Inject
 
@@ -55,8 +56,24 @@ class ZakatRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getSavingZakatCalculation(): Resource<ZakatResult> {
-        TODO("Not yet implemented")
+    override suspend fun getSavingZakatCalculation(request: SavingZakatRequest): Resource<ZakatResult> {
+        try {
+            val response = api.getSavingZakatCalculation(request)
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    return Resource.Success(
+                        ZakatResult(
+                            it.data?.status ?: true,
+                            it.data?.zakat ?: 0
+                        )
+                    )
+                }
+            }
+            return Resource.Error(response.message())
+        } catch (e: Exception) {
+            Log.d("ZakatRepositoryImpl", "getSavingZakatCalculation: ${e.message}")
+            return Resource.Error(e.message ?: "An error occurred")
+        }
     }
 
     override suspend fun getGoldPrice(): Resource<GoldPrice> {
