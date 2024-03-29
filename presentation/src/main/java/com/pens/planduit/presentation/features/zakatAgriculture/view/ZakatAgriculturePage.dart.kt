@@ -151,7 +151,7 @@ fun ZakatAgriculturePage(
             }
             Spacer(modifier = Modifier.size(64.dp))
             SubmitButton(isActive = viewModel.isShowField(3)) {
-                navController.navigate(AppRoute.ZakatAgricultureResult.withArgs(viewModel.getRequestString()))
+                navController.navigate(AppRoute.ZakatAgricultureResult.withArgs(viewModel.getRequestString(), state.value.data.price))
             }
         }
     }

@@ -51,12 +51,12 @@ import com.pens.planduit.presentation.navigation.AppRoute
 
 @Composable
 fun ZakatAgricultureResultPage(
-    navController : NavController,
-    request : String,
+    navController: NavController,
+    request: String,
+    ricePrice: Int,
     viewModel: ZAgricultureResultViewModel = hiltViewModel<ZAgricultureResultViewModel>()
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }
-    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
     val state = viewModel.state.collectAsStateWithLifecycle()
 
@@ -99,25 +99,40 @@ fun ZakatAgricultureResultPage(
     ) {
         Column {
             Spacer(modifier = Modifier.size(20.dp))
-            Banner(state = GoldPriceState())
+            Banner(price = ricePrice)
             Spacer(modifier = Modifier.size(32.dp))
             Text(text = "HASIL PERTANIAN KAMU", style = SmallBlack.copy(fontSize = 14.sp))
             Spacer(modifier = Modifier.height(8.dp))
-            CommonPrice(price = 0, isLoading = state.value.isLoading, customTitle = "${viewModel.getTotalHarvest(request)} Kilogram")
+            CommonPrice(
+                price = 0,
+                isLoading = state.value.isLoading,
+                customTitle = "${viewModel.getTotalHarvest(request)} Kilogram"
+            )
             Spacer(modifier = Modifier.height(24.dp))
             Text(text = "JENIS PERAIRAN KAMU", style = SmallBlack.copy(fontSize = 14.sp))
             Spacer(modifier = Modifier.height(8.dp))
-            CommonPrice(price = 0, isLoading = state.value.isLoading, customTitle = viewModel.getWateredValue(request))
+            CommonPrice(
+                price = 0,
+                isLoading = state.value.isLoading,
+                customTitle = viewModel.getWateredValue(request)
+            )
             Spacer(modifier = Modifier.height(24.dp))
             Text(text = "HARGA BERAS DI DAERAH KAMU", style = SmallBlack.copy(fontSize = 14.sp))
             Spacer(modifier = Modifier.height(8.dp))
-            CommonPrice(price = viewModel.getRequestModel(request).grainPrice, isLoading = state.value.isLoading)
-            if(!state.value.data.status){
+            CommonPrice(
+                price = viewModel.getRequestModel(request).grainPrice,
+                isLoading = state.value.isLoading
+            )
+            if (state.value.data.status) {
                 Spacer(modifier = Modifier.height(24.dp))
                 ResultSection(isLoading = state.value.isLoading, price = state.value.data.zakat)
             }
             Spacer(modifier = Modifier.height(100.dp))
-            ZakatResultBanner(isLoading = state.value.isLoading, isSuccess = state.value.data.status, title = "Pertanian")
+            ZakatResultBanner(
+                isLoading = state.value.isLoading,
+                isSuccess = state.value.data.status,
+                title = "Pertanian"
+            )
             Spacer(modifier = Modifier.height(24.dp))
             CommonOutlinedButton(onPressed = {
                 navController.popBackStack()
@@ -130,7 +145,7 @@ fun ZakatAgricultureResultPage(
 
 @Composable
 private fun Banner(
-    state: GoldPriceState
+    price: Int
 ) {
     GradientContainer(
         gradientColors = listOf(PaleBlue, PaleBlue.copy(alpha = 0.8f)),
@@ -139,8 +154,6 @@ private fun Banner(
     ) {
 
         val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-        val textWidth = Utils.getTextWidth(fontSize = 25f, textLength = 10)
-        val textHeight = Utils.getTextHeight(fontSize = 25f)
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -157,14 +170,10 @@ private fun Banner(
                     "Harga Beras Hari ini",
                     style = SmallBlack.copy(fontSize = 15.sp, color = Color(0xFF606060))
                 )
-                if (state.isLoading) {
-                    ShimmerBox(width = textWidth, height = textHeight)
-                } else {
-                    Text(
-                        "Rp. " + Utils.addCommasEveryThreeChars(state.data.price),
-                        style = LeadingGreen.copy(fontSize = 25.sp)
-                    )
-                }
+                Text(
+                    "Rp. " + Utils.addCommasEveryThreeChars(price),
+                    style = LeadingGreen.copy(fontSize = 25.sp)
+                )
             }
             Spacer(modifier = Modifier.weight(1f))
             Image(
