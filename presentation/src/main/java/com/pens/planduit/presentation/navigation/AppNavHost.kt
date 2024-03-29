@@ -82,14 +82,17 @@ fun AppNavHost(
         composable(AppRoute.ZakatGold.route){ ZakatGoldPage(navController = navController)}
         composable(AppRoute.ZakatAgriculture.route){ ZakatAgriculturePage(navController = navController) }
         composable(
-            route = AppRoute.ZakatAgricultureResult.route + "/{request}",
+            route = AppRoute.ZakatAgricultureResult.route + "/{request}/{ricePrice}",
             arguments = listOf(
                 navArgument("request"){
                     type = NavType.StringType
                 },
+                navArgument("ricePrice"){
+                    type = NavType.IntType
+                }
             )
         ){
-            ZakatAgricultureResultPage(navController = navController, request = it.arguments?.getString("request") ?: "")
+            ZakatAgricultureResultPage(navController = navController, request = it.arguments?.getString("request") ?: "", ricePrice = it.arguments?.getInt("ricePrice") ?: 0)
         }
     }
 }
