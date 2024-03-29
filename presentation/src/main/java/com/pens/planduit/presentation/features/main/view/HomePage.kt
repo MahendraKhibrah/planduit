@@ -152,7 +152,7 @@ fun HomePage(
                     navController.navigate(AppRoute.ZakatIncome.route)
                 })
                 Spacer(modifier = Modifier.weight(1f))
-                MenuItem(title = "Emas dan Perak", imageId = R.drawable.ic_gold, onPressed = {
+                MenuItem(title = "Emas", imageId = R.drawable.ic_gold, onPressed = {
                     navController.navigate(AppRoute.ZakatGold.route)
                 } )
             }
@@ -161,9 +161,13 @@ fun HomePage(
                 verticalAlignment = Alignment.Top,
                 modifier = Modifier.padding(horizontal = 8.dp)
             ) {
-                MenuItem(title = "Pertanian", imageId = R.drawable.ic_agriculture)
+                MenuItem(title = "Pertanian", imageId = R.drawable.ic_agriculture, onPressed = {
+                    navController.navigate(AppRoute.ZakatAgriculture.route)
+                })
                 Spacer(modifier = Modifier.weight(1f))
-                MenuItem(title = "Tabungan", imageId = R.drawable.ic_saving)
+                MenuItem(title = "Tabungan", imageId = R.drawable.ic_saving, onPressed = {
+                    navController.navigate(AppRoute.ZakatSaving.route)
+                })
                 Spacer(modifier = Modifier.weight(1f))
                 Box(modifier = Modifier.width(83.dp))
             }

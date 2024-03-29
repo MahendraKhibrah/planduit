@@ -23,9 +23,13 @@ import com.pens.planduit.presentation.features.main.view.HomePage
 import com.pens.planduit.presentation.features.main.view.SplashPage
 import com.pens.planduit.presentation.features.riskProfile.view.RiskProfilePage
 import com.pens.planduit.presentation.features.riskProfile.view.RiskProfileResultPage
+import com.pens.planduit.presentation.features.zakatAgriculture.view.ZakatAgriculturePage
+import com.pens.planduit.presentation.features.zakatAgriculture.view.ZakatAgricultureResultPage
 import com.pens.planduit.presentation.features.zakatGold.view.ZakatGoldPage
 import com.pens.planduit.presentation.features.zakatIncome.view.ZakatIncomePage
 import com.pens.planduit.presentation.features.zakatIncome.view.ZakatIncomeResultPage
+import com.pens.planduit.presentation.features.zakatSavings.view.ZSavingsResultPage
+import com.pens.planduit.presentation.features.zakatSavings.view.ZakatSavingsPage
 
 @Composable
 fun AppNavHost(
@@ -78,5 +82,33 @@ fun AppNavHost(
             ZakatIncomeResultPage(navController = navController, request = request, goldPrice = goldPrice)
         }
         composable(AppRoute.ZakatGold.route){ ZakatGoldPage(navController = navController)}
+        composable(AppRoute.ZakatAgriculture.route){ ZakatAgriculturePage(navController = navController) }
+        composable(
+            route = AppRoute.ZakatAgricultureResult.route + "/{request}/{ricePrice}",
+            arguments = listOf(
+                navArgument("request"){
+                    type = NavType.StringType
+                },
+                navArgument("ricePrice"){
+                    type = NavType.IntType
+                }
+            )
+        ){
+            ZakatAgricultureResultPage(navController = navController, request = it.arguments?.getString("request") ?: "", ricePrice = it.arguments?.getInt("ricePrice") ?: 0)
+        }
+        composable(AppRoute.ZakatSaving.route){ ZakatSavingsPage(navController = navController) }
+        composable(
+            route = AppRoute.ZakatSavingResult.route + "/{request}/{goldPrice}",
+            arguments = listOf(
+                navArgument("request"){
+                    type = NavType.StringType
+                },
+                navArgument("goldPrice"){
+                    type = NavType.IntType
+                }
+            )
+        ){
+            ZSavingsResultPage(navController = navController, request = it.arguments?.getString("request") ?: "", goldPrice = it.arguments?.getInt("goldPrice") ?: 0)
+        }
     }
 }

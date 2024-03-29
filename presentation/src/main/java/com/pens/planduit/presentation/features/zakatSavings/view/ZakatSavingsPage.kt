@@ -1,4 +1,4 @@
-package com.pens.planduit.presentation.features.zakatGold.view
+package com.pens.planduit.presentation.features.zakatSavings.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
@@ -25,59 +25,55 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.pens.planduit.common.R
+import com.pens.planduit.common.components.button.PlanDuitCheckBox
 import com.pens.planduit.common.components.container.CommonBottomSheet
 import com.pens.planduit.common.components.container.GradientContainer
 import com.pens.planduit.common.components.container.PlanDuitScaffold
 import com.pens.planduit.common.components.container.ShimmerBox
-import com.pens.planduit.common.components.container.ZakatResultBanner
 import com.pens.planduit.common.components.textField.RpTextField
+import com.pens.planduit.common.components.textField.ShortTextField
 import com.pens.planduit.common.theme.DarkGrey
-import com.pens.planduit.common.theme.GoldBottomSheet
 import com.pens.planduit.common.theme.GreenPrimary
 import com.pens.planduit.common.theme.HalfGrey
 import com.pens.planduit.common.theme.LeadingGreen
 import com.pens.planduit.common.theme.MediumBlack
 import com.pens.planduit.common.theme.MediumWhite
 import com.pens.planduit.common.theme.PaleBlue
+import com.pens.planduit.common.theme.SavingsBottomSheet
 import com.pens.planduit.common.theme.SmallBlack
 import com.pens.planduit.common.utils.Utils
-import com.pens.planduit.presentation.features.zakatGold.viewModel.ZGoldViewModel
 import com.pens.planduit.presentation.features.zakatIncome.state.GoldPriceState
-import com.pens.planduit.presentation.features.zakatIncome.view.CommonPrice
-import com.pens.planduit.presentation.features.zakatIncome.view.ResultSection
+import com.pens.planduit.presentation.features.zakatSavings.viewModel.ZakatSavingViewModel
+import com.pens.planduit.presentation.navigation.AppRoute
+
 
 @Composable
-fun ZakatGoldPage(
+fun ZakatSavingsPage(
     navController: NavController,
-    viewModel: ZGoldViewModel = hiltViewModel<ZGoldViewModel>()
+    viewModel: ZakatSavingViewModel = hiltViewModel<ZakatSavingViewModel>()
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }
-    val textValue = viewModel.textFieldValue.collectAsStateWithLifecycle()
-    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-
     val state = viewModel.state.collectAsStateWithLifecycle()
-    val resultState = viewModel.resultState.collectAsStateWithLifecycle()
+    val fieldValueState = viewModel.fieldValueState.collectAsStateWithLifecycle()
 
     LaunchedEffect(true) {
         viewModel.getGoldPrice()
     }
 
     PlanDuitScaffold(
-        title = "Kalkulator Zakat Emas",
+        title = "Kalkulator Zakat Tabungan",
         onBackPressed = {
             navController.popBackStack()
         },
         bottomSheet = {
             CommonBottomSheet(
-                data = GoldBottomSheet,
+                data = SavingsBottomSheet,
                 isOpen = showBottomSheet,
                 onDismiss = {
                     showBottomSheet = false
@@ -105,56 +101,43 @@ fun ZakatGoldPage(
     ) {
         Column {
             Spacer(modifier = Modifier.size(20.dp))
-            Banner(state = state.value)
+            Banner(
+                state = GoldPriceState(
+                    data = state.value.data,
+                    isLoading = state.value.isLoading
+                )
+            )
             Spacer(modifier = Modifier.size(32.dp))
             Text(
-                text = "jumlah emas (per gram)",
+                text = "Berapa tabungan kamu sekarang",
                 style = MediumBlack.copy(fontSize = 12.sp)
             )
-            Spacer(modifier = Modifier.size(16.dp))
-            Row {
-                RpTextField(
-                    onValueChange = {
-                        viewModel.textFieldValue.value = it
-                    },
-                    hideLeading = true,
-                    modifier = Modifier.width(screenWidth.times(0.62f))
+            Spacer(modifier = Modifier.size(8.dp))
+            RpTextField(hideLeading = true, onDone = {
+                viewModel.changeFieldValue(0, it)
+            }, value = fieldValueState.value[0])
+            if (viewModel.isShowField(1)) {
+                Spacer(modifier = Modifier.size(32.dp))
+                OptionSection(selectedCheckbox = fieldValueState.value[1].toInt()) {
+                    viewModel.changeFieldValue(1, it.toString())
+                }
+            }
+            if (viewModel.isShowField(2)) {
+                Text(
+                    text = "Berapa bunga yang kamu dapatkan dari menabung di bank ",
+                    style = MediumBlack.copy(fontSize = 12.sp)
                 )
-                Spacer(modifier = Modifier.weight(1f))
-                GradientContainer(
-                    gradientColors = listOf(if (textValue.value.isNotEmpty() && !state.value.isLoading) GreenPrimary else HalfGrey),
-                    modifier = Modifier.size(screenWidth.times(0.23f), 55.dp),
-                    cornerRadius = 12,
-                    onPressed = {
-                        viewModel.getGoldZakatCalculation()
-                    }
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier
-                            .fillMaxSize()
-                    ) {
-                        Text(
-                            text = "Hitung",
-                            style = MediumWhite.copy(color = if (textValue.value.isNotEmpty() && !state.value.isLoading) Color.White else DarkGrey)
-                        )
-                    }
-                }
+                Spacer(modifier = Modifier.size(8.dp))
+                ShortTextField(trailingWidget = {
+                    Text(text = "%", style = SmallBlack.copy(fontSize = 24.sp))
+                }, onDone = {
+                    viewModel.changeFieldValue(2, it)
+                }, value = fieldValueState.value[2])
             }
-            if (resultState.value.zakatRequest != 0){
-                Spacer(modifier = Modifier.height(24.dp))
-                Text(text = "JUMLAH EMAS YANG KAMU MILIKI", style = SmallBlack.copy(fontSize = 14.sp))
-                Spacer(modifier = Modifier.height(8.dp))
-                CommonPrice(price = resultState.value.zakatRequest, isLoading = resultState.value.isLoading, customTitle = "${resultState.value.zakatRequest} gram")
-                if (resultState.value.data.status) {
-                    Spacer(modifier = Modifier.height(24.dp))
-                    ResultSection(isLoading = resultState.value.isLoading, price = state.value.data.price)
-                }
+            Spacer(modifier = Modifier.size(86.dp))
+            SubmitButton(isActive = viewModel.isShowField(3)) {
+                navController.navigate(AppRoute.ZakatSavingResult.withArgs(viewModel.getRequestString(), state.value.data.price))
             }
-            Spacer(modifier = Modifier.height(100.dp))
-
-            if(resultState.value.zakatRequest!= 0) ZakatResultBanner(isLoading = resultState.value.isLoading, isSuccess = resultState.value.data.status, title = "emas")
         }
     }
 }
@@ -196,7 +179,6 @@ private fun Banner(
                         style = LeadingGreen.copy(fontSize = 25.sp)
                     )
                 }
-
             }
             Spacer(modifier = Modifier.weight(1f))
             Image(
@@ -207,4 +189,62 @@ private fun Banner(
         }
 
     }
+}
+
+@Composable
+private fun SubmitButton(
+    isActive: Boolean = false,
+    onPressed: () -> Unit = {}
+) {
+    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        GradientContainer(
+            gradientColors = listOf(if (isActive) GreenPrimary else HalfGrey),
+            modifier = Modifier.size(screenWidth, 45.dp),
+            cornerRadius = 12,
+            onPressed = {
+                if (isActive) {
+                    onPressed()
+                }
+
+            }
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier
+                    .fillMaxSize()
+            ) {
+                Text(
+                    text = "Lihat Zakat Pertanianmu",
+                    style = MediumWhite.copy(color = if (isActive) Color.White else DarkGrey)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun OptionSection(
+    selectedCheckbox: Int,
+    onValueChange: (Int) -> Unit
+) {
+    Text(
+        text = "Apakah kamu menabung di bank konvensional",
+        style = MediumBlack.copy(fontSize = 12.sp)
+    )
+    Spacer(modifier = Modifier.size(16.dp))
+    Row {
+        PlanDuitCheckBox(text = "tidak", onTap = {
+            onValueChange(0)
+        }, isChecked = selectedCheckbox == 0)
+        Spacer(modifier = Modifier.size(24.dp))
+        PlanDuitCheckBox(text = "iya", onTap = {
+            onValueChange(1)
+        }, isChecked = selectedCheckbox == 1)
+    }
+    Spacer(modifier = Modifier.size(32.dp))
 }

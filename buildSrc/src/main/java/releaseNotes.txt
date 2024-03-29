@@ -1,7 +1,12 @@
 Release Note :
     NEW
-    1. UI Sliced : Zakat Income
-    2. UI Sliced : Zakat Gold
-    3. API Integration : Zakat Income
-    4. API Integration : Zakat Gold
-    5. Add Network chucker : Display on Notification
+    1. UI Sliced : Zakat Agriculture
+    2. UI Sliced : Zakat Savings
+    3. API Integration : Zakat Agriculture
+    4. API Integration : Zakat Savings
+
+    BUGFIX
+    1. Zakat Result Banner text
+    2. Change text of Zakat Gold text button
+    3. change first question of Zakat Income
+    4. Zakat Income question showed by time status type

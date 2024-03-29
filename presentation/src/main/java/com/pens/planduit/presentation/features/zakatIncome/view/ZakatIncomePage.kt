@@ -61,9 +61,9 @@ fun ZakatIncomePage(
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }
     var selectedCheckbox by remember { mutableIntStateOf(-1) }
-    var questionOneText by remember { mutableStateOf("")}
-    var questionTwoText by remember { mutableStateOf("")}
-    var questionThreeText by remember { mutableStateOf("")}
+    var questionOneText by remember { mutableStateOf("") }
+    var questionTwoText by remember { mutableStateOf("") }
+    var questionThreeText by remember { mutableStateOf("") }
 
 
     val state = viewModel.state.collectAsStateWithLifecycle()
@@ -114,17 +114,26 @@ fun ZakatIncomePage(
                 onPressed = {
                     selectedCheckbox = it
                 })
-            CommonSection(question = "Berapa Pendapatan tetap anda per", onValueChange = {
-                questionOneText = it
-            })
+            CommonSection(
+                question = "Berapa Pendapatan tetap anda per",
+                selectedValue = selectedCheckbox,
+                onValueChange = {
+                    questionOneText = it
+                })
             Spacer(modifier = Modifier.size(32.dp))
-            CommonSection(question = "Berapa Pendapatan lain anda per", onValueChange = {
-                questionTwoText = it
-            })
+            CommonSection(
+                question = "Berapa Pendapatan lain anda per",
+                selectedValue = selectedCheckbox,
+                onValueChange = {
+                    questionTwoText = it
+                })
             Spacer(modifier = Modifier.size(32.dp))
-            CommonSection(question = "Berapa pengeluaran anda per", onValueChange = {
-                questionThreeText = it
-            })
+            CommonSection(
+                question = "Berapa pengeluaran anda per",
+                selectedValue = selectedCheckbox,
+                onValueChange = {
+                    questionThreeText = it
+                })
             Spacer(modifier = Modifier.size(64.dp))
             SubmitButton(
                 isActive = selectedCheckbox != -1 &&
@@ -138,7 +147,12 @@ fun ZakatIncomePage(
                         questionTwoText,
                         questionThreeText
                     )
-                    navController.navigate(AppRoute.ZakatIncomeResult.withArgs(jsonString, state.value.data.price))
+                    navController.navigate(
+                        AppRoute.ZakatIncomeResult.withArgs(
+                            jsonString,
+                            state.value.data.price
+                        )
+                    )
                 }
             )
         }
@@ -146,7 +160,7 @@ fun ZakatIncomePage(
 }
 
 @Composable
-fun Banner(
+private fun Banner(
     state: GoldPriceState
 ) {
     GradientContainer(
@@ -201,7 +215,7 @@ fun FirstSection(
     onPressed: (Int) -> Unit
 ) {
     Text(
-        text = "Tempo waktu kamu dalam investasi",
+        text = "Tempo waktu dalam perhitungan",
         style = MediumBlack.copy(fontSize = 12.sp)
     )
     Spacer(modifier = Modifier.size(16.dp))
@@ -224,6 +238,7 @@ fun FirstSection(
 @Composable
 fun CommonSection(
     question: String,
+    selectedValue: Int,
     onValueChange: (String) -> Unit
 ) {
     Text(
@@ -237,7 +252,10 @@ fun CommonSection(
                 style = MediumBlack.copy(fontSize = 12.sp, color = GreenPrimary)
                     .toSpanStyle()
             ) {
-                append(" bulan")
+                if (selectedValue == 1)
+                    append(" tahun")
+                else
+                    append(" bulan")
             }
         }
     )
@@ -248,7 +266,7 @@ fun CommonSection(
 }
 
 @Composable
-fun SubmitButton(
+private fun SubmitButton(
     isActive: Boolean = false,
     onPressed: () -> Unit = {}
 ) {

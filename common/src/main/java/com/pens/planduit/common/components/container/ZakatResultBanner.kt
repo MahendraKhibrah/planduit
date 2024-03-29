@@ -22,6 +22,7 @@ import com.pens.planduit.common.utils.Utils
 fun ZakatResultBanner(
     isLoading: Boolean = false,
     isSuccess: Boolean? = false,
+    title : String
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
@@ -44,7 +45,7 @@ fun ZakatResultBanner(
                     modifier = Modifier.width(screenWidth.times(0.8f))
                 ) {
                     Text(
-                        text = if (isSuccess != false) "Kamu wajib membayar zakat penghasilan" else "Kamu tidak perlu membayar zakat penghasilan",
+                        text = if (isSuccess != false) "Kamu wajib membayar zakat $title" else "Kamu tidak perlu membayar zakat $title",
                         style = MediumBlack.copy(fontSize = 14.sp),
                         textAlign = TextAlign.Center
                     )
