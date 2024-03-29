@@ -35,7 +35,7 @@ class ZAgricultureResultViewModel @Inject constructor(
 
     fun getWateredValue(request: String) : String {
         val req = getRequestModel(request)
-        return if(req.isWatered) "Menggunakan hujan / mata air" else "Menggunakan irigasi"
+        return if(req.isWatered) "Menggunakan irigasi" else "Menggunakan hujan / mata air"
     }
 
     fun getAgricultureZakat(requestRaw : String){
