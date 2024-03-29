@@ -9,6 +9,7 @@ import com.pens.planduit.domain.models.request.AgricultureZakatRequest
 import com.pens.planduit.domain.models.request.GoldZakatRequest
 import com.pens.planduit.domain.models.request.IncomeZakatRequest
 import com.pens.planduit.domain.models.request.InvestmentRequest
+import com.pens.planduit.domain.models.request.SavingZakatRequest
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -25,8 +26,9 @@ interface ZakatApi {
         @Body request: IncomeZakatRequest
     ): Response<CommonDto<ZakatResult>>
 
-    @GET("c57c7bab-8085-42ec-9371-47cecdc897dc")
+    @POST("calculator/zakat-tabungan")
     suspend fun getSavingZakatCalculation(
+        @Body request: SavingZakatRequest
     ): Response<CommonDto<ZakatResult>>
 
     @GET("info/gold-price")

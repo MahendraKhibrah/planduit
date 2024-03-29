@@ -28,6 +28,8 @@ import com.pens.planduit.presentation.features.zakatAgriculture.view.ZakatAgricu
 import com.pens.planduit.presentation.features.zakatGold.view.ZakatGoldPage
 import com.pens.planduit.presentation.features.zakatIncome.view.ZakatIncomePage
 import com.pens.planduit.presentation.features.zakatIncome.view.ZakatIncomeResultPage
+import com.pens.planduit.presentation.features.zakatSavings.view.ZSavingsResultPage
+import com.pens.planduit.presentation.features.zakatSavings.view.ZakatSavingsPage
 
 @Composable
 fun AppNavHost(
@@ -93,6 +95,20 @@ fun AppNavHost(
             )
         ){
             ZakatAgricultureResultPage(navController = navController, request = it.arguments?.getString("request") ?: "", ricePrice = it.arguments?.getInt("ricePrice") ?: 0)
+        }
+        composable(AppRoute.ZakatSaving.route){ ZakatSavingsPage(navController = navController) }
+        composable(
+            route = AppRoute.ZakatSavingResult.route + "/{request}/{goldPrice}",
+            arguments = listOf(
+                navArgument("request"){
+                    type = NavType.StringType
+                },
+                navArgument("goldPrice"){
+                    type = NavType.IntType
+                }
+            )
+        ){
+            ZSavingsResultPage(navController = navController, request = it.arguments?.getString("request") ?: "", goldPrice = it.arguments?.getInt("goldPrice") ?: 0)
         }
     }
 }

@@ -165,7 +165,9 @@ fun HomePage(
                     navController.navigate(AppRoute.ZakatAgriculture.route)
                 })
                 Spacer(modifier = Modifier.weight(1f))
-                MenuItem(title = "Tabungan", imageId = R.drawable.ic_saving)
+                MenuItem(title = "Tabungan", imageId = R.drawable.ic_saving, onPressed = {
+                    navController.navigate(AppRoute.ZakatSaving.route)
+                })
                 Spacer(modifier = Modifier.weight(1f))
                 Box(modifier = Modifier.width(83.dp))
             }
