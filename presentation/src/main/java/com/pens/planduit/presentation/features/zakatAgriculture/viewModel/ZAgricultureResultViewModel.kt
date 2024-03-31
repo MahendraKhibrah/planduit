@@ -1,5 +1,6 @@
 package com.pens.planduit.presentation.features.zakatAgriculture.viewModel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
