@@ -118,7 +118,10 @@ class ZakatRepositoryImpl @Inject constructor(
             if (response.isSuccessful) {
                 response.body()?.let {
                     return Resource.Success(
-                        ZakatResult(status = false, zakat = 0)
+                        ZakatResult(
+                            it.data?.status ?: true,
+                            it.data?.zakat ?: 0
+                        )
                     )
                 }
             }

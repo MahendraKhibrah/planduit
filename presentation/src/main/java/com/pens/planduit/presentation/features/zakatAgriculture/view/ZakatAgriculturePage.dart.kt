@@ -47,6 +47,7 @@ import com.pens.planduit.common.theme.HalfGrey
 import com.pens.planduit.common.theme.LeadingGreen
 import com.pens.planduit.common.theme.MediumBlack
 import com.pens.planduit.common.theme.MediumWhite
+import com.pens.planduit.common.theme.OffGreen
 import com.pens.planduit.common.theme.PaleBlue
 import com.pens.planduit.common.theme.SmallBlack
 import com.pens.planduit.common.utils.Utils
@@ -107,11 +108,11 @@ fun ZakatAgriculturePage(
             Banner(state = state.value)
             Spacer(modifier = Modifier.size(32.dp))
             Text(
-                text = "Berapa hasil pertanian kamu saat panen (dalam kilogram)",
+                text = "Berapa hasil pertanian kamu saat panen",
                 style = MediumBlack.copy(fontSize = 12.sp)
             )
             Spacer(modifier = Modifier.size(8.dp))
-            RpTextField(hideLeading = true, onDone = {
+            RpTextField(onDone = {
                 viewModel.changeFieldValue(0, it)
             }, value = fieldValueState.value[0])
             if (viewModel.isShowField(1)) {
@@ -151,7 +152,12 @@ fun ZakatAgriculturePage(
             }
             Spacer(modifier = Modifier.size(64.dp))
             SubmitButton(isActive = viewModel.isShowField(3)) {
-                navController.navigate(AppRoute.ZakatAgricultureResult.withArgs(viewModel.getRequestString(), state.value.data.price))
+                navController.navigate(
+                    AppRoute.ZakatAgricultureResult.withArgs(
+                        viewModel.getRequestString(),
+                        state.value.data.price
+                    )
+                )
             }
         }
     }
@@ -162,7 +168,7 @@ private fun Banner(
     state: RicePriceState
 ) {
     GradientContainer(
-        gradientColors = listOf(PaleBlue, PaleBlue.copy(alpha = 0.8f)),
+        gradientColors = listOf(PaleBlue, OffGreen),
         showShadow = true,
         cornerRadius = 16,
     ) {

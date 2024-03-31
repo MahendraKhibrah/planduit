@@ -104,9 +104,8 @@ fun ZakatAgricultureResultPage(
             Text(text = "HASIL PERTANIAN KAMU", style = SmallBlack.copy(fontSize = 14.sp))
             Spacer(modifier = Modifier.height(8.dp))
             CommonPrice(
-                price = 0,
+                price = viewModel.getRequestModel(request).totalHarvest,
                 isLoading = state.value.isLoading,
-                customTitle = "${viewModel.getTotalHarvest(request)} Kilogram"
             )
             Spacer(modifier = Modifier.height(24.dp))
             Text(text = "JENIS PERAIRAN KAMU", style = SmallBlack.copy(fontSize = 14.sp))
