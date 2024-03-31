@@ -146,7 +146,9 @@ fun HomePage(
                 verticalAlignment = Alignment.Top,
                 modifier = Modifier.padding(horizontal = 8.dp)
             ) {
-                MenuItem(title = "Perdagangan", imageId = R.drawable.ic_trading)
+                MenuItem(title = "Perdagangan", imageId = R.drawable.ic_trading, onPressed = {
+                    navController.navigate(AppRoute.ZakatTrade.route)
+                })
                 Spacer(modifier = Modifier.weight(1f))
                 MenuItem(title = "Penghasilan", imageId = R.drawable.ic_income, onPressed = {
                     navController.navigate(AppRoute.ZakatIncome.route)

@@ -37,7 +37,7 @@ import com.pens.planduit.presentation.features.zakatTrade.view.ZakatTradeResultP
 fun AppNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController,
-    startDestination: String = AppRoute.ZakatTradeResult.route,
+    startDestination: String = AppRoute.Splash.route,
 ) {
     NavHost(
         navController = navController, startDestination = startDestination,
@@ -112,7 +112,19 @@ fun AppNavHost(
         ){
             ZSavingsResultPage(navController = navController, request = it.arguments?.getString("request") ?: "", goldPrice = it.arguments?.getInt("goldPrice") ?: 0)
         }
-        composable(AppRoute.ZakatTrade.route){ ZakatTradePage()}
-        composable(AppRoute.ZakatTradeResult.route){ ZakatTradeResultPage() }
+        composable(AppRoute.ZakatTrade.route){ ZakatTradePage(navController)}
+        composable(
+            route = AppRoute.ZakatTradeResult.route + "/{request}/{goldPrice}",
+            arguments = listOf(
+                navArgument("request"){
+                    type = NavType.StringType
+                },
+                navArgument("goldPrice"){
+                    type = NavType.IntType
+                }
+            )
+        ){
+            ZakatTradeResultPage(navController = navController, request = it.arguments?.getString("request") ?: "", goldPrice = it.arguments?.getInt("goldPrice") ?: 0)
+        }
     }
 }

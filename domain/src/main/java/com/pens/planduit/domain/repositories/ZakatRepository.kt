@@ -8,6 +8,7 @@ import com.pens.planduit.domain.models.request.AgricultureZakatRequest
 import com.pens.planduit.domain.models.request.GoldZakatRequest
 import com.pens.planduit.domain.models.request.IncomeZakatRequest
 import com.pens.planduit.domain.models.request.SavingZakatRequest
+import com.pens.planduit.domain.models.request.TradingZakatRequest
 
 interface ZakatRepository {
     suspend fun getIncomeZakatCalculation(request : IncomeZakatRequest): Resource<ZakatResult>
@@ -16,4 +17,5 @@ interface ZakatRepository {
     suspend fun getGoldPrice(): Resource<GoldPrice>
     suspend fun getRicePrice():Resource<RicePrice>
     suspend fun getAgricultureZakat(request: AgricultureZakatRequest) : Resource<ZakatResult>
+    suspend fun getTradingZakat(request: TradingZakatRequest) : Resource<ZakatResult>
 }

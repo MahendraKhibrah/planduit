@@ -46,23 +46,28 @@ import com.pens.planduit.common.utils.Utils
 import com.pens.planduit.presentation.features.zakatIncome.view.CommonPrice
 import com.pens.planduit.presentation.features.zakatIncome.view.ResultSection
 import com.pens.planduit.presentation.features.zakatSavings.viewModel.ZSavingResultViewModel
+import com.pens.planduit.presentation.features.zakatTrade.viewModel.ZTradeResultViewModel
 import com.pens.planduit.presentation.navigation.AppRoute
 
-@Preview(showBackground = true)
 @Composable
 fun ZakatTradeResultPage(
-
+    navController: NavController,
+    request: String,
+    goldPrice: Int,
+    viewModel: ZTradeResultViewModel = hiltViewModel<ZTradeResultViewModel>()
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }
+    val state = viewModel.state.collectAsStateWithLifecycle()
 
-//    LaunchedEffect(true) {
-//        viewModel.getSavingZakat(request)
-//    }
+
+    LaunchedEffect(true) {
+        viewModel.getTradingZakat(request)
+    }
 
     PlanDuitScaffold(
         title = "Kalkulator Zakat Perdagangan",
         onBackPressed = {
-//            navController.popBackStack()
+            navController.popBackStack()
         },
         bottomSheet = {
             CommonBottomSheet(
@@ -94,57 +99,57 @@ fun ZakatTradeResultPage(
     ) {
         Column {
             Spacer(modifier = Modifier.size(20.dp))
-            Banner(price = 10000)
+            Banner(price = goldPrice)
             Spacer(modifier = Modifier.size(32.dp))
             Text(text = "MODAL YANG  DIPUTAR", style = SmallBlack.copy(fontSize = 14.sp))
             Spacer(modifier = Modifier.height(8.dp))
             CommonPrice(
-                price = 10000,
-                isLoading = false
+                price = viewModel.getRequestFromString(request).rotatedCapital,
+                isLoading = state.value.isLoading
             )
             Spacer(modifier = Modifier.size(16.dp))
             Text(text = "PIUTANG LANCAR", style = SmallBlack.copy(fontSize = 14.sp))
             Spacer(modifier = Modifier.height(8.dp))
             CommonPrice(
-                price = 10000,
-                isLoading = false
+                price = viewModel.getRequestFromString(request).currentRecievable,
+                isLoading = state.value.isLoading
             )
             Spacer(modifier = Modifier.size(16.dp))
             Text(text = "KEUNTUNGAN PERDAGANGAN", style = SmallBlack.copy(fontSize = 14.sp))
             Spacer(modifier = Modifier.height(8.dp))
             CommonPrice(
-                price = 10000,
-                isLoading = false
+                price = viewModel.getRequestFromString(request).profit,
+                isLoading = state.value.isLoading
             )
             Spacer(modifier = Modifier.size(16.dp))
             Text(text = "HUTANG JATUH TEMPO", style = SmallBlack.copy(fontSize = 14.sp))
             Spacer(modifier = Modifier.height(8.dp))
             CommonPrice(
-                price = 10000,
-                isLoading = false
+                price = viewModel.getRequestFromString(request).currentPayable,
+                isLoading = state.value.isLoading
             )
             Spacer(modifier = Modifier.size(16.dp))
             Text(text = "KERUGIAN PERDAGANGAN", style = SmallBlack.copy(fontSize = 14.sp))
             Spacer(modifier = Modifier.height(8.dp))
             CommonPrice(
-                price = 10000,
-                isLoading = false
+                price = viewModel.getRequestFromString(request).loss,
+                isLoading = state.value.isLoading
             )
-//            if (state.value.data.status) {
+            if (state.value.data.status) {
                 Spacer(modifier = Modifier.height(16.dp))
-                ResultSection(isLoading = false, price = 10000)
-//            }
+                ResultSection(isLoading = state.value.isLoading, price = state.value.data.zakat)
+            }
             Spacer(modifier = Modifier.height(24.dp))
             ZakatResultBanner(
-                isLoading = false,
-                isSuccess = true,
+                isLoading = state.value.isLoading,
+                isSuccess = state.value.data.status,
                 title = "perdagangan"
             )
             Spacer(modifier = Modifier.height(24.dp))
             CommonOutlinedButton(onPressed = {
-//                navController.popBackStack()
-//                navController.popBackStack()
-//                navController.navigate(AppRoute.ZakatSaving.route)
+                navController.popBackStack()
+                navController.popBackStack()
+                navController.navigate(AppRoute.ZakatTrade.route)
             })
         }
     }

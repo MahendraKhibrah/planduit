@@ -55,5 +55,5 @@ val TradingBottomSheet = BottomSheetData(
     title = "Apa itu kalkulator zakat Perdagangan?",
     description = "Kalkulator zakat perdagangan adalah alat yang dirancang untuk membantu menghitung jumlah zakat yang harus  dibayar berdasarkan jumlah modal yang dimiliki.\n" +
             "Zakat perdagangan adalah zakat yang dikeluarkan dari modal yang dimiliki setelah mencapai nisab dan haul.",
-    imageId = R.drawable.cash_register
+    imageId = R.drawable.planting_money
 )

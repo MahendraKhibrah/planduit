@@ -28,7 +28,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
 import com.pens.planduit.common.R
 import com.pens.planduit.common.components.container.CommonBottomSheet
 import com.pens.planduit.common.components.container.GradientContainer
@@ -50,21 +52,27 @@ import com.pens.planduit.common.theme.TradingBottomSheet
 import com.pens.planduit.common.utils.Utils
 import com.pens.planduit.domain.models.entity.GoldPrice
 import com.pens.planduit.presentation.features.zakatIncome.state.GoldPriceState
+import com.pens.planduit.presentation.features.zakatTrade.viewModel.ZakatTradeViewModel
+import com.pens.planduit.presentation.navigation.AppRoute
 
-@Preview(showBackground = true)
+
 @Composable
 fun ZakatTradePage(
+    navController: NavController,
+    viewModel: ZakatTradeViewModel = hiltViewModel<ZakatTradeViewModel>()
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }
+    val state = viewModel.state.collectAsStateWithLifecycle()
+    val fieldValueState = viewModel.fieldValueState.collectAsStateWithLifecycle()
 
-//    LaunchedEffect(true) {
-//        viewModel.getGoldPrice()
-//    }
+    LaunchedEffect(true) {
+        viewModel.getGoldPrice()
+    }
 
     PlanDuitScaffold(
         title = "Kalkulator Zakat Perdagangan",
         onBackPressed = {
-//            navController.popBackStack()
+            navController.popBackStack()
         },
         bottomSheet = {
             CommonBottomSheet(
@@ -97,27 +105,35 @@ fun ZakatTradePage(
         Column {
             Spacer(modifier = Modifier.size(20.dp))
             Banner(
-                state = GoldPriceState(
-                    data = GoldPrice(price = 100000),
-                    isLoading = false
-                )
+                state = state.value,
             )
             Spacer(modifier = Modifier.size(12.dp))
-            CommonField(title = "Berapa modal yang anda putar ?")
-            if (true) {
-                CommonField(title = "Berapa piutang lancar anda ?")
+            CommonField(title = "Berapa modal yang anda putar ?", onDone = {
+                viewModel.changeFieldValue(0, it)
+            }, value = fieldValueState.value[0])
+            if (viewModel.isShowField(1)) {
+                CommonField(title = "Berapa piutang lancar anda ?", onDone = {
+                    viewModel.changeFieldValue(1, it)
+                }, value = fieldValueState.value[1])
             }
-            if (true) {
-                CommonField(title = "Berapa keuntungan perdagangan anda ?")
+            if (viewModel.isShowField(2)) {
+                CommonField(title = "Berapa keuntungan perdagangan anda ?", onDone = {
+                    viewModel.changeFieldValue(2, it)
+                }, value = fieldValueState.value[2])
             }
-            if (true) {
-                CommonField(title = "Berapa hutang jatuh tempo anda ?")
+            if (viewModel.isShowField(3)) {
+                CommonField(title = "Berapa hutang jatuh tempo anda ?", onDone = {
+                    viewModel.changeFieldValue(3, it)
+                }, value = fieldValueState.value[3])
             }
-            if (true) {
-                CommonField(title = "Berapa kerugian perdagangan anda ?")
+            if (viewModel.isShowField(4)) {
+                CommonField(title = "Berapa kerugian perdagangan anda ?", onDone = {
+                    viewModel.changeFieldValue(4, it)
+                }, value = fieldValueState.value[4])
             }
             Spacer(modifier = Modifier.size(30.dp))
-            SubmitButton(isActive = true) {
+            SubmitButton(isActive = viewModel.isShowField(5)) {
+                navController.navigate(AppRoute.ZakatTradeResult.withArgs(viewModel.getRequestString(), state.value.data.price))
             }
         }
     }
@@ -211,14 +227,14 @@ private fun SubmitButton(
 @Composable
 private fun CommonField(
     title: String,
-    value : String = "",
+    value: String = "",
     onDone: (String) -> Unit = {},
-){
+) {
     Spacer(modifier = Modifier.size(20.dp))
     Text(
         text = title,
         style = MediumBlack.copy(fontSize = 12.sp)
     )
     Spacer(modifier = Modifier.size(8.dp))
-    RpTextField( onDone = onDone, value = value)
+    RpTextField(onDone = onDone, value = value)
 }
