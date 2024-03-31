@@ -46,6 +46,7 @@ import com.pens.planduit.common.theme.BlackPrimary
 import com.pens.planduit.common.theme.BudgetingBottomSheet
 import com.pens.planduit.common.theme.LeadingGreen
 import com.pens.planduit.common.theme.MediumBlack
+import com.pens.planduit.common.theme.OffGreen
 import com.pens.planduit.common.theme.PaleBlue
 import com.pens.planduit.common.theme.RedPrimary
 import com.pens.planduit.common.theme.SmallBlack
@@ -161,7 +162,7 @@ fun Banner(
     price: String
 ) {
     GradientContainer(
-        gradientColors = listOf(PaleBlue, PaleBlue.copy(alpha = 0.8f)),
+        gradientColors = listOf(PaleBlue, OffGreen),
         showShadow = true,
         cornerRadius = 16,
     ) {
