@@ -1,15 +1,15 @@
-package com.pens.planduit.presentation.features.zakatAgriculture.viewModel
+package com.pens.planduit.presentation.features.zakatTrade.viewModel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.pens.planduit.common.utils.Resource
-import com.pens.planduit.common.utils.Utils
 import com.pens.planduit.domain.models.entity.ZakatResult
-import com.pens.planduit.domain.models.request.AgricultureZakatRequest
-import com.pens.planduit.domain.usecases.GetAgricultureZakatUsecase
-import com.pens.planduit.presentation.features.zakatAgriculture.state.AgricultureZakatState
+import com.pens.planduit.domain.models.request.SavingZakatRequest
+import com.pens.planduit.domain.models.request.TradingZakatRequest
+import com.pens.planduit.domain.usecases.GetSavingZakatCalculationUsecase
+import com.pens.planduit.domain.usecases.GetTradingZakatUsecase
+import com.pens.planduit.presentation.features.zakatSavings.state.SavingZakatState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,30 +17,19 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
-class ZAgricultureResultViewModel @Inject constructor(
-    private val usecase: GetAgricultureZakatUsecase,
+class ZTradeResultViewModel @Inject constructor(
+    private val usecase: GetTradingZakatUsecase,
 ) : ViewModel() {
-    private val _state = MutableStateFlow(AgricultureZakatState())
+    private val _state = MutableStateFlow(SavingZakatState())
     val state = _state.asStateFlow()
 
-    fun getRequestModel(request: String) : AgricultureZakatRequest {
-        return Gson().fromJson(request, AgricultureZakatRequest::class.java)
+    fun getRequestFromString(request: String) : TradingZakatRequest {
+        return Gson().fromJson(request, TradingZakatRequest::class.java)
     }
 
-    fun getTotalHarvest(request: String) : String {
-        val req = getRequestModel(request)
-        return Utils.addCommasEveryThreeChars(req.totalHarvest)
-    }
-
-    fun getWateredValue(request: String) : String {
-        val req = getRequestModel(request)
-        return if(req.isWatered) "Menggunakan irigasi" else "Menggunakan hujan / mata air"
-    }
-
-    fun getAgricultureZakat(requestRaw : String){
-        val request : AgricultureZakatRequest = getRequestModel(requestRaw)
+    fun getTradingZakat(requestRaw : String){
+        val request : TradingZakatRequest = getRequestFromString(requestRaw)
 
         _state.value = _state.value.copy(isLoading = true)
         viewModelScope.launch(Dispatchers.IO) {

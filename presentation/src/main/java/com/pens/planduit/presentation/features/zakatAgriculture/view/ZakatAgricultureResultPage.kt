@@ -39,6 +39,7 @@ import com.pens.planduit.common.components.container.ShimmerBox
 import com.pens.planduit.common.components.container.ZakatResultBanner
 import com.pens.planduit.common.theme.AgricultureBottomSheet
 import com.pens.planduit.common.theme.LeadingGreen
+import com.pens.planduit.common.theme.OffGreen
 import com.pens.planduit.common.theme.PaleBlue
 import com.pens.planduit.common.theme.SmallBlack
 import com.pens.planduit.common.utils.Utils
@@ -104,9 +105,8 @@ fun ZakatAgricultureResultPage(
             Text(text = "HASIL PERTANIAN KAMU", style = SmallBlack.copy(fontSize = 14.sp))
             Spacer(modifier = Modifier.height(8.dp))
             CommonPrice(
-                price = 0,
+                price = viewModel.getRequestModel(request).totalHarvest,
                 isLoading = state.value.isLoading,
-                customTitle = "${viewModel.getTotalHarvest(request)} Kilogram"
             )
             Spacer(modifier = Modifier.height(24.dp))
             Text(text = "JENIS PERAIRAN KAMU", style = SmallBlack.copy(fontSize = 14.sp))
@@ -148,7 +148,7 @@ private fun Banner(
     price: Int
 ) {
     GradientContainer(
-        gradientColors = listOf(PaleBlue, PaleBlue.copy(alpha = 0.8f)),
+        gradientColors = listOf(PaleBlue, OffGreen),
         showShadow = true,
         cornerRadius = 16,
     ) {

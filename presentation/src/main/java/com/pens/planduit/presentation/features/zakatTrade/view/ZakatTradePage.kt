@@ -1,4 +1,4 @@
-package com.pens.planduit.presentation.features.zakatIncome.view
+package com.pens.planduit.presentation.features.zakatTrade.view
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -17,7 +17,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -26,61 +25,58 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.pens.planduit.common.R
-import com.pens.planduit.common.components.button.PlanDuitCheckBox
 import com.pens.planduit.common.components.container.CommonBottomSheet
 import com.pens.planduit.common.components.container.GradientContainer
 import com.pens.planduit.common.components.container.PlanDuitScaffold
 import com.pens.planduit.common.components.container.ShimmerBox
 import com.pens.planduit.common.components.textField.RpTextField
+import com.pens.planduit.common.components.textField.ShortTextField
 import com.pens.planduit.common.theme.DarkGrey
 import com.pens.planduit.common.theme.GreenPrimary
 import com.pens.planduit.common.theme.HalfGrey
-import com.pens.planduit.common.theme.IncomeBottomSheet
 import com.pens.planduit.common.theme.LeadingGreen
 import com.pens.planduit.common.theme.MediumBlack
 import com.pens.planduit.common.theme.MediumWhite
 import com.pens.planduit.common.theme.OffGreen
 import com.pens.planduit.common.theme.PaleBlue
+import com.pens.planduit.common.theme.SavingsBottomSheet
 import com.pens.planduit.common.theme.SmallBlack
+import com.pens.planduit.common.theme.TradingBottomSheet
 import com.pens.planduit.common.utils.Utils
+import com.pens.planduit.domain.models.entity.GoldPrice
 import com.pens.planduit.presentation.features.zakatIncome.state.GoldPriceState
-import com.pens.planduit.presentation.features.zakatIncome.viewModel.ZIncomeViewModel
+import com.pens.planduit.presentation.features.zakatTrade.viewModel.ZakatTradeViewModel
 import com.pens.planduit.presentation.navigation.AppRoute
 
+
 @Composable
-fun ZakatIncomePage(
+fun ZakatTradePage(
     navController: NavController,
-    viewModel: ZIncomeViewModel = hiltViewModel<ZIncomeViewModel>()
+    viewModel: ZakatTradeViewModel = hiltViewModel<ZakatTradeViewModel>()
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }
-    var selectedCheckbox by remember { mutableIntStateOf(-1) }
-    var questionOneText by remember { mutableStateOf("") }
-    var questionTwoText by remember { mutableStateOf("") }
-    var questionThreeText by remember { mutableStateOf("") }
-
-
     val state = viewModel.state.collectAsStateWithLifecycle()
+    val fieldValueState = viewModel.fieldValueState.collectAsStateWithLifecycle()
 
     LaunchedEffect(true) {
         viewModel.getGoldPrice()
     }
 
     PlanDuitScaffold(
-        title = "Kalkulator Zakat Penghasilan",
+        title = "Kalkulator Zakat Perdagangan",
         onBackPressed = {
             navController.popBackStack()
         },
         bottomSheet = {
             CommonBottomSheet(
-                data = IncomeBottomSheet,
+                data = TradingBottomSheet,
                 isOpen = showBottomSheet,
                 onDismiss = {
                     showBottomSheet = false
@@ -108,54 +104,37 @@ fun ZakatIncomePage(
     ) {
         Column {
             Spacer(modifier = Modifier.size(20.dp))
-            Banner(state = state.value)
-            Spacer(modifier = Modifier.size(32.dp))
-            FirstSection(
-                selectedValue = selectedCheckbox,
-                onPressed = {
-                    selectedCheckbox = it
-                })
-            CommonSection(
-                question = "Berapa Pendapatan tetap anda per",
-                selectedValue = selectedCheckbox,
-                onValueChange = {
-                    questionOneText = it
-                })
-            Spacer(modifier = Modifier.size(32.dp))
-            CommonSection(
-                question = "Berapa Pendapatan lain anda per",
-                selectedValue = selectedCheckbox,
-                onValueChange = {
-                    questionTwoText = it
-                })
-            Spacer(modifier = Modifier.size(32.dp))
-            CommonSection(
-                question = "Berapa pengeluaran anda per",
-                selectedValue = selectedCheckbox,
-                onValueChange = {
-                    questionThreeText = it
-                })
-            Spacer(modifier = Modifier.size(64.dp))
-            SubmitButton(
-                isActive = selectedCheckbox != -1 &&
-                        questionOneText.isNotEmpty() &&
-                        questionTwoText.isNotEmpty() &&
-                        questionThreeText.isNotEmpty(),
-                onPressed = {
-                    val jsonString = viewModel.getRequestJsonString(
-                        selectedCheckbox,
-                        questionOneText,
-                        questionTwoText,
-                        questionThreeText
-                    )
-                    navController.navigate(
-                        AppRoute.ZakatIncomeResult.withArgs(
-                            jsonString,
-                            state.value.data.price
-                        )
-                    )
-                }
+            Banner(
+                state = state.value,
             )
+            Spacer(modifier = Modifier.size(12.dp))
+            CommonField(title = "Berapa modal yang anda putar ?", onDone = {
+                viewModel.changeFieldValue(0, it)
+            }, value = fieldValueState.value[0])
+            if (viewModel.isShowField(1)) {
+                CommonField(title = "Berapa piutang lancar anda ?", onDone = {
+                    viewModel.changeFieldValue(1, it)
+                }, value = fieldValueState.value[1])
+            }
+            if (viewModel.isShowField(2)) {
+                CommonField(title = "Berapa keuntungan perdagangan anda ?", onDone = {
+                    viewModel.changeFieldValue(2, it)
+                }, value = fieldValueState.value[2])
+            }
+            if (viewModel.isShowField(3)) {
+                CommonField(title = "Berapa hutang jatuh tempo anda ?", onDone = {
+                    viewModel.changeFieldValue(3, it)
+                }, value = fieldValueState.value[3])
+            }
+            if (viewModel.isShowField(4)) {
+                CommonField(title = "Berapa kerugian perdagangan anda ?", onDone = {
+                    viewModel.changeFieldValue(4, it)
+                }, value = fieldValueState.value[4])
+            }
+            Spacer(modifier = Modifier.size(30.dp))
+            SubmitButton(isActive = viewModel.isShowField(5)) {
+                navController.navigate(AppRoute.ZakatTradeResult.withArgs(viewModel.getRequestString(), state.value.data.price))
+            }
         }
     }
 }
@@ -197,7 +176,6 @@ private fun Banner(
                         style = LeadingGreen.copy(fontSize = 25.sp)
                     )
                 }
-
             }
             Spacer(modifier = Modifier.weight(1f))
             Image(
@@ -211,65 +189,9 @@ private fun Banner(
 }
 
 @Composable
-fun FirstSection(
-    selectedValue: Int = -1,
-    onPressed: (Int) -> Unit
-) {
-    Text(
-        text = "Tempo waktu dalam perhitungan",
-        style = MediumBlack.copy(fontSize = 12.sp)
-    )
-    Spacer(modifier = Modifier.size(16.dp))
-    Row {
-        PlanDuitCheckBox(
-            text = "Perbulan",
-            isChecked = selectedValue == 0,
-            onTap = {
-                onPressed(0)
-            })
-        Spacer(modifier = Modifier.size(24.dp))
-        PlanDuitCheckBox(text = "Pertahun",
-            isChecked = selectedValue == 1,
-            onTap = {
-                onPressed(1)
-            })
-    }
-}
-
-@Composable
-fun CommonSection(
-    question: String,
-    selectedValue: Int,
-    onValueChange: (String) -> Unit
-) {
-    Text(
-        buildAnnotatedString {
-            withStyle(
-                style = MediumBlack.copy(fontSize = 12.sp).toSpanStyle()
-            ) {
-                append(question)
-            }
-            withStyle(
-                style = MediumBlack.copy(fontSize = 12.sp, color = GreenPrimary)
-                    .toSpanStyle()
-            ) {
-                if (selectedValue == 1)
-                    append(" tahun")
-                else
-                    append(" bulan")
-            }
-        }
-    )
-    Spacer(modifier = Modifier.size(16.dp))
-    RpTextField(
-        onValueChange = onValueChange,
-    )
-}
-
-@Composable
 private fun SubmitButton(
     isActive: Boolean = false,
-    onPressed: () -> Unit = {}
+    onPressed: () -> Unit = {},
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     Row(
@@ -294,10 +216,25 @@ private fun SubmitButton(
                     .fillMaxSize()
             ) {
                 Text(
-                    text = "Lihat Zakat Penghasilanmu",
+                    text = "Lihat Zakat Perdaganganmu",
                     style = MediumWhite.copy(color = if (isActive) Color.White else DarkGrey)
                 )
             }
         }
     }
+}
+
+@Composable
+private fun CommonField(
+    title: String,
+    value: String = "",
+    onDone: (String) -> Unit = {},
+) {
+    Spacer(modifier = Modifier.size(20.dp))
+    Text(
+        text = title,
+        style = MediumBlack.copy(fontSize = 12.sp)
+    )
+    Spacer(modifier = Modifier.size(8.dp))
+    RpTextField(onDone = onDone, value = value)
 }

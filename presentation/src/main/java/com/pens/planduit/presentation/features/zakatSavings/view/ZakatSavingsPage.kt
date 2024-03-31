@@ -44,6 +44,7 @@ import com.pens.planduit.common.theme.HalfGrey
 import com.pens.planduit.common.theme.LeadingGreen
 import com.pens.planduit.common.theme.MediumBlack
 import com.pens.planduit.common.theme.MediumWhite
+import com.pens.planduit.common.theme.OffGreen
 import com.pens.planduit.common.theme.PaleBlue
 import com.pens.planduit.common.theme.SavingsBottomSheet
 import com.pens.planduit.common.theme.SmallBlack
@@ -147,7 +148,7 @@ private fun Banner(
     state: GoldPriceState
 ) {
     GradientContainer(
-        gradientColors = listOf(PaleBlue, PaleBlue.copy(alpha = 0.8f)),
+        gradientColors = listOf(PaleBlue, OffGreen),
         showShadow = true,
         cornerRadius = 16,
     ) {
@@ -219,7 +220,7 @@ private fun SubmitButton(
                     .fillMaxSize()
             ) {
                 Text(
-                    text = "Lihat Zakat Pertanianmu",
+                    text = "Lihat Zakat Tabunganmu",
                     style = MediumWhite.copy(color = if (isActive) Color.White else DarkGrey)
                 )
             }

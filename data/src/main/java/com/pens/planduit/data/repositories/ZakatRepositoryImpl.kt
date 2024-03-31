@@ -10,13 +10,14 @@ import com.pens.planduit.domain.models.request.AgricultureZakatRequest
 import com.pens.planduit.domain.models.request.GoldZakatRequest
 import com.pens.planduit.domain.models.request.IncomeZakatRequest
 import com.pens.planduit.domain.models.request.SavingZakatRequest
+import com.pens.planduit.domain.models.request.TradingZakatRequest
 import com.pens.planduit.domain.repositories.ZakatRepository
 import javax.inject.Inject
 
 class ZakatRepositoryImpl @Inject constructor(
     private val api: ZakatApi
 ) : ZakatRepository {
-    override suspend fun getIncomeZakatCalculation(request : IncomeZakatRequest): Resource<ZakatResult> {
+    override suspend fun getIncomeZakatCalculation(request: IncomeZakatRequest): Resource<ZakatResult> {
         try {
             val response = api.getIncomeZakatCalculation(request)
             if (response.isSuccessful) {
@@ -36,7 +37,7 @@ class ZakatRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getGoldZakatCalculation(request : GoldZakatRequest): Resource<ZakatResult> {
+    override suspend fun getGoldZakatCalculation(request: GoldZakatRequest): Resource<ZakatResult> {
         try {
             val response = api.getGoldZakatCalculation(request)
             if (response.isSuccessful) {
@@ -118,7 +119,10 @@ class ZakatRepositoryImpl @Inject constructor(
             if (response.isSuccessful) {
                 response.body()?.let {
                     return Resource.Success(
-                        ZakatResult(status = false, zakat = 0)
+                        ZakatResult(
+                            it.data?.status ?: true,
+                            it.data?.zakat ?: 0
+                        )
                     )
                 }
             }
@@ -128,5 +132,22 @@ class ZakatRepositoryImpl @Inject constructor(
         }
     }
 
-
+    override suspend fun getTradingZakat(request: TradingZakatRequest): Resource<ZakatResult> {
+        try {
+            val response = api.getTradingZakat(request)
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    return Resource.Success(
+                        ZakatResult(
+                            it.data?.status ?: true,
+                            it.data?.zakat ?: 0
+                        )
+                    )
+                }
+            }
+            return Resource.Error(response.message())
+        } catch (e: Exception) {
+            return Resource.Error(e.message ?: "An error occurred")
+        }
+    }
 }

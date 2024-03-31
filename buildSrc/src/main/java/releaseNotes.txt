@@ -1,12 +1,9 @@
 Release Note :
     NEW
-    1. UI Sliced : Zakat Agriculture
-    2. UI Sliced : Zakat Savings
-    3. API Integration : Zakat Agriculture
-    4. API Integration : Zakat Savings
+    1. UI Sliced : Zakat Trade
+    2. API Integration : Zakat Trade
 
     BUGFIX
-    1. Zakat Result Banner text
-    2. Change text of Zakat Gold text button
-    3. change first question of Zakat Income
-    4. Zakat Income question showed by time status type
+    1. Change button text in zakat savings
+    2. Optimize Banner background color of zakat
+    3. Fix Issues in zakat agriculture
