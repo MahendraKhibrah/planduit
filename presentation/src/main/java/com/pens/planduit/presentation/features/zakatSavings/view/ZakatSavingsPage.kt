@@ -219,7 +219,7 @@ private fun SubmitButton(
                     .fillMaxSize()
             ) {
                 Text(
-                    text = "Lihat Zakat Pertanianmu",
+                    text = "Lihat Zakat Tabunganmu",
                     style = MediumWhite.copy(color = if (isActive) Color.White else DarkGrey)
                 )
             }
