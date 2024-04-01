@@ -45,6 +45,7 @@ internal fun Project.commonDependenciesSetup() {
         implementation(FirebaseLibraries.firebaseAnalytics)
 
         // Chucker
-        implementation(Chucker.chucker)
+        debugImplementation(Chucker.chuckerDebug)
+        releaseImplementation(Chucker.chuckerRelease)
     }
 }

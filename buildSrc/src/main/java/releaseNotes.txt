@@ -1,9 +1,6 @@
 Release Note :
     NEW
-    1. UI Sliced : Zakat Trade
-    2. API Integration : Zakat Trade
-
-    BUGFIX
-    1. Change button text in zakat savings
-    2. Optimize Banner background color of zakat
-    3. Fix Issues in zakat agriculture
+    1. Set for Production deployment
+    2. Minify & Optimize App for Production
+    3. Obfuscate Code for Production App
+    4. Change Dependency availability depending on Environment
