@@ -19,6 +19,25 @@ android {
         applicationId = "${ApplicationId.id}"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    buildTypes {
+        named("debug") {
+            isDebuggable = true
+        }
+
+        named("release") {
+            isDebuggable = false
+            isMinifyEnabled = true
+            isShrinkResources = true
+
+            applicationIdSuffix = ".release"
+
+            proguardFiles(
+                android.getDefaultProguardFile("proguard-android.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
 }
 
 dependencies {

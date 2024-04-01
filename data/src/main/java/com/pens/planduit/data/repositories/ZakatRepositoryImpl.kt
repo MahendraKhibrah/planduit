@@ -72,7 +72,7 @@ class ZakatRepositoryImpl @Inject constructor(
             }
             return Resource.Error(response.message())
         } catch (e: Exception) {
-            Log.d("ZakatRepositoryImpl", "getSavingZakatCalculation: ${e.message}")
+            Log.d("ZakatRepositoryImpl", "error getSavingZakatCalculation: ${e.message}")
             return Resource.Error(e.message ?: "An error occurred")
         }
     }
@@ -91,6 +91,7 @@ class ZakatRepositoryImpl @Inject constructor(
             }
             return Resource.Error(response.message())
         } catch (e: Exception) {
+            Log.d("ZakatRepositoryImpl", "error getGoldPrice: ${e.message}")
             return Resource.Error(e.message ?: "An error occurred")
         }
     }

@@ -6,7 +6,7 @@ object Versions{
     const val versionMajor = 1
     const val versionMedium = 0
     const val versionMinor = 0
-    const val buildNum = 6
+    const val buildNum = 7
 
     val versionCode
         get() = 100000000 + (
@@ -85,7 +85,8 @@ object FirebaseLibraries {
 }
 
 object Chucker {
-    const val chucker = "com.github.chuckerteam.chucker:library:${Versions.chucker}"
+    const val chuckerDebug = "com.github.chuckerteam.chucker:library:${Versions.chucker}"
+    const val chuckerRelease = "com.github.chuckerteam.chucker:library-no-op:${Versions.chucker}"
 }
 
 object Plugins {
