@@ -111,7 +111,7 @@ fun ZakatIncomeResultPage(
             Spacer(modifier = Modifier.height(32.dp))
             Text(text = "PENDAPATANMU PER BULAN", style = SmallBlack.copy(fontSize = 14.sp))
             Spacer(modifier = Modifier.height(8.dp))
-            CommonPrice(price = request.income)
+            CommonPrice(price = request.income.toLong())
             Spacer(modifier = Modifier.height(24.dp))
             Text(text = "PENDAPATAN LAINMU PER BULAN", style = SmallBlack.copy(fontSize = 14.sp))
             Spacer(modifier = Modifier.height(8.dp))
@@ -207,7 +207,7 @@ fun Banner(
 fun CommonPrice(
     isLoading: Boolean = false,
     customTitle : String? = null,
-    price: Int
+    price: Long
 ) {
     val textWidth = Utils.getTextWidth(14f, 13)
     val textHeight = Utils.getTextHeight(14f)
@@ -223,7 +223,7 @@ fun CommonPrice(
 @Composable
 fun ResultSection(
     isLoading: Boolean = false,
-    price: Int
+    price: Long
 ) {
     if (isLoading)
         ShimmerBox(width = Utils.getTextWidth(14f, 27), height = Utils.getTextHeight(14f))

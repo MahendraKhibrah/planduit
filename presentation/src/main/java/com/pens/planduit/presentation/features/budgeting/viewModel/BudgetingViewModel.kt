@@ -45,7 +45,7 @@ class BudgetingViewModel @Inject constructor(
         }
     }
 
-    private fun getIncomeInteger() : Int {
-        return Utils.removeCommas(textFieldValue.value).toInt()
+    private fun getIncomeInteger() : Long {
+        return Utils.removeCommas(textFieldValue.value).toLong()
     }
 }

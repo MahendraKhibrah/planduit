@@ -2,5 +2,5 @@ package com.pens.planduit.domain.models.entity
 
 data class ZakatResult(
     val status : Boolean,
-    val zakat : Int
+    val zakat : Long
 )
