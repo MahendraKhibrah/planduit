@@ -39,6 +39,9 @@ object Versions{
     const val gms = "4.4.1"
     const val firebase = "32.7.4"
     const val chucker = "4.0.0"
+    const val material3 = "1.2.1"
+
+    const val ratingBar = "1.2.3"
 }
 
 object MainLibraries {
@@ -55,7 +58,7 @@ object MainLibraries {
     const val uiToolingPreview = "androidx.compose.ui:ui-tooling-preview"
     const val uiTestManifest = "androidx.compose.ui:ui-test-manifest"
     const val uiTestJunit4 = "androidx.compose.ui:ui-test-junit4"
-    const val material3 = "androidx.compose.material3:material3"
+    const val material3 = "androidx.compose.material3:material3:${Versions.material3}"
     const val androidToolBuild = "com.android.tools.build:gradle:${Versions.androidGradle}"
     const val jetbrainsKotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
 }
@@ -87,6 +90,10 @@ object FirebaseLibraries {
 object Chucker {
     const val chuckerDebug = "com.github.chuckerteam.chucker:library:${Versions.chucker}"
     const val chuckerRelease = "com.github.chuckerteam.chucker:library-no-op:${Versions.chucker}"
+}
+
+object Jitpack {
+    const val ratingBar = "com.github.a914-gowtham:compose-ratingbar:${Versions.ratingBar}"
 }
 
 object Plugins {

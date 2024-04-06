@@ -5,10 +5,12 @@ import androidx.lifecycle.viewModelScope
 import com.pens.planduit.common.utils.Resource
 import com.pens.planduit.common.utils.Utils
 import com.pens.planduit.domain.models.entity.GoldPrice
+import com.pens.planduit.domain.models.entity.RatingStatus
 import com.pens.planduit.domain.models.entity.ZakatResult
 import com.pens.planduit.domain.models.request.GoldZakatRequest
 import com.pens.planduit.domain.usecases.GetGoldPriceUsecase
 import com.pens.planduit.domain.usecases.GetGoldZakatCalculationUsecase
+import com.pens.planduit.domain.usecases.SaveRatingStatusUsecase
 import com.pens.planduit.presentation.features.zakatGold.state.ZakatGoldState
 import com.pens.planduit.presentation.features.zakatIncome.state.GoldPriceState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,7 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class ZGoldViewModel @Inject constructor(
     private val usecase: GetGoldPriceUsecase,
-    private val calculationUsecase: GetGoldZakatCalculationUsecase
+    private val calculationUsecase: GetGoldZakatCalculationUsecase,
+    private val saveRatingUsecase : SaveRatingStatusUsecase
 ) : ViewModel() {
     private val _state = MutableStateFlow(GoldPriceState())
     val state = _state.asStateFlow()
@@ -54,7 +57,7 @@ class ZGoldViewModel @Inject constructor(
         viewModelScope.launch (Dispatchers.IO){
             when(val result = calculationUsecase.execute(getCalculationRequest())){
                 is Resource.Success -> {
-//                    _resultState.value = ZakatGoldState(data = result.data ?: ZakatResult(false, 0), isLoading = false)
+                    saveRatingUsecase.execute(RatingStatus(isZakatGoldFilled = true))
                     _resultState.value = _resultState.value.copy(data = result.data ?: ZakatResult(false, 0), isLoading = false)
                 }
                 is Resource.Error -> {

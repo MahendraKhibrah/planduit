@@ -4,11 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.pens.planduit.common.utils.Resource
+import com.pens.planduit.domain.models.entity.RatingStatus
 import com.pens.planduit.domain.models.entity.ZakatResult
 import com.pens.planduit.domain.models.request.SavingZakatRequest
 import com.pens.planduit.domain.models.request.TradingZakatRequest
 import com.pens.planduit.domain.usecases.GetSavingZakatCalculationUsecase
 import com.pens.planduit.domain.usecases.GetTradingZakatUsecase
+import com.pens.planduit.domain.usecases.SaveRatingStatusUsecase
 import com.pens.planduit.presentation.features.zakatSavings.state.SavingZakatState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +22,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ZTradeResultViewModel @Inject constructor(
     private val usecase: GetTradingZakatUsecase,
+    private val saveRatingUsecase : SaveRatingStatusUsecase
 ) : ViewModel() {
     private val _state = MutableStateFlow(SavingZakatState())
     val state = _state.asStateFlow()
@@ -35,6 +38,7 @@ class ZTradeResultViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             when (val result = usecase.execute(request)) {
                 is Resource.Success -> {
+                    saveRatingUsecase.execute(RatingStatus(isZakatTrading = true))
                     _state.value = _state.value.copy(
                         data = result.data ?: ZakatResult(status = false, zakat = 0),
                         isLoading = false

@@ -6,10 +6,12 @@ import com.google.gson.Gson
 import com.pens.planduit.common.utils.Resource
 import com.pens.planduit.common.utils.Utils
 import com.pens.planduit.domain.models.entity.GoldPrice
+import com.pens.planduit.domain.models.entity.RatingStatus
 import com.pens.planduit.domain.models.entity.ZakatResult
 import com.pens.planduit.domain.models.request.IncomeZakatRequest
 import com.pens.planduit.domain.usecases.GetGoldPriceUsecase
 import com.pens.planduit.domain.usecases.GetIncomeZakatCalculationUsecase
+import com.pens.planduit.domain.usecases.SaveRatingStatusUsecase
 import com.pens.planduit.presentation.features.zakatIncome.state.GoldPriceState
 import com.pens.planduit.presentation.features.zakatIncome.state.ZIncomeResultState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,6 +24,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ZIncomeResultViewModel @Inject constructor(
     private val usecase: GetIncomeZakatCalculationUsecase,
+    private val saveRatingUsecase : SaveRatingStatusUsecase
 ) : ViewModel() {
     private val _state = MutableStateFlow(ZIncomeResultState())
     val state = _state.asStateFlow()
@@ -31,6 +34,7 @@ class ZIncomeResultViewModel @Inject constructor(
         viewModelScope.launch (Dispatchers.IO){
             when(val result = usecase.execute(request)){
                 is Resource.Success -> {
+                    saveRatingUsecase.execute(RatingStatus(isZakatIncomeFilled = true))
                     _state.value = ZIncomeResultState(data = result.data ?: ZakatResult(true, 0), isLoading = false)
                 }
                 is Resource.Error -> {

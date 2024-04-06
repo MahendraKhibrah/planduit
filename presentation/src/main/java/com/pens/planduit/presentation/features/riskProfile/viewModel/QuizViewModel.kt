@@ -3,9 +3,11 @@ package com.pens.planduit.presentation.features.riskProfile.viewModel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pens.planduit.domain.models.entity.RatingStatus
 import com.pens.planduit.domain.models.entity.RiskProfileQuiz
 import com.pens.planduit.domain.models.request.RiskProfileRequest
 import com.pens.planduit.domain.usecases.GetQuestionProfileRiskUsecase
+import com.pens.planduit.domain.usecases.SaveRatingStatusUsecase
 import com.pens.planduit.domain.usecases.SaveRiskProfileRequestUsecase
 import com.pens.planduit.presentation.features.riskProfile.state.QuestionState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +22,8 @@ import javax.inject.Inject
 @HiltViewModel
 class QuizViewModel @Inject constructor(
     private val usecase: GetQuestionProfileRiskUsecase,
-    private val saveRequestUsecase : SaveRiskProfileRequestUsecase
+    private val saveRequestUsecase : SaveRiskProfileRequestUsecase,
+    private val saveRatingUsecase : SaveRatingStatusUsecase
 ) : ViewModel() {
     private val _state = MutableStateFlow(QuestionState())
     private val _isCompleteFilled = MutableStateFlow(false)
@@ -103,6 +106,7 @@ class QuizViewModel @Inject constructor(
                     it.choices[it.selectedChoice ?: 0].value
                 }
                 if(saveRequestUsecase.execute(RiskProfileRequest(request ?: emptyList()))) {
+                    saveRatingUsecase.execute(RatingStatus(isRiskProfileFilled = true))
                     isSuccess = true
                 }
             } catch (e: Exception) {
