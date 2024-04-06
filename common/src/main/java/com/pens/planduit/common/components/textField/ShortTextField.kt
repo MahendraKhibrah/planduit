@@ -70,7 +70,7 @@ fun ShortTextField(
             BasicTextField(
                 value = text,
                 onValueChange = { newValue ->
-                    if (newValue.length <= 3) {
+                    if (newValue.length < 3) {
                         text = newValue
                         onValueChange(newValue)
                     }

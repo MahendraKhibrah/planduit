@@ -46,8 +46,8 @@ class ZakatSavingViewModel @Inject constructor(
     fun getRequestString() : String {
         val request = SavingZakatRequest(
             savings = Utils.removeCommasToInt(fieldValueState.value[0]),
-            bank = Utils.removeCommasToInt(fieldValueState.value[1]) == 1,
-            interest = if (fieldValueState.value[2] != "") Utils.removeCommasToInt(fieldValueState.value[2]) else 0
+            bank = Utils.removeCommasToInt(fieldValueState.value[1]) == 1.toLong(),
+            interest = if (fieldValueState.value[2] != "") Utils.removeCommasToInt(fieldValueState.value[2]).toInt() else 0
         )
         return Gson().toJson(request)
     }

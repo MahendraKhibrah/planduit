@@ -143,19 +143,19 @@ fun ZakatGoldPage(
                     }
                 }
             }
-            if (resultState.value.zakatRequest != 0){
+            if (resultState.value.zakatRequest != 0.toLong()){
                 Spacer(modifier = Modifier.height(24.dp))
                 Text(text = "JUMLAH EMAS YANG KAMU MILIKI", style = SmallBlack.copy(fontSize = 14.sp))
                 Spacer(modifier = Modifier.height(8.dp))
                 CommonPrice(price = resultState.value.zakatRequest, isLoading = resultState.value.isLoading, customTitle = "${resultState.value.zakatRequest} gram")
                 if (resultState.value.data.status) {
                     Spacer(modifier = Modifier.height(24.dp))
-                    ResultSection(isLoading = resultState.value.isLoading, price = state.value.data.price)
+                    ResultSection(isLoading = resultState.value.isLoading, price = state.value.data.price.toLong())
                 }
             }
             Spacer(modifier = Modifier.height(100.dp))
 
-            if(resultState.value.zakatRequest!= 0) ZakatResultBanner(isLoading = resultState.value.isLoading, isSuccess = resultState.value.data.status, title = "emas")
+            if(resultState.value.zakatRequest!= 0.toLong()) ZakatResultBanner(isLoading = resultState.value.isLoading, isSuccess = resultState.value.data.status, title = "emas")
         }
     }
 }
@@ -193,7 +193,7 @@ private fun Banner(
                     ShimmerBox(width = textWidth, height = textHeight)
                 } else {
                     Text(
-                        "Rp. " + Utils.addCommasEveryThreeChars(state.data.price),
+                        "Rp. " + Utils.addCommasEveryThreeChars(state.data.price.toLong()),
                         style = LeadingGreen.copy(fontSize = 25.sp)
                     )
                 }

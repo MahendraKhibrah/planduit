@@ -48,10 +48,10 @@ class InvestmentCalculatorViewModel @Inject constructor(
 
     private fun getInvestmentRequestObject() : InvestmentRequest{
         return InvestmentRequest(
-            targetMoney = Utils.removeCommas(fieldValueState.value[0]).toInt(),
+            targetMoney = Utils.removeCommas(fieldValueState.value[0]).toLong(),
             targetTime = Utils.removeCommas(fieldValueState.value[1]).toInt(),
-            initialMoney = Utils.removeCommas(fieldValueState.value[2]).toInt(),
-            moneyInvestment = Utils.removeCommas(fieldValueState.value[3]).toInt(),
+            initialMoney = Utils.removeCommas(fieldValueState.value[2]).toLong(),
+            moneyInvestment = Utils.removeCommas(fieldValueState.value[3]).toLong(),
             interest = Utils.removeCommas(fieldValueState.value[4]).toInt(),
             timeType = if (fieldValueState.value[5] == "0") "MONTHLY" else "YEARLY"
         )

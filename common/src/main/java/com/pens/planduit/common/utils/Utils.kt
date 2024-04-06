@@ -28,7 +28,7 @@ object Utils {
         return result.reverse().toString()
     }
 
-    fun addCommasEveryThreeChars(input: Int): String {
+    fun addCommasEveryThreeChars(input: Long): String {
         return addCommasEveryThreeChars(input.toString())
     }
 
@@ -36,11 +36,11 @@ object Utils {
         return input.replace(",", "")
     }
 
-    fun removeCommasToInt(input: String): Int {
-        return removeCommas(input).toInt()
+    fun removeCommasToInt(input: String): Long {
+        return removeCommas(input).toLong()
     }
 
-    fun createRpText(input: Int?): String {
+    fun createRpText(input: Long?): String {
         var result = "Rp. "
         if (input == null) {
             result += "-"
