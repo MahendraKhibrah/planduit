@@ -6,7 +6,7 @@ object Versions{
     const val versionMajor = 1
     const val versionMedium = 0
     const val versionMinor = 0
-    const val buildNum = 7
+    const val buildNum = 8
 
     val versionCode
         get() = 100000000 + (
