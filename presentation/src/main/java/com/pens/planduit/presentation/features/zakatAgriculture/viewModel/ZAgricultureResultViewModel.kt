@@ -6,9 +6,11 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.pens.planduit.common.utils.Resource
 import com.pens.planduit.common.utils.Utils
+import com.pens.planduit.domain.models.entity.RatingStatus
 import com.pens.planduit.domain.models.entity.ZakatResult
 import com.pens.planduit.domain.models.request.AgricultureZakatRequest
 import com.pens.planduit.domain.usecases.GetAgricultureZakatUsecase
+import com.pens.planduit.domain.usecases.SaveRatingStatusUsecase
 import com.pens.planduit.presentation.features.zakatAgriculture.state.AgricultureZakatState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -21,6 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ZAgricultureResultViewModel @Inject constructor(
     private val usecase: GetAgricultureZakatUsecase,
+    private val saveRatingUsecase : SaveRatingStatusUsecase
 ) : ViewModel() {
     private val _state = MutableStateFlow(AgricultureZakatState())
     val state = _state.asStateFlow()
@@ -46,6 +49,7 @@ class ZAgricultureResultViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             when (val result = usecase.execute(request)) {
                 is Resource.Success -> {
+                    saveRatingUsecase.execute(RatingStatus(isZakatAgricultureFilled = true))
                     _state.value = _state.value.copy(
                         data = result.data ?: ZakatResult(status = false, zakat = 0),
                         isLoading = false

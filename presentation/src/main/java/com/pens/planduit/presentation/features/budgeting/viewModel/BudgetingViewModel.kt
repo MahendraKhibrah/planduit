@@ -5,8 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pens.planduit.common.utils.Resource
 import com.pens.planduit.common.utils.Utils
+import com.pens.planduit.domain.models.entity.RatingStatus
 import com.pens.planduit.domain.models.request.BudgetingRequest
 import com.pens.planduit.domain.usecases.GetBudgetCalculationUsecase
+import com.pens.planduit.domain.usecases.SaveRatingStatusUsecase
 import com.pens.planduit.presentation.features.budgeting.state.BudgetState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BudgetingViewModel @Inject constructor(
-    private val useCase: GetBudgetCalculationUsecase
+    private val useCase: GetBudgetCalculationUsecase,
+    private val saveRatingUsecase : SaveRatingStatusUsecase
 ) : ViewModel() {
     private val _state = MutableStateFlow(BudgetState())
     val state = _state
@@ -29,7 +32,7 @@ class BudgetingViewModel @Inject constructor(
             _state.update { it.copy(isLoading = true) }
             when(val result = useCase.execute(BudgetingRequest(getIncomeInteger()))){
                 is Resource.Success -> {
-                    Log.d("BudgetingViewModel", "getBudgetCalculation: ${result.data}")
+                    saveRatingUsecase.execute(RatingStatus(isBudgetingFilled = true))
                     _state.update { it.copy(data = result.data, isLoading = false) }
                 }
                 is Resource.Error -> {

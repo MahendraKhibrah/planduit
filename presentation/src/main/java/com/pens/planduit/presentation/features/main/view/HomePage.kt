@@ -1,5 +1,6 @@
 package com.pens.planduit.presentation.features.main.view
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,6 +28,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.pens.planduit.common.components.container.GradientContainer
 import com.pens.planduit.common.components.container.PlanDuitScaffold
@@ -39,6 +42,7 @@ import com.pens.planduit.common.theme.BoldBalanceBlack
 import com.pens.planduit.common.theme.LeadingGreen
 import com.pens.planduit.common.theme.MediumBlack
 import com.pens.planduit.presentation.features.article.widget.ArticleCard
+import com.pens.planduit.presentation.features.main.viewModel.RatingViewModel
 import com.pens.planduit.presentation.features.main.widget.MenuItem
 import com.pens.planduit.presentation.features.main.widget.RatingDialog
 import com.pens.planduit.presentation.navigation.AppRoute
@@ -46,9 +50,14 @@ import com.pens.planduit.presentation.navigation.AppRoute
 @Composable
 fun HomePage(
     navController: NavHostController,
+    ratingViewModel: RatingViewModel = hiltViewModel<RatingViewModel>()
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     var showRatingDialog by remember { mutableStateOf(false) }
+
+    LaunchedEffect(key1 = true) {
+        showRatingDialog = ratingViewModel.getRatingStatus()
+    }
 
     PlanDuitScaffold(
         showAppBar = false,
@@ -56,6 +65,11 @@ fun HomePage(
             if (showRatingDialog) {
                 RatingDialog(
                     onDismiss = {
+                        ratingViewModel.markAsRead()
+                        showRatingDialog = false
+                    },
+                    onPressed = {
+                        ratingViewModel.markAsRead()
                         showRatingDialog = false
                     }
                 )

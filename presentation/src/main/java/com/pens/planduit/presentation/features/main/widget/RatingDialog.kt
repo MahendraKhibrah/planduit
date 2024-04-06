@@ -55,7 +55,8 @@ import com.pens.planduit.common.theme.SmallBlack
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RatingDialog(
-    onDismiss: () -> Unit = {}
+    onDismiss: () -> Unit = {},
+    onPressed: () -> Unit = {}
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -143,7 +144,7 @@ fun RatingDialog(
             )
             Spacer(modifier = Modifier.height(24.dp))
             SubmitButton(isActive = rating > 0) {
-                onDismiss()
+                onPressed()
             }
         }
     })
