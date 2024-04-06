@@ -14,7 +14,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,6 +40,7 @@ import com.pens.planduit.common.theme.LeadingGreen
 import com.pens.planduit.common.theme.MediumBlack
 import com.pens.planduit.presentation.features.article.widget.ArticleCard
 import com.pens.planduit.presentation.features.main.widget.MenuItem
+import com.pens.planduit.presentation.features.main.widget.RatingDialog
 import com.pens.planduit.presentation.navigation.AppRoute
 
 @Composable
@@ -44,8 +48,19 @@ fun HomePage(
     navController: NavHostController,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
+    var showRatingDialog by remember { mutableStateOf(false) }
+
     PlanDuitScaffold(
-        showAppBar = false
+        showAppBar = false,
+        bottomSheet = {
+            if (showRatingDialog) {
+                RatingDialog(
+                    onDismiss = {
+                        showRatingDialog = false
+                    }
+                )
+            }
+        },
     ) {
         Column(
             verticalArrangement = Arrangement.Top,
@@ -113,9 +128,12 @@ fun HomePage(
                 verticalAlignment = Alignment.Top,
                 modifier = Modifier.padding(horizontal = 8.dp)
             ) {
-                MenuItem(title = "Profil Resiko", imageId = R.drawable.ic_risk_profile, onPressed = {
-                    navController.navigate(AppRoute.RiskProfile.route)
-                })
+                MenuItem(
+                    title = "Profil Resiko",
+                    imageId = R.drawable.ic_risk_profile,
+                    onPressed = {
+                        navController.navigate(AppRoute.RiskProfile.route)
+                    })
                 Spacer(modifier = Modifier.weight(1f))
                 MenuItem(title = "Investasi", imageId = R.drawable.ic_investation, onPressed = {
                     navController.navigate(AppRoute.InvestmentCalculator.route)
@@ -128,9 +146,12 @@ fun HomePage(
                 verticalAlignment = Alignment.Top,
                 modifier = Modifier.padding(horizontal = 8.dp)
             ) {
-                MenuItem(title = "Budgeting 50/30/20", imageId = R.drawable.ic_budgeting, onPressed = {
-                    navController.navigate(AppRoute.Budgeting.route)
-                })
+                MenuItem(
+                    title = "Budgeting 50/30/20",
+                    imageId = R.drawable.ic_budgeting,
+                    onPressed = {
+                        navController.navigate(AppRoute.Budgeting.route)
+                    })
                 Spacer(modifier = Modifier.weight(1f))
             }
             Spacer(modifier = Modifier.height(32.dp))
@@ -156,7 +177,7 @@ fun HomePage(
                 Spacer(modifier = Modifier.weight(1f))
                 MenuItem(title = "Emas", imageId = R.drawable.ic_gold, onPressed = {
                     navController.navigate(AppRoute.ZakatGold.route)
-                } )
+                })
             }
             Spacer(modifier = Modifier.height(20.dp))
             Row(
@@ -179,13 +200,15 @@ fun HomePage(
             ) {
                 Text(text = "Artikel", style = LeadingGreen.copy(fontSize = 16.sp))
                 Spacer(modifier = Modifier.weight(1f))
-                Text(text = "Lihat Semua", style = BalanceGrey.copy(fontSize = 12.sp), modifier = Modifier.clickable(
-                    interactionSource = interactionSource,
-                    indication = null,
-                    onClick = {
-                        navController.navigate(AppRoute.Article.route)
-                    }
-                ))
+                Text(text = "Lihat Semua",
+                    style = BalanceGrey.copy(fontSize = 12.sp),
+                    modifier = Modifier.clickable(
+                        interactionSource = interactionSource,
+                        indication = null,
+                        onClick = {
+                            navController.navigate(AppRoute.Article.route)
+                        }
+                    ))
             }
             Spacer(modifier = Modifier.height(24.dp))
             ArticleCard(

@@ -47,5 +47,8 @@ internal fun Project.commonDependenciesSetup() {
         // Chucker
         debugImplementation(Chucker.chuckerDebug)
         releaseImplementation(Chucker.chuckerRelease)
+
+        // Jitpack
+        implementation(Jitpack.ratingBar)
     }
 }
