@@ -162,21 +162,27 @@ fun HomePage(
                     navController.navigate(AppRoute.InvestmentCalculator.route)
                 })
                 Spacer(modifier = Modifier.weight(1f))
-                MenuItem(title = "Impian", imageId = R.drawable.ic_dream)
-            }
-            Spacer(modifier = Modifier.height(20.dp))
-            Row(
-                verticalAlignment = Alignment.Top,
-                modifier = Modifier.padding(horizontal = 8.dp)
-            ) {
+//                MenuItem(title = "Impian", imageId = R.drawable.ic_dream)
                 MenuItem(
-                    title = "Budgeting 50/30/20",
+                    title = "Budgeting",
                     imageId = R.drawable.ic_budgeting,
                     onPressed = {
                         navController.navigate(AppRoute.Budgeting.route)
                     })
-                Spacer(modifier = Modifier.weight(1f))
             }
+//            Spacer(modifier = Modifier.height(20.dp))
+//            Row(
+//                verticalAlignment = Alignment.Top,
+//                modifier = Modifier.padding(horizontal = 8.dp)
+//            ) {
+//                MenuItem(
+//                    title = "Budgeting 50/30/20",
+//                    imageId = R.drawable.ic_budgeting,
+//                    onPressed = {
+//                        navController.navigate(AppRoute.Budgeting.route)
+//                    })
+//                Spacer(modifier = Modifier.weight(1f))
+//            }
             Spacer(modifier = Modifier.height(32.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -218,47 +224,47 @@ fun HomePage(
                 Box(modifier = Modifier.width(83.dp))
             }
             Spacer(modifier = Modifier.height(32.dp))
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(text = "Artikel", style = LeadingGreen.copy(fontSize = 16.sp))
-                Spacer(modifier = Modifier.weight(1f))
-                Text(text = "Lihat Semua",
-                    style = BalanceGrey.copy(fontSize = 12.sp),
-                    modifier = Modifier.clickable(
-                        interactionSource = interactionSource,
-                        indication = null,
-                        onClick = {
-                            navController.navigate(AppRoute.Article.route)
-                        }
-                    ))
-            }
-            Spacer(modifier = Modifier.height(24.dp))
-            ArticleCard(
-                title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
-                description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
-                date = "30 MAR 2024",
-                onTap = {
-                    navController.navigate(AppRoute.ArticleDetail.route)
-                }
-            )
-            ArticleCard(
-                title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
-                description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
-                date = "28 FEB 2024",
-                onTap = {
-                    navController.navigate(AppRoute.ArticleDetail.route)
-                }
-            )
-            ArticleCard(
-                title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
-                description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
-                date = "01 JAN 2024",
-                onTap = {
-                    navController.navigate(AppRoute.ArticleDetail.route)
-                },
-                hideDivider = true
-            )
+//            Row(
+//                verticalAlignment = Alignment.CenterVertically,
+//            ) {
+//                Text(text = "Artikel", style = LeadingGreen.copy(fontSize = 16.sp))
+//                Spacer(modifier = Modifier.weight(1f))
+//                Text(text = "Lihat Semua",
+//                    style = BalanceGrey.copy(fontSize = 12.sp),
+//                    modifier = Modifier.clickable(
+//                        interactionSource = interactionSource,
+//                        indication = null,
+//                        onClick = {
+//                            navController.navigate(AppRoute.Article.route)
+//                        }
+//                    ))
+//            }
+//            Spacer(modifier = Modifier.height(24.dp))
+//            ArticleCard(
+//                title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
+//                description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
+//                date = "30 MAR 2024",
+//                onTap = {
+//                    navController.navigate(AppRoute.ArticleDetail.route)
+//                }
+//            )
+//            ArticleCard(
+//                title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
+//                description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
+//                date = "28 FEB 2024",
+//                onTap = {
+//                    navController.navigate(AppRoute.ArticleDetail.route)
+//                }
+//            )
+//            ArticleCard(
+//                title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
+//                description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
+//                date = "01 JAN 2024",
+//                onTap = {
+//                    navController.navigate(AppRoute.ArticleDetail.route)
+//                },
+//                hideDivider = true
+//            )
         }
     }
 }

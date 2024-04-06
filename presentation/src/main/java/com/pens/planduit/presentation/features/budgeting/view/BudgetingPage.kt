@@ -59,7 +59,7 @@ fun BudgetingPage(
     val textHeight = (14.sp.value * 1.5f).dp.minus(2.dp)
 
     PlanDuitScaffold(
-        title = "Kalkulator Budgeting 50/30/20",
+        title = "Kalkulator Budgeting",
         onBackPressed = {
             navController.popBackStack()
         },
