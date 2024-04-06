@@ -150,7 +150,7 @@ fun ZakatGoldPage(
                 CommonPrice(price = resultState.value.zakatRequest, isLoading = resultState.value.isLoading, customTitle = "${resultState.value.zakatRequest} gram")
                 if (resultState.value.data.status) {
                     Spacer(modifier = Modifier.height(24.dp))
-                    ResultSection(isLoading = resultState.value.isLoading, price = state.value.data.price.toLong())
+                    ResultSection(isLoading = resultState.value.isLoading, price = resultState.value.data.zakat)
                 }
             }
             Spacer(modifier = Modifier.height(100.dp))
