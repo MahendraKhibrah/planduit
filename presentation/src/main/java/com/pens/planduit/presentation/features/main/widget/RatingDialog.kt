@@ -20,6 +20,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
@@ -51,12 +52,14 @@ import com.pens.planduit.common.theme.HalfGrey
 import com.pens.planduit.common.theme.MediumBlack
 import com.pens.planduit.common.theme.MediumWhite
 import com.pens.planduit.common.theme.SmallBlack
+import com.pens.planduit.domain.models.request.RatingRequest
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RatingDialog(
     onDismiss: () -> Unit = {},
-    onPressed: () -> Unit = {}
+    isLoading: Boolean,
+    onPressed: (RatingRequest) -> Unit = {}
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -66,93 +69,97 @@ fun RatingDialog(
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     AlertDialog(onDismissRequest = onDismiss, confirmButton = {},
         icon = {
-          Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End){
-              Icon(imageVector = Icons.Default.Close, contentDescription = "close", modifier = Modifier.clickable(
-                  interactionSource = remember { MutableInteractionSource() },
-                  indication = null,
-                  onClick = {
-                      onDismiss()
-                  },
-              ))
-          }  
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                Icon(
+                    imageVector = Icons.Default.Close,
+                    contentDescription = "close",
+                    modifier = Modifier.clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null,
+                        onClick = {
+                            onDismiss()
+                        },
+                    )
+                )
+            }
         },
         text = {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                Text(
-                    text = "Kasih Rating, yuk!", style = MediumBlack
-                )
-            }
-            Spacer(modifier = Modifier.height(24.dp))
-            RatingBar(
-                value = rating,
-                onValueChange = {
-                    rating = it
-                },
-                onRatingChanged = {
-                    Log.d("TAG", "onRatingChanged: $it")
-                },
-                config = RatingBarConfig().inactiveColor(HalfGrey)
-            )
-            Spacer(modifier = Modifier.height(24.dp))
-            Text(
-                text = "Ada lagi yang ingin disampaikan?",
-                style = SmallBlack.copy(fontSize = 14.sp),
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            OutlinedTextField(
-                value = text,
-                onValueChange = {
-                    text = it
-                },
-                placeholder = {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
                     Text(
-                        text = "Berikan komentar kamu...",
-                        style = SmallBlack.copy(fontSize = 14.sp, color = HalfGrey)
+                        text = "Kasih Rating, yuk!", style = MediumBlack
                     )
-                },
-                minLines = 4,
-                maxLines = 8,
-                modifier = Modifier
-                    .width(screenWidth)
-                    .border(
-                        1.dp,
-                        HalfGrey,
-                        RoundedCornerShape(13.dp)
-                    )
-                    .imePadding(),
-                textStyle = SmallBlack.copy(fontSize = 14.sp),
-                keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Done
-                ),
-                keyboardActions = KeyboardActions(
-                    onDone = {
-                        focusManager.clearFocus()
-                    }
-                ),
-                colors = TextFieldDefaults.outlinedTextFieldColors(
-                    focusedBorderColor = Color.Red.copy(0f),
-                    unfocusedBorderColor = Color.Red.copy(0f)
+                }
+                Spacer(modifier = Modifier.height(24.dp))
+                RatingBar(
+                    value = rating,
+                    onValueChange = {
+                        rating = it
+                    },
+                    onRatingChanged = {
+                    },
+                    config = RatingBarConfig().inactiveColor(HalfGrey)
                 )
-            )
-            Spacer(modifier = Modifier.height(24.dp))
-            SubmitButton(isActive = rating > 0) {
-                onPressed()
+                Spacer(modifier = Modifier.height(24.dp))
+                Text(
+                    text = "Ada lagi yang ingin disampaikan?",
+                    style = SmallBlack.copy(fontSize = 14.sp),
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                OutlinedTextField(
+                    value = text,
+                    onValueChange = {
+                        text = it
+                    },
+                    placeholder = {
+                        Text(
+                            text = "Berikan komentar kamu...",
+                            style = SmallBlack.copy(fontSize = 14.sp, color = HalfGrey)
+                        )
+                    },
+                    minLines = 4,
+                    maxLines = 8,
+                    modifier = Modifier
+                        .width(screenWidth)
+                        .border(
+                            1.dp,
+                            HalfGrey,
+                            RoundedCornerShape(13.dp)
+                        )
+                        .imePadding(),
+                    textStyle = SmallBlack.copy(fontSize = 14.sp),
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Text,
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            focusManager.clearFocus()
+                        }
+                    ),
+                    colors = TextFieldDefaults.outlinedTextFieldColors(
+                        focusedBorderColor = Color.Red.copy(0f),
+                        unfocusedBorderColor = Color.Red.copy(0f)
+                    )
+                )
+                Spacer(modifier = Modifier.height(24.dp))
+                SubmitButton(isActive = rating > 0, isLoading = isLoading) {
+                    onPressed(RatingRequest(rating.toInt(), text.text))
+                }
             }
-        }
-    })
+        })
 }
 
 @Composable
 private fun SubmitButton(
     isActive: Boolean = false,
+    isLoading: Boolean = false,
     onPressed: () -> Unit = {}
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
@@ -177,10 +184,14 @@ private fun SubmitButton(
                 modifier = Modifier
                     .fillMaxSize()
             ) {
-                Text(
-                    text = "Kirim Rating",
-                    style = MediumWhite.copy(color = if (isActive) Color.White else DarkGrey)
-                )
+                if (isLoading) {
+                    CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
+                } else {
+                    Text(
+                        text = "Kirim Rating",
+                        style = MediumWhite.copy(color = if (isActive) Color.White else DarkGrey)
+                    )
+                }
             }
         }
     }

@@ -29,6 +29,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.pens.planduit.common.components.container.GradientContainer
 import com.pens.planduit.common.components.container.PlanDuitScaffold
@@ -41,6 +42,7 @@ import com.pens.planduit.common.theme.BlackPrimary
 import com.pens.planduit.common.theme.BoldBalanceBlack
 import com.pens.planduit.common.theme.LeadingGreen
 import com.pens.planduit.common.theme.MediumBlack
+import com.pens.planduit.domain.models.request.RatingRequest
 import com.pens.planduit.presentation.features.article.widget.ArticleCard
 import com.pens.planduit.presentation.features.main.viewModel.RatingViewModel
 import com.pens.planduit.presentation.features.main.widget.MenuItem
@@ -55,8 +57,15 @@ fun HomePage(
     val interactionSource = remember { MutableInteractionSource() }
     var showRatingDialog by remember { mutableStateOf(false) }
 
+    val state = ratingViewModel.state.collectAsStateWithLifecycle()
+
     LaunchedEffect(key1 = true) {
         showRatingDialog = ratingViewModel.getRatingStatus()
+    }
+
+    if (state.value.data == true){
+        ratingViewModel.markAsRead()
+        showRatingDialog = false
     }
 
     PlanDuitScaffold(
@@ -69,9 +78,9 @@ fun HomePage(
                         showRatingDialog = false
                     },
                     onPressed = {
-                        ratingViewModel.markAsRead()
-                        showRatingDialog = false
-                    }
+                        ratingViewModel.postRating(it)
+                    },
+                    isLoading = state.value.isLoading
                 )
             }
         },

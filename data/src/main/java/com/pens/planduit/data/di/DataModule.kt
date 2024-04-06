@@ -4,6 +4,7 @@ import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.gson.Gson
 import com.pens.planduit.data.apis.GeneralCalculationApi
+import com.pens.planduit.data.apis.RatingApi
 import com.pens.planduit.data.apis.TestingApi
 import com.pens.planduit.data.apis.ZakatApi
 import com.pens.planduit.data.repositories.GeneralCalculationRepositoryImpl
@@ -96,5 +97,9 @@ class DataModule {
 
     @Singleton
     @Provides
-    fun provideRatingRepository(pref : RatingPref) : RatingRepository = RatingRepositoryImpl(pref)
+    fun provideRatingApi(retrofit: Retrofit) : RatingApi = retrofit.create(RatingApi::class.java)
+
+    @Singleton
+    @Provides
+    fun provideRatingRepository(pref : RatingPref, api: RatingApi) : RatingRepository = RatingRepositoryImpl(pref, api)
 }
