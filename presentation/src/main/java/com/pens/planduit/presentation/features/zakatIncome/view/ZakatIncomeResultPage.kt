@@ -208,7 +208,7 @@ fun Banner(
 fun CommonPrice(
     isLoading: Boolean = false,
     customTitle : String? = null,
-    price: Long
+    price: Number
 ) {
     val textWidth = Utils.getTextWidth(14f, 13)
     val textHeight = Utils.getTextHeight(14f)
@@ -224,7 +224,7 @@ fun CommonPrice(
 @Composable
 fun ResultSection(
     isLoading: Boolean = false,
-    price: Long
+    price: Number
 ) {
     if (isLoading)
         ShimmerBox(width = Utils.getTextWidth(14f, 27), height = Utils.getTextHeight(14f))
