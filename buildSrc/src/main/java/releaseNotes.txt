@@ -1,9 +1,12 @@
 Release Note :
-    NEW
-    1. Set up for production mode
-    2. UI Sliced : App Rating Dialog View
-    3. API Integration : App Rating Dialog View
-
     BUGFIX
-    1. Hide some features those still dummy
-    2. Fix crash issues when number more than 11 digit
+    1. Fix Zakat Gold Result
+    2. Change question text of budgeting page
+    3. Set default value in zakat income
+    4. Fix Info Bottom Sheet in Zakat Income Result Page
+    5. Fix Number data value issues
+    6. Filtering number textfield
+
+    IMPROVEMENT
+    1. Improve user experience in zakat gold page and budgeting page
+    2. improve consistency of language
