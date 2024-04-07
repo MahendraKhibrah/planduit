@@ -143,7 +143,7 @@ fun ZakatGoldPage(
                     }
                 }
             }
-            if (resultState.value.zakatRequest != 0.toLong()){
+            if (resultState.value.zakatRequest != 0){
                 Spacer(modifier = Modifier.height(24.dp))
                 Text(text = "JUMLAH EMAS YANG KAMU MILIKI", style = SmallBlack.copy(fontSize = 14.sp))
                 Spacer(modifier = Modifier.height(8.dp))
@@ -155,7 +155,7 @@ fun ZakatGoldPage(
             }
             Spacer(modifier = Modifier.height(100.dp))
 
-            if(resultState.value.zakatRequest!= 0.toLong()) ZakatResultBanner(isLoading = resultState.value.isLoading, isSuccess = resultState.value.data.status, title = "emas")
+            if(resultState.value.data.zakat != 0) ZakatResultBanner(isLoading = resultState.value.isLoading, isSuccess = resultState.value.data.status, title = "emas")
         }
     }
 }
