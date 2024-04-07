@@ -44,6 +44,7 @@ import com.pens.planduit.common.components.container.ShimmerBox
 import com.pens.planduit.common.components.container.ZakatResultBanner
 import com.pens.planduit.common.theme.BlackPrimary
 import com.pens.planduit.common.theme.BudgetingBottomSheet
+import com.pens.planduit.common.theme.IncomeBottomSheet
 import com.pens.planduit.common.theme.LeadingGreen
 import com.pens.planduit.common.theme.MediumBlack
 import com.pens.planduit.common.theme.OffGreen
@@ -78,7 +79,7 @@ fun ZakatIncomeResultPage(
         },
         bottomSheet = {
             CommonBottomSheet(
-                data = BudgetingBottomSheet,
+                data = IncomeBottomSheet,
                 isOpen = showBottomSheet,
                 onDismiss = {
                     showBottomSheet = false
@@ -111,7 +112,7 @@ fun ZakatIncomeResultPage(
             Spacer(modifier = Modifier.height(32.dp))
             Text(text = "PENDAPATANMU PER BULAN", style = SmallBlack.copy(fontSize = 14.sp))
             Spacer(modifier = Modifier.height(8.dp))
-            CommonPrice(price = request.income)
+            CommonPrice(price = request.income.toLong())
             Spacer(modifier = Modifier.height(24.dp))
             Text(text = "PENDAPATAN LAINMU PER BULAN", style = SmallBlack.copy(fontSize = 14.sp))
             Spacer(modifier = Modifier.height(8.dp))
@@ -207,7 +208,7 @@ fun Banner(
 fun CommonPrice(
     isLoading: Boolean = false,
     customTitle : String? = null,
-    price: Int
+    price: Number
 ) {
     val textWidth = Utils.getTextWidth(14f, 13)
     val textHeight = Utils.getTextHeight(14f)
@@ -223,7 +224,7 @@ fun CommonPrice(
 @Composable
 fun ResultSection(
     isLoading: Boolean = false,
-    price: Int
+    price: Number
 ) {
     if (isLoading)
         ShimmerBox(width = Utils.getTextWidth(14f, 27), height = Utils.getTextHeight(14f))

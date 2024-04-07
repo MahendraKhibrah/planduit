@@ -108,26 +108,26 @@ fun ZakatTradePage(
                 state = state.value,
             )
             Spacer(modifier = Modifier.size(12.dp))
-            CommonField(title = "Berapa modal yang anda putar ?", onDone = {
+            CommonField(title = "Berapa modal yang kamu putar ?", onDone = {
                 viewModel.changeFieldValue(0, it)
             }, value = fieldValueState.value[0])
             if (viewModel.isShowField(1)) {
-                CommonField(title = "Berapa piutang lancar anda ?", onDone = {
+                CommonField(title = "Berapa piutang lancar kamu ?", onDone = {
                     viewModel.changeFieldValue(1, it)
                 }, value = fieldValueState.value[1])
             }
             if (viewModel.isShowField(2)) {
-                CommonField(title = "Berapa keuntungan perdagangan anda ?", onDone = {
+                CommonField(title = "Berapa keuntungan perdagangan kamu ?", onDone = {
                     viewModel.changeFieldValue(2, it)
                 }, value = fieldValueState.value[2])
             }
             if (viewModel.isShowField(3)) {
-                CommonField(title = "Berapa hutang jatuh tempo anda ?", onDone = {
+                CommonField(title = "Berapa hutang jatuh tempo kamu ?", onDone = {
                     viewModel.changeFieldValue(3, it)
                 }, value = fieldValueState.value[3])
             }
             if (viewModel.isShowField(4)) {
-                CommonField(title = "Berapa kerugian perdagangan anda ?", onDone = {
+                CommonField(title = "Berapa kerugian perdagangan kamu ?", onDone = {
                     viewModel.changeFieldValue(4, it)
                 }, value = fieldValueState.value[4])
             }
@@ -172,7 +172,7 @@ private fun Banner(
                     ShimmerBox(width = textWidth, height = textHeight)
                 } else {
                     Text(
-                        "Rp. " + Utils.addCommasEveryThreeChars(state.data.price),
+                        "Rp. " + Utils.addCommasEveryThreeChars(state.data.price.toLong()),
                         style = LeadingGreen.copy(fontSize = 25.sp)
                     )
                 }

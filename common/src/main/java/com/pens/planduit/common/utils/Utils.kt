@@ -28,19 +28,35 @@ object Utils {
         return result.reverse().toString()
     }
 
-    fun addCommasEveryThreeChars(input: Int): String {
-        return addCommasEveryThreeChars(input.toString())
+    fun addCommasEveryThreeChars(input: Number): String {
+        return addCommasEveryThreeChars(input.toLong().toString())
     }
 
     fun removeCommas(input: String): String {
         return input.replace(",", "")
     }
 
-    fun removeCommasToInt(input: String): Int {
-        return removeCommas(input).toInt()
+    fun removeDot(input: String): String {
+        return input.replace(".", "")
     }
 
-    fun createRpText(input: Int?): String {
+    fun removeStrip(input: String) : String{
+        return input.replace("-", "")
+    }
+
+    fun removeSpace(input: String): String {
+        return input.replace(" ", "")
+    }
+
+    fun cleaningNumberString(input: String): String {
+        return removeCommas(removeDot(removeStrip(removeSpace(input))))
+    }
+
+    fun removeCommasToInt(input: String): Number {
+        return removeCommas(input).toLong()
+    }
+
+    fun createRpText(input: Number?): String {
         var result = "Rp. "
         if (input == null) {
             result += "-"

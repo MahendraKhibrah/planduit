@@ -183,7 +183,7 @@ private fun Banner(
                     style = SmallBlack.copy(fontSize = 15.sp, color = Color(0xFF606060))
                 )
                 Text(
-                    "Rp. " + Utils.addCommasEveryThreeChars(price),
+                    "Rp. " + Utils.addCommasEveryThreeChars(price.toLong()),
                     style = LeadingGreen.copy(fontSize = 25.sp)
                 )
             }

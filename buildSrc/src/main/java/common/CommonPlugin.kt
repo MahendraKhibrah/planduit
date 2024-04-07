@@ -46,12 +46,6 @@ class CommonPlugin : Plugin<Project> {
                 }
             }
 
-            buildTypes {
-                getByName("release") {
-                    isMinifyEnabled = false
-                }
-            }
-
             buildFeatures.run {
                 viewBinding {
                     enable = true

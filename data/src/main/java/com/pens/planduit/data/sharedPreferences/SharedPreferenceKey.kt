@@ -4,4 +4,5 @@ object SharedPreferenceKey {
     const val prefName = "planduit_pref"
     const val investmentRequest = "key:investment_request"
     const val riskProfileRequest = "key:risk_profile_request"
+    const val ratingStatus = "key:rating_status"
 }

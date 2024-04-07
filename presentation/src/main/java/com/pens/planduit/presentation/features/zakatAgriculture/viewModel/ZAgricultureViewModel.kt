@@ -78,7 +78,7 @@ class ZAgricultureViewModel @Inject constructor(
         val request = AgricultureZakatRequest(
             totalHarvest = Utils.removeCommasToInt(_fieldValueState.value[0]),
             isWatered = _fieldValueState.value[1] != "0",
-            grainPrice = if(_fieldValueState.value[2] != "") Utils.removeCommasToInt(_fieldValueState.value[2]) else _state.value.data.price,
+            grainPrice = if(_fieldValueState.value[2] != "") Utils.removeCommasToInt(_fieldValueState.value[2]) else _state.value.data.price.toLong(),
         )
 
         return Gson().toJson(request)

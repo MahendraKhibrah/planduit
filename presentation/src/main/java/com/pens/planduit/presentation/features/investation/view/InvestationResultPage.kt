@@ -278,8 +278,8 @@ fun CommonSection(
 @Composable
 fun InvestationDetailSection(
     principalInvestment: Float,
-    principalValue: Int = 0,
-    interestValue: Int = 0,
+    principalValue: Number = 0,
+    interestValue: Number = 0,
     interestInvestment: Float,
     isLoading: Boolean = false
 ) {

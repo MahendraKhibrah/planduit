@@ -61,7 +61,7 @@ fun ZakatIncomePage(
     viewModel: ZIncomeViewModel = hiltViewModel<ZIncomeViewModel>()
 ) {
     var showBottomSheet by remember { mutableStateOf(false) }
-    var selectedCheckbox by remember { mutableIntStateOf(-1) }
+    var selectedCheckbox by remember { mutableIntStateOf(0) }
     var questionOneText by remember { mutableStateOf("") }
     var questionTwoText by remember { mutableStateOf("") }
     var questionThreeText by remember { mutableStateOf("") }
@@ -193,7 +193,7 @@ private fun Banner(
                     ShimmerBox(width = textWidth, height = textHeight)
                 } else {
                     Text(
-                        "Rp. " + Utils.addCommasEveryThreeChars(state.data.price),
+                        "Rp. " + Utils.addCommasEveryThreeChars(state.data.price.toLong()),
                         style = LeadingGreen.copy(fontSize = 25.sp)
                     )
                 }
@@ -212,7 +212,7 @@ private fun Banner(
 
 @Composable
 fun FirstSection(
-    selectedValue: Int = -1,
+    selectedValue: Int = 0,
     onPressed: (Int) -> Unit
 ) {
     Text(

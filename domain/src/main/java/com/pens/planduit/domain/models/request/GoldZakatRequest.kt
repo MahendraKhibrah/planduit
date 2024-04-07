@@ -1,5 +1,5 @@
 package com.pens.planduit.domain.models.request
 
 data class GoldZakatRequest(
-    val weight: Int
+    val weight: Number
 )

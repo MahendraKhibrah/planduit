@@ -33,3 +33,11 @@ fun DependencyHandler.debugImplementation(
 fun DependencyHandler.debugImplementation(
     dependencyNotation: Any
 ) = add("debugImplementation", dependencyNotation)
+
+fun DependencyHandler.releaseImplementation(
+    notation: String
+) = add("releaseImplementation", notation)
+
+fun DependencyHandler.releaseImplementation(
+    dependencyNotation: Any
+) = add("releaseImplementation", dependencyNotation)

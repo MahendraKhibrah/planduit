@@ -4,13 +4,17 @@ import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.gson.Gson
 import com.pens.planduit.data.apis.GeneralCalculationApi
+import com.pens.planduit.data.apis.RatingApi
 import com.pens.planduit.data.apis.TestingApi
 import com.pens.planduit.data.apis.ZakatApi
 import com.pens.planduit.data.repositories.GeneralCalculationRepositoryImpl
+import com.pens.planduit.data.repositories.RatingRepositoryImpl
 import com.pens.planduit.data.repositories.TestingRepositoryImpl
 import com.pens.planduit.data.repositories.ZakatRepositoryImpl
 import com.pens.planduit.data.sharedPreferences.GeneralCalculationPref
+import com.pens.planduit.data.sharedPreferences.RatingPref
 import com.pens.planduit.domain.repositories.GeneralCalculationRepository
+import com.pens.planduit.domain.repositories.RatingRepository
 import com.pens.planduit.domain.repositories.TestingRepository
 import com.pens.planduit.domain.repositories.ZakatRepository
 import dagger.Module
@@ -86,4 +90,16 @@ class DataModule {
     @Singleton
     @Provides
     fun provideZakatRepository(api : ZakatApi) : ZakatRepository = ZakatRepositoryImpl(api)
+
+    @Singleton
+    @Provides
+    fun provideRatingPref(@ApplicationContext context: Context): RatingPref = RatingPref(context)
+
+    @Singleton
+    @Provides
+    fun provideRatingApi(retrofit: Retrofit) : RatingApi = retrofit.create(RatingApi::class.java)
+
+    @Singleton
+    @Provides
+    fun provideRatingRepository(pref : RatingPref, api: RatingApi) : RatingRepository = RatingRepositoryImpl(pref, api)
 }

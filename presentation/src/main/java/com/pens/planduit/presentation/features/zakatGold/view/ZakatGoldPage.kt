@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -66,6 +67,8 @@ fun ZakatGoldPage(
 
     val state = viewModel.state.collectAsStateWithLifecycle()
     val resultState = viewModel.resultState.collectAsStateWithLifecycle()
+
+    val focusManager = LocalFocusManager.current
 
     LaunchedEffect(true) {
         viewModel.getGoldPrice()
@@ -119,7 +122,10 @@ fun ZakatGoldPage(
                         viewModel.textFieldValue.value = it
                     },
                     hideLeading = true,
-                    modifier = Modifier.width(screenWidth.times(0.62f))
+                    modifier = Modifier.width(screenWidth.times(0.62f)),
+                    onDone = {
+                        viewModel.getGoldZakatCalculation()
+                    }
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 GradientContainer(
@@ -127,6 +133,7 @@ fun ZakatGoldPage(
                     modifier = Modifier.size(screenWidth.times(0.23f), 55.dp),
                     cornerRadius = 12,
                     onPressed = {
+                        focusManager.clearFocus()
                         viewModel.getGoldZakatCalculation()
                     }
                 ) {
@@ -150,12 +157,12 @@ fun ZakatGoldPage(
                 CommonPrice(price = resultState.value.zakatRequest, isLoading = resultState.value.isLoading, customTitle = "${resultState.value.zakatRequest} gram")
                 if (resultState.value.data.status) {
                     Spacer(modifier = Modifier.height(24.dp))
-                    ResultSection(isLoading = resultState.value.isLoading, price = state.value.data.price)
+                    ResultSection(isLoading = resultState.value.isLoading, price = resultState.value.data.zakat)
                 }
             }
             Spacer(modifier = Modifier.height(100.dp))
 
-            if(resultState.value.zakatRequest!= 0) ZakatResultBanner(isLoading = resultState.value.isLoading, isSuccess = resultState.value.data.status, title = "emas")
+            if(resultState.value.data.zakat != 0) ZakatResultBanner(isLoading = resultState.value.isLoading, isSuccess = resultState.value.data.status, title = "emas")
         }
     }
 }
@@ -193,7 +200,7 @@ private fun Banner(
                     ShimmerBox(width = textWidth, height = textHeight)
                 } else {
                     Text(
-                        "Rp. " + Utils.addCommasEveryThreeChars(state.data.price),
+                        "Rp. " + Utils.addCommasEveryThreeChars(state.data.price.toLong()),
                         style = LeadingGreen.copy(fontSize = 25.sp)
                     )
                 }

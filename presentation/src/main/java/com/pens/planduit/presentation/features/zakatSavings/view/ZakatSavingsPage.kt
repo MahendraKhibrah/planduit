@@ -176,7 +176,7 @@ private fun Banner(
                     ShimmerBox(width = textWidth, height = textHeight)
                 } else {
                     Text(
-                        "Rp. " + Utils.addCommasEveryThreeChars(state.data.price),
+                        "Rp. " + Utils.addCommasEveryThreeChars(state.data.price.toLong()),
                         style = LeadingGreen.copy(fontSize = 25.sp)
                     )
                 }

@@ -1,8 +1,8 @@
 package com.pens.planduit.domain.models.entity
 
 data class BudgetResult(
-    val income: Int,
-    val needs: Int,
-    val wants: Int,
-    val savings: Int
+    val income: Number,
+    val needs: Number,
+    val wants: Number,
+    val savings: Number
 )
