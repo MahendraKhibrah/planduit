@@ -36,6 +36,22 @@ object Utils {
         return input.replace(",", "")
     }
 
+    fun removeDot(input: String): String {
+        return input.replace(".", "")
+    }
+
+    fun removeStrip(input: String) : String{
+        return input.replace("-", "")
+    }
+
+    fun removeSpace(input: String): String {
+        return input.replace(" ", "")
+    }
+
+    fun cleaningNumberString(input: String): String {
+        return removeCommas(removeDot(removeStrip(removeSpace(input))))
+    }
+
     fun removeCommasToInt(input: String): Number {
         return removeCommas(input).toLong()
     }

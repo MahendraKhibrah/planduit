@@ -51,7 +51,7 @@ fun RpTextField(
     OutlinedTextField(
         value = text,
         onValueChange = {
-            val rawNumber = Utils.removeCommas(it.text)
+            val rawNumber = Utils.cleaningNumberString(it.text)
             if (rawNumber.length <= 11) {
                 onValueChange(rawNumber)
                 val formattedNumber = Utils.addCommasEveryThreeChars(rawNumber)
