@@ -94,7 +94,7 @@ fun BudgetingPage(
         Column {
             Spacer(modifier = Modifier.size(16.dp))
             Text(
-                text = "Berapa lama waktu mengumpulkan uang ini",
+                text = "Berapa Uang Bulanan Kamu?",
                 style = MediumBlack.copy(fontSize = 12.sp)
             )
             Spacer(modifier = Modifier.size(16.dp))

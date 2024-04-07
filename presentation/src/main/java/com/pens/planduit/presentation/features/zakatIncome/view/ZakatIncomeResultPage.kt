@@ -44,6 +44,7 @@ import com.pens.planduit.common.components.container.ShimmerBox
 import com.pens.planduit.common.components.container.ZakatResultBanner
 import com.pens.planduit.common.theme.BlackPrimary
 import com.pens.planduit.common.theme.BudgetingBottomSheet
+import com.pens.planduit.common.theme.IncomeBottomSheet
 import com.pens.planduit.common.theme.LeadingGreen
 import com.pens.planduit.common.theme.MediumBlack
 import com.pens.planduit.common.theme.OffGreen
@@ -78,7 +79,7 @@ fun ZakatIncomeResultPage(
         },
         bottomSheet = {
             CommonBottomSheet(
-                data = BudgetingBottomSheet,
+                data = IncomeBottomSheet,
                 isOpen = showBottomSheet,
                 onDismiss = {
                     showBottomSheet = false
