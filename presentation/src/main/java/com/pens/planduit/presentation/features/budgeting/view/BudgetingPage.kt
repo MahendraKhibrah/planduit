@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -57,6 +58,8 @@ fun BudgetingPage(
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     val textWidth = (13 * 14.sp.value * 0.6f).dp
     val textHeight = (14.sp.value * 1.5f).dp.minus(2.dp)
+
+    val focusManager = LocalFocusManager.current
 
     PlanDuitScaffold(
         title = "Kalkulator Budgeting",
@@ -103,6 +106,9 @@ fun BudgetingPage(
                     onValueChange = {
                         viewModel.textFieldValue.value = it
                     },
+                    onDone = {
+                        viewModel.getBudgetCalculation()
+                    },
                     modifier = Modifier.width(screenWidth.times(0.62f))
                 )
                 Spacer(modifier = Modifier.weight(1f))
@@ -112,6 +118,7 @@ fun BudgetingPage(
                     cornerRadius = 12,
                     onPressed = {
                         viewModel.getBudgetCalculation()
+                        focusManager.clearFocus()
                     }
                 ) {
                     Row(
