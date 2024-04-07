@@ -24,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -66,6 +67,8 @@ fun ZakatGoldPage(
 
     val state = viewModel.state.collectAsStateWithLifecycle()
     val resultState = viewModel.resultState.collectAsStateWithLifecycle()
+
+    val focusManager = LocalFocusManager.current
 
     LaunchedEffect(true) {
         viewModel.getGoldPrice()
@@ -119,7 +122,10 @@ fun ZakatGoldPage(
                         viewModel.textFieldValue.value = it
                     },
                     hideLeading = true,
-                    modifier = Modifier.width(screenWidth.times(0.62f))
+                    modifier = Modifier.width(screenWidth.times(0.62f)),
+                    onDone = {
+                        viewModel.getGoldZakatCalculation()
+                    }
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 GradientContainer(
@@ -127,6 +133,7 @@ fun ZakatGoldPage(
                     modifier = Modifier.size(screenWidth.times(0.23f), 55.dp),
                     cornerRadius = 12,
                     onPressed = {
+                        focusManager.clearFocus()
                         viewModel.getGoldZakatCalculation()
                     }
                 ) {
