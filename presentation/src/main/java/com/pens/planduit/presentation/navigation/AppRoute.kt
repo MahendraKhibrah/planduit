@@ -3,6 +3,7 @@ package com.pens.planduit.presentation.navigation
 sealed class AppRoute(val route: String){
     object Home: AppRoute("home")
     object Splash: AppRoute("splash")
+    object Main: AppRoute("main")
     object Article: AppRoute("article")
     object ArticleDetail: AppRoute("article-detail")
     object RiskProfile: AppRoute("risk-profile")
