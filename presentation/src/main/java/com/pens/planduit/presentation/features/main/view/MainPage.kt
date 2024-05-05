@@ -83,7 +83,7 @@ fun MainPage(
                     onClick = { activeIndex = 0 },
                     isActive = activeIndex == 0,
                     icons = listOf(R.drawable.ic_calcultator, R.drawable.ic_calculator_active),
-                    title = "Kalculator"
+                    title = "Kalkulator"
                 )
                 BottomNavItem(
                     onClick = { activeIndex = 1 },
