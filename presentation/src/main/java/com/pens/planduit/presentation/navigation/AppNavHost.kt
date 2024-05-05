@@ -20,6 +20,7 @@ import com.pens.planduit.presentation.features.budgeting.view.BudgetingPage
 import com.pens.planduit.presentation.features.investation.view.InvestationPage
 import com.pens.planduit.presentation.features.investation.view.InvestationResultPage
 import com.pens.planduit.presentation.features.main.view.HomePage
+import com.pens.planduit.presentation.features.main.view.MainPage
 import com.pens.planduit.presentation.features.main.view.SplashPage
 import com.pens.planduit.presentation.features.riskProfile.view.RiskProfilePage
 import com.pens.planduit.presentation.features.riskProfile.view.RiskProfileResultPage
@@ -56,6 +57,7 @@ fun AppNavHost(
     ) {
         composable(AppRoute.Home.route) { HomePage(navController = navController) }
         composable(AppRoute.Splash.route) { SplashPage(navController = navController) }
+        composable(AppRoute.Main.route) { MainPage(navController = navController) }
         composable(AppRoute.Article.route) { ArticlePage(navController = navController) }
         composable(AppRoute.ArticleDetail.route) { ArticleDetailPage(navController = navController) }
         composable(AppRoute.RiskProfile.route) { RiskProfilePage(navController = navController) }

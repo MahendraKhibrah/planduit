@@ -37,6 +37,7 @@ fun PlanDuitScaffold(
     bottomSheet : @Composable () -> Unit = {},
     scrollState: ScrollState = rememberScrollState(),
     hideBackButton : Boolean = false,
+    hideContentPadding : Boolean = false,
     content: @Composable () -> Unit,
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
@@ -67,7 +68,11 @@ fun PlanDuitScaffold(
             stickyHeader()
             Box(
                 modifier = Modifier
-                    .padding(start = 24.dp, end = 24.dp, bottom = 16.dp)
+                    .padding(
+                        start = if(hideContentPadding)0.dp else 24.dp,
+                        end = if(hideContentPadding)0.dp else 24.dp,
+                        bottom = if(hideContentPadding)0.dp else 24.dp
+                    )
                     .verticalScroll(
                         scrollState
                     )
