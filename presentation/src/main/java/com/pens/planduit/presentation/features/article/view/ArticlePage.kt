@@ -20,6 +20,7 @@ fun ArticlePage(
 ) {
     PlanDuitScaffold(
         title = "Artikel",
+        hideBackButton = true,
         onBackPressed = {
             navController.popBackStack()
         },
@@ -56,6 +57,7 @@ fun ArticlePage(
                         navController.navigate(AppRoute.ArticleDetail.route)
                     }
                 )
+                Spacer(modifier = Modifier.height(100.dp))
             }
 
     }
