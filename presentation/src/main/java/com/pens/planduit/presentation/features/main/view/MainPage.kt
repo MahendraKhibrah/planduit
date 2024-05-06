@@ -36,6 +36,7 @@ import com.pens.planduit.common.components.container.PlanDuitScaffold
 import com.pens.planduit.common.theme.GreenPrimary
 import com.pens.planduit.common.theme.MediumGrey
 import com.pens.planduit.presentation.features.article.view.ArticlePage
+import com.pens.planduit.presentation.features.dictionary.DictionaryPage
 import com.pens.planduit.presentation.features.main.widget.BottomNavItem
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -68,7 +69,7 @@ fun MainPage(
             when (page) {
                 0 -> HomePage(navController = navController)
                 1 -> ArticlePage(navController = navController)
-//                2 -> HomePage(navController = navController)
+                2 -> DictionaryPage()
             }
         }
         Column {
