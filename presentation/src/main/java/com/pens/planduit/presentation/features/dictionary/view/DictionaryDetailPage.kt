@@ -1,4 +1,4 @@
-package com.pens.planduit.presentation.features.dictionary
+package com.pens.planduit.presentation.features.dictionary.view
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -23,7 +23,6 @@ import com.pens.planduit.common.theme.BalanceBlack
 import com.pens.planduit.common.theme.BoldBalanceBlack
 import com.pens.planduit.common.theme.GreenPrimary
 
-@Preview(showBackground = true)
 @Composable
 fun DictionaryDetailPage() {
     PlanDuitScaffold(

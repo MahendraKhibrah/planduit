@@ -74,9 +74,11 @@ class DomainModule {
     @Singleton
     fun provideSaveRatingStatusUsecase(repository: RatingRepository) : SaveRatingStatusUsecase = SaveRatingStatusUsecase(repository)
 
+    @Provides
     @Singleton
     fun provideGetDictionaryUsecase(repository: DictionaryRepository) : GetDictionaryUsecase = GetDictionaryUsecase(repository)
 
+    @Provides
     @Singleton
     fun provideGetDictionaryDetailUsecase(repository: DictionaryRepository) : GetDictionaryDetailUsecase = GetDictionaryDetailUsecase(repository)
 }
