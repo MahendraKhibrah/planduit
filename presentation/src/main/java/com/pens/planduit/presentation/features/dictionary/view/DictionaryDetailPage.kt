@@ -18,18 +18,22 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.pens.planduit.common.components.container.PlanDuitScaffold
 import com.pens.planduit.common.theme.BalanceBlack
 import com.pens.planduit.common.theme.BoldBalanceBlack
 import com.pens.planduit.common.theme.GreenPrimary
 
 @Composable
-fun DictionaryDetailPage() {
+fun DictionaryDetailPage(
+    navController: NavHostController
+) {
     PlanDuitScaffold(
         title = "Detail Kamus",
         hideBackButton = false,
         onBackPressed = {
-//            navController.popBackStack()
+            navController.popBackStack()
         }
     ) {
         val screenWidth = LocalConfiguration.current.screenWidthDp.dp

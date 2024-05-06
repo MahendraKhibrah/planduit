@@ -20,6 +20,7 @@ sealed class AppRoute(val route: String){
     object ZakatSavingResult : AppRoute("zakat-saving-result")
     object ZakatTrade : AppRoute("zakat-trade")
     object ZakatTradeResult : AppRoute("zakat-trade-result")
+    object DictionaryDetail : AppRoute("dictionary-detail")
 
     fun withArgs(vararg args: Any?): String{
         return buildString {
