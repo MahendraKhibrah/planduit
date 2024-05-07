@@ -86,7 +86,6 @@ class DomainModule {
     fun provideGetDictionaryDetailUsecase(repository: DictionaryRepository) : GetDictionaryDetailUsecase = GetDictionaryDetailUsecase(repository)
 
     @Provides
-    @Singleton
     fun provideGetArticleUsecase(repository: ArticleRepository) : GetArticlesUsecase = GetArticlesUsecase(repository)
 
     @Provides
