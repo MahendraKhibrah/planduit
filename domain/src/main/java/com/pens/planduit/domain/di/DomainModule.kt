@@ -1,11 +1,14 @@
 package com.pens.planduit.domain.di
 
+import com.pens.planduit.domain.repositories.DictionaryRepository
 import com.pens.planduit.domain.repositories.GeneralCalculationRepository
 import com.pens.planduit.domain.repositories.RatingRepository
 import com.pens.planduit.domain.repositories.TestingRepository
 import com.pens.planduit.domain.repositories.ZakatRepository
 import com.pens.planduit.domain.usecases.GetAgricultureZakatUsecase
 import com.pens.planduit.domain.usecases.GetBudgetCalculationUsecase
+import com.pens.planduit.domain.usecases.GetDictionaryDetailUsecase
+import com.pens.planduit.domain.usecases.GetDictionaryUsecase
 import com.pens.planduit.domain.usecases.GetGoldPriceUsecase
 import com.pens.planduit.domain.usecases.GetIncomeZakatCalculationUsecase
 import com.pens.planduit.domain.usecases.GetInvestmentRequestUsecase
@@ -70,4 +73,12 @@ class DomainModule {
 
     @Singleton
     fun provideSaveRatingStatusUsecase(repository: RatingRepository) : SaveRatingStatusUsecase = SaveRatingStatusUsecase(repository)
+
+    @Provides
+    @Singleton
+    fun provideGetDictionaryUsecase(repository: DictionaryRepository) : GetDictionaryUsecase = GetDictionaryUsecase(repository)
+
+    @Provides
+    @Singleton
+    fun provideGetDictionaryDetailUsecase(repository: DictionaryRepository) : GetDictionaryDetailUsecase = GetDictionaryDetailUsecase(repository)
 }

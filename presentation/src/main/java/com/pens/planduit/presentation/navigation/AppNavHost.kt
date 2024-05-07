@@ -17,6 +17,7 @@ import com.pens.planduit.domain.models.request.InvestmentRequest
 import com.pens.planduit.presentation.features.article.view.ArticleDetailPage
 import com.pens.planduit.presentation.features.article.view.ArticlePage
 import com.pens.planduit.presentation.features.budgeting.view.BudgetingPage
+import com.pens.planduit.presentation.features.dictionary.view.DictionaryDetailPage
 import com.pens.planduit.presentation.features.investation.view.InvestationPage
 import com.pens.planduit.presentation.features.investation.view.InvestationResultPage
 import com.pens.planduit.presentation.features.main.view.HomePage
@@ -127,6 +128,18 @@ fun AppNavHost(
             )
         ){
             ZakatTradeResultPage(navController = navController, request = it.arguments?.getString("request") ?: "", goldPrice = it.arguments?.getInt("goldPrice") ?: 0)
+        }
+        composable(
+            route = AppRoute.DictionaryDetail.route+ "/{id}",
+            arguments = listOf(
+                navArgument("id"){
+                    type = NavType.IntType
+                }
+            )
+        ){ DictionaryDetailPage(
+            navController = navController,
+            id = it.arguments?.getInt("id") ?: 0
+        )
         }
     }
 }
