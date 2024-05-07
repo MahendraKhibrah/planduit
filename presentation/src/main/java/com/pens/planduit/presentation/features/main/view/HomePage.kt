@@ -266,13 +266,14 @@ internal fun MenuContainer(
             }
         }
         Spacer(modifier = Modifier.height(24.dp))
-        Content(state, onArticleClick)
+        Content(state,navController ,onArticleClick)
     }
 }
 
 @Composable
 internal fun Content(
     state : State<HomeArticleState>,
+    navController: NavHostController,
     onPressed: () -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -312,6 +313,8 @@ internal fun Content(
                         hideDivider = state.value.data.indexOf(it) == state.value.data.size - 1,
                         thumbnailUrl = it.thumbnail,
                         onTap = {
+                            onPressed()
+                            navController.navigate(AppRoute.ArticleDetail.withArgs(it.slug))
                         }
                     )
                 }

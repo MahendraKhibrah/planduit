@@ -70,7 +70,7 @@ fun ArticlePage(
                             date = Utils.formatDate(article.createdAt),
                             hideDivider = index == state.value.data.size - 1,
                             onTap = {
-                                navController.navigate(AppRoute.ArticleDetail.route)
+                                navController.navigate(AppRoute.ArticleDetail.withArgs(article.slug))
                             }
                         )
                     }
