@@ -50,5 +50,8 @@ internal fun Project.commonDependenciesSetup() {
 
         // Jitpack
         implementation(Jitpack.ratingBar)
+
+        // Coil
+        implementation(Coil.coil)
     }
 }
