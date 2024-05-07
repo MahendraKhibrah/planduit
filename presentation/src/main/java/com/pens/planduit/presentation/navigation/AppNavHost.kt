@@ -17,9 +17,11 @@ import com.pens.planduit.domain.models.request.InvestmentRequest
 import com.pens.planduit.presentation.features.article.view.ArticleDetailPage
 import com.pens.planduit.presentation.features.article.view.ArticlePage
 import com.pens.planduit.presentation.features.budgeting.view.BudgetingPage
+import com.pens.planduit.presentation.features.dictionary.view.DictionaryDetailPage
 import com.pens.planduit.presentation.features.investation.view.InvestationPage
 import com.pens.planduit.presentation.features.investation.view.InvestationResultPage
 import com.pens.planduit.presentation.features.main.view.HomePage
+import com.pens.planduit.presentation.features.main.view.MainPage
 import com.pens.planduit.presentation.features.main.view.SplashPage
 import com.pens.planduit.presentation.features.riskProfile.view.RiskProfilePage
 import com.pens.planduit.presentation.features.riskProfile.view.RiskProfileResultPage
@@ -56,8 +58,20 @@ fun AppNavHost(
     ) {
         composable(AppRoute.Home.route) { HomePage(navController = navController) }
         composable(AppRoute.Splash.route) { SplashPage(navController = navController) }
+        composable(AppRoute.Main.route) { MainPage(navController = navController) }
         composable(AppRoute.Article.route) { ArticlePage(navController = navController) }
-        composable(AppRoute.ArticleDetail.route) { ArticleDetailPage(navController = navController) }
+        composable(
+            route = AppRoute.ArticleDetail.route + "/{slug}",
+            arguments = listOf(
+                navArgument("slug") {
+                    type = NavType.StringType
+                }
+            )
+        ) {
+            ArticleDetailPage(
+                navController = navController,
+                slug = it.arguments?.getString("slug") ?: "")
+        }
         composable(AppRoute.RiskProfile.route) { RiskProfilePage(navController = navController) }
         composable(AppRoute.InvestmentCalculator.route) { InvestationPage(navController = navController) }
         composable(route = AppRoute.InvestmentResult.route){
@@ -125,6 +139,18 @@ fun AppNavHost(
             )
         ){
             ZakatTradeResultPage(navController = navController, request = it.arguments?.getString("request") ?: "", goldPrice = it.arguments?.getInt("goldPrice") ?: 0)
+        }
+        composable(
+            route = AppRoute.DictionaryDetail.route+ "/{id}",
+            arguments = listOf(
+                navArgument("id"){
+                    type = NavType.IntType
+                }
+            )
+        ){ DictionaryDetailPage(
+            navController = navController,
+            id = it.arguments?.getInt("id") ?: 0
+        )
         }
     }
 }

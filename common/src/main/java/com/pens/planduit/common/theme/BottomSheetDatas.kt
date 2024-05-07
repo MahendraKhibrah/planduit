@@ -57,3 +57,9 @@ val TradingBottomSheet = BottomSheetData(
             "Zakat perdagangan adalah zakat yang dikeluarkan dari modal yang dimiliki setelah mencapai nisab dan haul.",
     imageId = R.drawable.planting_money
 )
+
+val DictionaryBottomSheet = BottomSheetData(
+    title = "Apa itu kamus investasi?",
+    description = "Kamus investasi adalah referensi yang berisi daftar istilah dan konsep-konsep yang umumnya digunakan dalam dunia investasi. Ini membantu orang memahami arti istilah-istilah tersebut dan memperluas pengetahuan mereka tentang investasi, baik dalam pasar saham, obligasi, properti, maupun jenis investasi lainnya.",
+    imageId = R.drawable.wallet
+)

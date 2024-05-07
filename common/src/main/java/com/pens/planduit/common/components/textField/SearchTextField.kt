@@ -15,6 +15,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,12 +38,17 @@ import com.pens.planduit.common.theme.SmallBlack
 fun SearchTextField(
     modifier: Modifier = Modifier,
     placeHolder: String = "",
+    value : String = "",
     onSearch: (String) -> Unit = {}
 ) {
     val focusManager = LocalFocusManager.current
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
 
-    var text by remember { mutableStateOf("") }
+    var text by remember { mutableStateOf(value) }
+
+    LaunchedEffect(value) {
+        text = value
+    }
 
     OutlinedTextField(
         value = text,
@@ -71,7 +77,10 @@ fun SearchTextField(
             }
         ),
         trailingIcon = {
-            IconButton(onClick = { onSearch(text) }) {
+            IconButton(onClick = {
+                onSearch(text)
+                focusManager.clearFocus()
+            }) {
                 Icon(
                     imageVector = Icons.Default.Search,
                     contentDescription = "",

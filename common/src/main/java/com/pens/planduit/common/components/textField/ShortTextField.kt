@@ -71,7 +71,7 @@ fun ShortTextField(
                 value = text,
                 onValueChange = { newValue ->
                     if (newValue.length < 3) {
-                        text = newValue
+                        text = Utils.cleaningNumberString(newValue)
                         onValueChange(newValue)
                     }
                 },

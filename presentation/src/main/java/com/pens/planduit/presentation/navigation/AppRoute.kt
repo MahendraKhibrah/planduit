@@ -3,6 +3,7 @@ package com.pens.planduit.presentation.navigation
 sealed class AppRoute(val route: String){
     object Home: AppRoute("home")
     object Splash: AppRoute("splash")
+    object Main: AppRoute("main")
     object Article: AppRoute("article")
     object ArticleDetail: AppRoute("article-detail")
     object RiskProfile: AppRoute("risk-profile")
@@ -19,6 +20,7 @@ sealed class AppRoute(val route: String){
     object ZakatSavingResult : AppRoute("zakat-saving-result")
     object ZakatTrade : AppRoute("zakat-trade")
     object ZakatTradeResult : AppRoute("zakat-trade-result")
+    object DictionaryDetail : AppRoute("dictionary-detail")
 
     fun withArgs(vararg args: Any?): String{
         return buildString {

@@ -40,7 +40,7 @@ fun SplashPage(
 
     LaunchedEffect(Unit) {
         delay(2000)
-        navController.navigate(AppRoute.Home.route){
+        navController.navigate(AppRoute.Main.route){
             popUpTo(AppRoute.Splash.route){
                 inclusive = true
             }
