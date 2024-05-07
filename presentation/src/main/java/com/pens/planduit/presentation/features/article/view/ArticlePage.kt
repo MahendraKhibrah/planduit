@@ -40,6 +40,7 @@ fun ArticlePage(
             Column {
                 (0..10).forEach {
                     ArticleCard(
+                        thumbnailUrl = "",
                         title = "Article $it ",
                         description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
                         date = "01 JAN 2024",
@@ -49,6 +50,7 @@ fun ArticlePage(
                     )
                 }
                 ArticleCard(
+                    thumbnailUrl = "",
                     title = "Article terakhie ",
                     description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
                     date = "01 JAN 2024",

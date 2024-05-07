@@ -53,7 +53,12 @@ fun MainPage(
 
         HorizontalPager(state = pagerState, userScrollEnabled = false) { page ->
             when (page) {
-                0 -> HomePage(navController = navController)
+                0 -> HomePage(
+                    navController = navController,
+                    onArticleClick = {
+                        activeIndex = 1
+                    }
+                )
                 1 -> ArticlePage(navController = navController)
                 2 -> DictionaryPage(navController = navController)
             }

@@ -64,6 +64,7 @@ fun ArticleDetailPage(
             Text(text = "Artikel Lainnya", style = BalanceBlack)
             Spacer(modifier = Modifier.height(20.dp))
                 ArticleCard(
+                    thumbnailUrl = "",
                     title = "Article 1 ",
                     description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
                     date = "01 JAN 2024",
@@ -73,6 +74,7 @@ fun ArticleDetailPage(
                     }
                 )
             ArticleCard(
+                thumbnailUrl = "",
                 title = "Article 2 ",
                 description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
                 date = "01 JAN 2024",
