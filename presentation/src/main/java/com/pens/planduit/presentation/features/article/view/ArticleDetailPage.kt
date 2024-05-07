@@ -1,5 +1,7 @@
 package com.pens.planduit.presentation.features.article.view
 
+import android.text.Html
+import android.widget.TextView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +26,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -117,10 +120,11 @@ fun ArticleDetailPage(
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             } else {
-                Text(
-                    text = state.value.data?.description ?: "",
-                    style = SmallBlack
-                )
+                AndroidView(factory = { context ->
+                    TextView(context).apply {
+                        text = Html.fromHtml(state.value.data?.description ?: "")
+                    }
+                })
             }
             Spacer(modifier = Modifier.height(32.dp))
             GradientContainer(gradientColors = listOf(Color.Transparent), borderColor = BlackPrimary, onPressed = {
