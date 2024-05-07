@@ -55,7 +55,7 @@ fun MainPage(
             when (page) {
                 0 -> HomePage(navController = navController)
                 1 -> ArticlePage(navController = navController)
-                2 -> DictionaryPage()
+                2 -> DictionaryPage(navController = navController)
             }
         }
         Column {

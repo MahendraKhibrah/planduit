@@ -6,12 +6,14 @@ import com.pens.planduit.common.utils.Resource
 import com.pens.planduit.domain.models.request.DictionaryRequest
 import com.pens.planduit.domain.usecases.GetDictionaryUsecase
 import com.pens.planduit.presentation.features.dictionary.state.DictionaryState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class DictionaryViewModel @Inject constructor(
     private val useCase: GetDictionaryUsecase
 ) : ViewModel(){

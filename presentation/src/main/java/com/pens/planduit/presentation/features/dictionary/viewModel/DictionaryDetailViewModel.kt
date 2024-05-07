@@ -1,17 +1,20 @@
 package com.pens.planduit.presentation.features.dictionary.viewModel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pens.planduit.common.utils.Resource
 import com.pens.planduit.domain.models.request.CommonIdRequest
 import com.pens.planduit.domain.usecases.GetDictionaryDetailUsecase
 import com.pens.planduit.presentation.features.dictionary.state.DictionaryDetailState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class DictionaryDetailViewModel @Inject constructor(
     private val useCase: GetDictionaryDetailUsecase
 ) : ViewModel(){

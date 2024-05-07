@@ -129,6 +129,17 @@ fun AppNavHost(
         ){
             ZakatTradeResultPage(navController = navController, request = it.arguments?.getString("request") ?: "", goldPrice = it.arguments?.getInt("goldPrice") ?: 0)
         }
-        composable(AppRoute.DictionaryDetail.route){ DictionaryDetailPage(navController = navController) }
+        composable(
+            route = AppRoute.DictionaryDetail.route+ "/{id}",
+            arguments = listOf(
+                navArgument("id"){
+                    type = NavType.IntType
+                }
+            )
+        ){ DictionaryDetailPage(
+            navController = navController,
+            id = it.arguments?.getInt("id") ?: 0
+        )
+        }
     }
 }
