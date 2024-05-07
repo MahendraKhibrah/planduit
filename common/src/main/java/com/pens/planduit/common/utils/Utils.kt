@@ -2,10 +2,11 @@ package com.pens.planduit.common.utils
 
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import java.text.NumberFormat
-import java.text.ParseException
+import java.text.SimpleDateFormat
 import java.util.*
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 object Utils {
     fun addCommasEveryThreeChars(input: String): String {
@@ -86,5 +87,14 @@ object Utils {
 
     fun getTextHeight(fontSize: Float): Dp {
         return (fontSize * 1.5f).dp.minus(2.dp)
+    }
+
+
+    fun formatDate(date: String): String {
+        val inputFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'", Locale.ENGLISH)
+        inputFormatter.timeZone = TimeZone.getTimeZone("UTC")
+        val parsedDate = inputFormatter.parse(date)
+        val outputFormatter = SimpleDateFormat("dd MMM yyyy", Locale.ENGLISH)
+        return outputFormatter.format(parsedDate ?: Date())
     }
 }

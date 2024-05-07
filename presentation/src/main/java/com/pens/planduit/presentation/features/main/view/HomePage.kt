@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -38,6 +39,7 @@ import androidx.navigation.NavHostController
 import com.pens.planduit.common.components.container.GradientContainer
 import com.pens.planduit.common.components.container.PlanDuitScaffold
 import com.pens.planduit.common.R
+import com.pens.planduit.common.components.container.ShimmerBox
 import com.pens.planduit.common.theme.BalanceBlack
 import com.pens.planduit.common.theme.BalanceGrey
 import com.pens.planduit.common.theme.BlackPrimary
@@ -46,8 +48,10 @@ import com.pens.planduit.common.theme.GreenPrimary
 import com.pens.planduit.common.theme.HalfGrey
 import com.pens.planduit.common.theme.LeadingGreen
 import com.pens.planduit.common.theme.MediumBlack
+import com.pens.planduit.common.utils.Utils
 import com.pens.planduit.presentation.features.article.widget.ArticleCard
-import com.pens.planduit.presentation.features.main.viewModel.RatingViewModel
+import com.pens.planduit.presentation.features.main.state.HomeArticleState
+import com.pens.planduit.presentation.features.main.viewModel.HomeViewModel
 import com.pens.planduit.presentation.features.main.widget.MenuItem
 import com.pens.planduit.presentation.features.main.widget.RatingDialog
 import com.pens.planduit.presentation.navigation.AppRoute
@@ -55,18 +59,21 @@ import com.pens.planduit.presentation.navigation.AppRoute
 @Composable
 fun HomePage(
     navController: NavHostController,
-    ratingViewModel: RatingViewModel = hiltViewModel<RatingViewModel>()
+    homeViewModel: HomeViewModel = hiltViewModel<HomeViewModel>(),
+    onArticleClick: () -> Unit = {}
 ) {
     var showRatingDialog by remember { mutableStateOf(false) }
 
-    val state = ratingViewModel.state.collectAsStateWithLifecycle()
+    val state = homeViewModel.state.collectAsStateWithLifecycle()
+    val articleState = homeViewModel.articleState.collectAsStateWithLifecycle()
 
     LaunchedEffect(key1 = true) {
-        showRatingDialog = ratingViewModel.getRatingStatus()
+        showRatingDialog = homeViewModel.getRatingStatus()
+        homeViewModel.getArticles()
     }
 
     if (state.value.data == true) {
-        ratingViewModel.markAsRead()
+        homeViewModel.markAsRead()
         showRatingDialog = false
     }
 
@@ -77,11 +84,11 @@ fun HomePage(
             if (showRatingDialog) {
                 RatingDialog(
                     onDismiss = {
-                        ratingViewModel.markAsRead()
+                        homeViewModel.markAsRead()
                         showRatingDialog = false
                     },
                     onPressed = {
-                        ratingViewModel.postRating(it)
+                        homeViewModel.postRating(it)
                     },
                     isLoading = state.value.isLoading
                 )
@@ -93,7 +100,9 @@ fun HomePage(
                 .fillMaxSize()
         ) {
             TopBanner()
-            MenuContainer(navController)
+            MenuContainer(navController, articleState){
+              onArticleClick()
+            }
         }
 
     }
@@ -155,7 +164,9 @@ internal fun TopBanner() {
 
 @Composable
 internal fun MenuContainer(
-    navController: NavHostController
+    navController: NavHostController,
+    state : State<HomeArticleState>,
+    onArticleClick: () -> Unit
 ) {
     val screenWidth = LocalConfiguration.current.screenWidthDp.dp
     var selectedIndex by rememberSaveable { mutableIntStateOf(0) }
@@ -255,12 +266,16 @@ internal fun MenuContainer(
             }
         }
         Spacer(modifier = Modifier.height(24.dp))
-        Content()
+        Content(state,navController ,onArticleClick)
     }
 }
 
 @Composable
-internal fun Content() {
+internal fun Content(
+    state : State<HomeArticleState>,
+    navController: NavHostController,
+    onPressed: () -> Unit
+) {
     val interactionSource = remember { MutableInteractionSource() }
 
     Column(
@@ -279,32 +294,32 @@ internal fun Content() {
                     interactionSource = interactionSource,
                     indication = null,
                     onClick = {
+                        onPressed()
                     }
                 ))
         }
         Spacer(modifier = Modifier.height(24.dp))
-        ArticleCard(
-            title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
-            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
-            date = "30 MAR 2024",
-            onTap = {
+        if (state.value.isLoading){
+            (0..2).forEach { _ ->
+                ArticleCard(title = "", description = "", date = "" , onLoading = true, thumbnailUrl = "")
             }
-        )
-        ArticleCard(
-            title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
-            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
-            date = "28 FEB 2024",
-            onTap = {
+        } else {
+            if (state.value.data.isNotEmpty()){
+                state.value.data.forEach {
+                    ArticleCard(
+                        title = it.title,
+                        description = it.shortDescription,
+                        date = Utils.formatDate(it.createdAt),
+                        hideDivider = state.value.data.indexOf(it) == state.value.data.size - 1,
+                        thumbnailUrl = it.thumbnail,
+                        onTap = {
+                            onPressed()
+                            navController.navigate(AppRoute.ArticleDetail.withArgs(it.slug))
+                        }
+                    )
+                }
             }
-        )
-        ArticleCard(
-            title = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
-            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas tristique ultrices sem, eget aliquet velit pretium vel. ",
-            date = "01 JAN 2024",
-            onTap = {
-            },
-            hideDivider = true
-        )
+        }
         Spacer(modifier = Modifier.height(100.dp))
     }
 }

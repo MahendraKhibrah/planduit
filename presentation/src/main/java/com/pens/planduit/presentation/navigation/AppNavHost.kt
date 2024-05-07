@@ -60,7 +60,18 @@ fun AppNavHost(
         composable(AppRoute.Splash.route) { SplashPage(navController = navController) }
         composable(AppRoute.Main.route) { MainPage(navController = navController) }
         composable(AppRoute.Article.route) { ArticlePage(navController = navController) }
-        composable(AppRoute.ArticleDetail.route) { ArticleDetailPage(navController = navController) }
+        composable(
+            route = AppRoute.ArticleDetail.route + "/{slug}",
+            arguments = listOf(
+                navArgument("slug") {
+                    type = NavType.StringType
+                }
+            )
+        ) {
+            ArticleDetailPage(
+                navController = navController,
+                slug = it.arguments?.getString("slug") ?: "")
+        }
         composable(AppRoute.RiskProfile.route) { RiskProfilePage(navController = navController) }
         composable(AppRoute.InvestmentCalculator.route) { InvestationPage(navController = navController) }
         composable(route = AppRoute.InvestmentResult.route){

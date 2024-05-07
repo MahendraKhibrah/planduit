@@ -1,11 +1,14 @@
 package com.pens.planduit.domain.di
 
+import com.pens.planduit.domain.repositories.ArticleRepository
 import com.pens.planduit.domain.repositories.DictionaryRepository
 import com.pens.planduit.domain.repositories.GeneralCalculationRepository
 import com.pens.planduit.domain.repositories.RatingRepository
 import com.pens.planduit.domain.repositories.TestingRepository
 import com.pens.planduit.domain.repositories.ZakatRepository
 import com.pens.planduit.domain.usecases.GetAgricultureZakatUsecase
+import com.pens.planduit.domain.usecases.GetArticleDetailUsecase
+import com.pens.planduit.domain.usecases.GetArticlesUsecase
 import com.pens.planduit.domain.usecases.GetBudgetCalculationUsecase
 import com.pens.planduit.domain.usecases.GetDictionaryDetailUsecase
 import com.pens.planduit.domain.usecases.GetDictionaryUsecase
@@ -81,4 +84,11 @@ class DomainModule {
     @Provides
     @Singleton
     fun provideGetDictionaryDetailUsecase(repository: DictionaryRepository) : GetDictionaryDetailUsecase = GetDictionaryDetailUsecase(repository)
+
+    @Provides
+    fun provideGetArticleUsecase(repository: ArticleRepository) : GetArticlesUsecase = GetArticlesUsecase(repository)
+
+    @Provides
+    @Singleton
+    fun provideGetArticleDetailUsecase(repository: ArticleRepository) : GetArticleDetailUsecase = GetArticleDetailUsecase(repository)
 }

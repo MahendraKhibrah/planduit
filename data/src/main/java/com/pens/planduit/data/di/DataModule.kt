@@ -3,11 +3,13 @@ package com.pens.planduit.data.di
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.gson.Gson
+import com.pens.planduit.data.apis.ArticleApi
 import com.pens.planduit.data.apis.DictionaryApi
 import com.pens.planduit.data.apis.GeneralCalculationApi
 import com.pens.planduit.data.apis.RatingApi
 import com.pens.planduit.data.apis.TestingApi
 import com.pens.planduit.data.apis.ZakatApi
+import com.pens.planduit.data.repositories.ArticleRepositoryImpl
 import com.pens.planduit.data.repositories.DictionaryRepositoryImpl
 import com.pens.planduit.data.repositories.GeneralCalculationRepositoryImpl
 import com.pens.planduit.data.repositories.RatingRepositoryImpl
@@ -15,6 +17,7 @@ import com.pens.planduit.data.repositories.TestingRepositoryImpl
 import com.pens.planduit.data.repositories.ZakatRepositoryImpl
 import com.pens.planduit.data.sharedPreferences.GeneralCalculationPref
 import com.pens.planduit.data.sharedPreferences.RatingPref
+import com.pens.planduit.domain.repositories.ArticleRepository
 import com.pens.planduit.domain.repositories.DictionaryRepository
 import com.pens.planduit.domain.repositories.GeneralCalculationRepository
 import com.pens.planduit.domain.repositories.RatingRepository
@@ -113,4 +116,12 @@ class DataModule {
     @Singleton
     @Provides
     fun provideDictionaryRepository(api : DictionaryApi) : DictionaryRepository = DictionaryRepositoryImpl(api)
+
+    @Singleton
+    @Provides
+    fun provideArticleApi(retrofit: Retrofit) : ArticleApi = retrofit.create(ArticleApi::class.java)
+
+    @Singleton
+    @Provides
+    fun provideArticleRepository(api : ArticleApi) : ArticleRepository = ArticleRepositoryImpl(api)
 }

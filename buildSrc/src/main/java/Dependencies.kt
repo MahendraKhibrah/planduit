@@ -40,6 +40,7 @@ object Versions{
     const val firebase = "32.7.4"
     const val chucker = "4.0.0"
     const val material3 = "1.2.1"
+    const val coil = "2.6.0"
 
     const val ratingBar = "1.2.3"
 }
@@ -94,6 +95,10 @@ object Chucker {
 
 object Jitpack {
     const val ratingBar = "com.github.a914-gowtham:compose-ratingbar:${Versions.ratingBar}"
+}
+
+object Coil {
+    const val coil = "io.coil-kt:coil-compose:${Versions.coil}"
 }
 
 object Plugins {
