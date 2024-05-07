@@ -1,8 +1,11 @@
 package com.pens.planduit.presentation.features.dictionary.view
 
 import android.util.Log
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,6 +13,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
@@ -21,22 +25,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
+import com.pens.planduit.common.R
+import com.pens.planduit.common.components.container.CommonBottomSheet
 import com.pens.planduit.common.components.container.GradientContainer
 import com.pens.planduit.common.components.container.PlanDuitScaffold
 import com.pens.planduit.common.components.container.ShimmerBox
 import com.pens.planduit.common.components.textField.SearchTextField
 import com.pens.planduit.common.theme.BoldBalanceBlack
+import com.pens.planduit.common.theme.DictionaryBottomSheet
 import com.pens.planduit.common.theme.GreenPrimary
 import com.pens.planduit.common.theme.HalfGrey
 import com.pens.planduit.common.utils.Utils
@@ -57,6 +66,7 @@ fun DictionaryPage(
         mutableStateOf("")
     }
     val state = viewModel.state.collectAsStateWithLifecycle()
+    var showBottomSheet by remember { mutableStateOf(false) }
 
     LaunchedEffect(selectedKey, searchKey) {
         viewModel.getDictionary(
@@ -67,6 +77,33 @@ fun DictionaryPage(
 
     PlanDuitScaffold(
         hideBackButton = true,
+        bottomSheet = {
+            CommonBottomSheet(
+                data = DictionaryBottomSheet,
+                isOpen = showBottomSheet,
+                onDismiss = {
+                    showBottomSheet = false
+                }
+            )
+        },
+        trailingWidget = {
+            val interactionSource =
+                remember { MutableInteractionSource() }
+
+            Image(
+                painter = painterResource(id = R.drawable.ic_question_mark),
+                contentDescription = null,
+                modifier = Modifier
+                    .sizeIn(minWidth = 30.dp, minHeight = 30.dp)
+                    .clickable(
+                        onClick = {
+                            showBottomSheet = true
+                        },
+                        interactionSource = interactionSource,
+                        indication = null
+                    )
+            )
+        },
         title = "Kamus Investasi",
         stickyHeader = {
             Spacer(modifier = Modifier.height(10.dp))
