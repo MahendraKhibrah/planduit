@@ -29,10 +29,10 @@ class ArticlesViewModel @Inject constructor(
     private val _articleState = MutableStateFlow(HomeArticleState())
     val articleState = _articleState.asStateFlow()
 
-    fun getArticles(){
+    fun getArticles(searchKey : String = ""){
         viewModelScope.launch(Dispatchers.IO) {
             _articleState.update { it.copy(isLoading = true) }
-            when (val result = getArticlesUsecase.execute(ArticlesRequest())) {
+            when (val result = getArticlesUsecase.execute(ArticlesRequest(search= searchKey)) ) {
                 is Resource.Success -> {
                     _articleState.update { it.copy(
                         data = result.data ?: emptyList(),
